@@ -21,6 +21,12 @@
                             <label for="exampleText" class="">Lokasi</label>
                             <textarea name="location" id="exampleText" class="form-control" placeholder="Masukan Lokasi Proyek"></textarea>
                         </div>
+                        <div class="position-relative form-group" id="tambah-ketua">
+                            <label for="exampleText" class="">Ketua Lapangan</label>
+                            <select type="select" id="selectKetuaTambah" name="ketua" class="custom-select">
+                                <option style='font-weight: bolder;' value=''>-- Pilih Ketua Lapangan --</option>
+                            </select>
+                        </div>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -102,7 +108,32 @@
     
     $("#btn-tambah-project").on('click', function() {
         resetAlert('tambah');
-        $('#tambahForm')[0].reset();
+        console.log("oke");
+        // $('#tambahForm')[0].reset();
+        $.ajax({
+            // data : dataId,
+            // processing: true,
+            // serverSide: true,
+            
+            dataType: "json",
+            url : '{{ route("proyek.create")}}',
+            type: "GET",
+            success: function(res) {
+                console.log(res);
+                for (let index = 0; index < res.length; index++) {
+                    let opt = `<option value='${res[index].id}'>${res[index].name}</option>`
+                    $('#selectKetuaTambah').append(opt);
+                }
+                
+                // let opt = ;
+            },
+            error: function (xhr, ajaxOptions, thrownError) {
+                console.log(xhr.status);
+                console.log(xhr.responseText);
+                console.log(thrownError);
+                console.log(err.Message);
+            }
+        })
     })
 
     $('.datatable').DataTable({
@@ -120,7 +151,7 @@
         columns: [
             {data: 'DT_RowIndex', name: 'DT_RowIndex', orderable: false, searchable: false},
             {data: 'name_project', name: 'name_project'},
-            {data: 'head_project', name: 'head_project'},
+            {data: 'head_project.name', name: 'head_project.name'},
             {data: 'location', name: 'location'},
             {data: 'status', name: 'status', orderable: false, searchable: false, },
             {data: 'aksi', name: 'aksi', orderable: false, searchable: false},
@@ -189,6 +220,11 @@
             type: "DELETE",
             success: function(res) {
                 console.log(res);
+
+                setalert(res.title, res.text, res.icon);
+                setTimeout(function(){
+                    window.location.reload();
+                }, 2000);
             },
             error: function (xhr, ajaxOptions, thrownError) {
                 console.log(xhr.responseText);
@@ -214,16 +250,9 @@
                     }  
                 }
                 else {
-                    // location.reload();
-                    // $('#editProjectModal').modal('hide');
-                    // var frm = $('#editForm');
-                    // frm.trigger("reset");
-                    swal({
-                        title: "Sukses!",
-                        text: `Data berhasil di ${jenis} !`,
-                        icon: "success",
-                        button : false,
-                    });
+                    const alert = data;
+                    console.log(alert);
+                    setalert(alert.title, alert.text, alert.icon);
                     setTimeout(function(){
                     window.location.reload();
                     }, 2000);
@@ -239,5 +268,14 @@
     function resetAlert(jenis) {
         $( `#${jenis}-name_project small` ).remove();
         $( `#${jenis}-location small` ).remove();
+    }
+
+    function setalert(title, text, icon) {
+        swal({
+            title: title,
+            text: text,
+            icon: icon,
+            button : false,
+        });
     }
 </script>

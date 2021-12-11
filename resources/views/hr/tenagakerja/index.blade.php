@@ -8,10 +8,27 @@
                     <i class="pe-7s-drawer icon-gradient bg-happy-itmeo">
                     </i>
                 </div>
-                <div>Data Tenaga Kerja
-                    <div class="page-title-subheading">Tables are the backbone of almost all web applications.
-                    </div>
+                <div class="mr-2" >Data Tenaga Kerja
                 </div>
+            </div>
+            <div class="mx-auto">
+                <ul class="body-tabs body-tabs-layout tabs-animated body-tabs-animated nav">
+                    <li class="nav-item">
+                        <a role="tab" class="nav-link show active" id="tab-0" data-toggle="tab" href="#tab-content-0" aria-selected="true">
+                            <span>Card Tabs</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a role="tab" class="nav-link show" id="tab-1" data-toggle="tab" href="#tab-content-1" aria-selected="false">
+                            <span>Animated Lines</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a role="tab" class="nav-link show" id="tab-2" data-toggle="tab" href="#tab-content-2" aria-selected="false">
+                            <span>Basic</span>
+                        </a>
+                    </li>
+                </ul>
             </div>
             <div class="page-title-actions">
                 <!-- <button type="button" data-toggle="tooltip" title="" data-placement="bottom" class="btn-shadow mr-3 btn btn-dark" data-original-title="Example Tooltip">
@@ -31,7 +48,9 @@
     <div class="row">
         <div class="col-lg-12">
             <div class="main-card mb-6 card">
-                <div class="card-body"><h5 class="card-title">Tabel Data Tenaga Kerja</h5>
+                <div class="card-body">
+                <h5 styleclass="card-title">Tabel Data Tenaga Kerja</h5>
+                
                     <table class="mb-0 table table-striped datatable">
                         <thead>
                         <tr>

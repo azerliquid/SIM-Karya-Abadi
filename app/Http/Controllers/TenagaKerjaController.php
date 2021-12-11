@@ -83,7 +83,11 @@ class TenagaKerjaController extends Controller
             $id_user->save();
         }
 
-        return Response::json(['success' => 'Data berhasil di inputkan']);
+        return Response::json([
+            'title' => 'Berhasil',
+            'text' => 'Data berhasil di tambahkan',
+            'icon' => 'success'
+            ]);
 
     }
 
@@ -155,12 +159,11 @@ class TenagaKerjaController extends Controller
             }
 
 
-        return Response::json([
-            'success' => 'Data berhasil di ubah',
-            'desc_edit' => $request->description,
-            'desc' => $tenagaKerja->description,
-            'descOld' => $descOld,
-        ]);
+            return Response::json([
+                'title' => 'Berhasil',
+                'text' => 'Data berhasil di ubah',
+                'icon' => 'success'
+                ]);
     }
 
     /**
@@ -175,6 +178,10 @@ class TenagaKerjaController extends Controller
         $tenagaKerja->deleted = 1;
         $tenagaKerja->save();
 
-        return Response::json(['success' => 'Data berhasil dihapus']);
+        return Response::json([
+            'title' => 'Berhasil',
+            'text' => 'Data berhasil di hapus',
+            'icon' => 'success'
+            ]);
     }
 }

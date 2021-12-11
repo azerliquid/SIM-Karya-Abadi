@@ -488,9 +488,11 @@
             data : dataId,
             url : url,
             type: "DELETE",
-            success: function(res) {
-                console.log(res);
-                location.reload();
+            success: function(data) {
+                setalert(data.title, data.text, data.icon);
+                setTimeout(function(){
+                    window.location.reload();
+                }, 2000);
             },
             error: function (xhr, ajaxOptions, thrownError) {
                 console.log(xhr.responseText);
@@ -507,19 +509,23 @@
                 console.log(data);
                 $(`#${jenis}PegawaiModal`).modal('hide');
                 // location.reload();
-                    swal({
-                        title: "Sukses!",
-                        text: `Data berhasil di ${jenis} !`,
-                        icon: "success",
-                        button : false,
-                    });
-                    setTimeout(function(){
+                setalert(data.title, data.text, data.icon);
+                setTimeout(function(){
                     window.location.reload();
-                    }, 2000);
+                }, 2000);
             },
             error: function(xhr, ajaxOptions, thrownError) {
                 console.log(xhr.responseText);
             }
         })
+    }
+
+    function setalert(title, text, icon) {
+        swal({
+            title: title,
+            text: text,
+            icon: icon,
+            button : false,
+        });
     }
 </script>

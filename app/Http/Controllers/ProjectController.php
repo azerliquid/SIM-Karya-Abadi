@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Response;
 use Yajra\DataTables\DataTables;
 use Validator;
+use App\Models\TenagaKerja;
 
 class ProjectController extends Controller
 {
@@ -17,7 +18,9 @@ class ProjectController extends Controller
      */
     public function index(Request $request)
     {
-        $data = Project::where('status', 'Aktif')
+
+        
+        $data = Project::with('headProject')->where('status', 'Aktif')
         ->where('deleted', 0)->get();
         // return Response::json($data);
 
@@ -41,9 +44,14 @@ class ProjectController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(Request $request)
     {
-        //
+        if ($request->ajax()) {
+            $ketuaLapangan = TenagaKerja::select('id','name')->where('position', "Ketua Lapangan")
+            ->where('deleted', 0)->get();
+    
+            return response()->json($ketuaLapangan);
+        }
     }
 
     /**
@@ -70,9 +78,15 @@ class ProjectController extends Controller
             $proyek = new Project;
             $proyek->name_project = $request->name_project;
             $proyek->location = $request->location;
+            $proyek->head_project = $request->ketua;
+            $proyek->deleted = 0;
             $proyek->save();
 
-            return Response::json(['success' => 'Data berhasil di inputkan']);
+            return Response::json([
+                'title' => 'Berhasil',
+                'text' => 'Data berhasil di inputkan',
+                'icon' => 'success'
+                ]);
         }
         return Response::json(['errors' => $validator->errors()]);
     }
@@ -85,7 +99,7 @@ class ProjectController extends Controller
      */
     public function show(Project $project)
     {
-        //
+        
     }
 
     /**
@@ -127,7 +141,11 @@ class ProjectController extends Controller
             $proyek->location = $request->location;
             $proyek->save();
 
-            return Response::json(['success' => 'Data berhasil di ubah']);
+            return Response::json([
+                'title' => 'Berhasil',
+                'text' => 'Data berhasil di ubah',
+                'icon' => 'success'
+                ]); 
         }
 
         return Response::json(['errors' => $validator->errors()]);
@@ -145,6 +163,20 @@ class ProjectController extends Controller
         $proyek->deleted = 1;
         $proyek->save();
 
-        return Response::json(['success' => "Data berhasil di hapus"]);
+        return Response::json([
+            'title' => 'Berhasil',
+            'text' => 'Data berhasil di hapus',
+            'icon' => 'success'
+            ]);
+    }    
+    
+    public function showketua(Request $request)
+    {
+        if ($request->ajax()) {
+            $ketuaLapangan = TenagaKerja::where('position', "Ketua Lapangan")
+            ->where('deleted', 0)->get();
+    
+            return response()->json("wiu");
+        }
     }
 }

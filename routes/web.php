@@ -23,3 +23,4 @@ Route::get('/', function () {
 Route::resource('barang', BarangController::Class);
 Route::resource('proyek', ProjectController::Class);
 Route::resource('tenagakerja', TenagaKerjaController::Class);
+// Route::get('/proyek/showketua', ProjectController::Class, 'showketua');
