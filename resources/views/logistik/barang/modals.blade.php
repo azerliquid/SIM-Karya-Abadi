@@ -206,7 +206,16 @@
                     console.log(data.errors);
                 }else{
                     console.log(data.success);
-                    location.reload();
+                    swal({
+                        title: "Sukses!",
+                        text: `Data berhasil di hapus !`,
+                        icon: "success",
+                        button : false,
+                    });
+                    setTimeout(function(){
+                    window.location.reload();
+                    }, 2000);
+                    // location.reload();
                 }
             }
         });
@@ -252,4 +261,6 @@
         $( `#${jenis}-name small` ).remove();
         $( `#${jenis}-unit small` ).remove();
     }
+
+    
 </script>

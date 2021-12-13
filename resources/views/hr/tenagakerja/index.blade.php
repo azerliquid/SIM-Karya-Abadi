@@ -3,7 +3,7 @@
 <div class="app-main__inner">
     <div class="app-page-title">
         <div class="page-title-wrapper">
-            <div class="page-title-heading">
+            <div class="page-title-heading" >
                 <div class="page-title-icon">
                     <i class="pe-7s-drawer icon-gradient bg-happy-itmeo">
                     </i>
@@ -15,17 +15,17 @@
                 <ul class="body-tabs body-tabs-layout tabs-animated body-tabs-animated nav">
                     <li class="nav-item">
                         <a role="tab" class="nav-link show active" id="tab-0" data-toggle="tab" href="#tab-content-0" aria-selected="true">
-                            <span>Card Tabs</span>
+                            <span>Data Keseluruhan</span>
                         </a>
                     </li>
                     <li class="nav-item">
                         <a role="tab" class="nav-link show" id="tab-1" data-toggle="tab" href="#tab-content-1" aria-selected="false">
-                            <span>Animated Lines</span>
+                            <span>Staff</span>
                         </a>
                     </li>
                     <li class="nav-item">
                         <a role="tab" class="nav-link show" id="tab-2" data-toggle="tab" href="#tab-content-2" aria-selected="false">
-                            <span>Basic</span>
+                            <span>Pegawai Lapangan</span>
                         </a>
                     </li>
                 </ul>

@@ -27,6 +27,16 @@
 <!-- Datatables -->
 <link href="https://cdn.datatables.net/1.10.19/css/dataTables.bootstrap.min.css" rel="stylesheet">
 <link href="https://cdn.datatables.net/1.10.16/css/jquery.dataTables.min.css" rel="stylesheet">
+<!-- Select2 CSS --> 
+<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/css/select2.min.css" rel="stylesheet" /> 
+
+<style>
+    input::-webkit-outer-spin-button,
+    input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+    }
+</style>
 <body>
     <div class="app-container app-theme-white body-tabs-shadow fixed-sidebar fixed-header">
         @include('component.header')       
@@ -310,7 +320,7 @@
             </div>
         </div>        
         <div class="app-main">
-            @include('logistik.sidebar')
+            @include('component.sidebar')
             <div class="app-main__outer">
                 @yield('content')
                 @include('component.footer')
@@ -334,6 +344,9 @@
 
 <!-- sweetaklert -->
 <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+<!-- Select2 JS --> 
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/js/select2.min.js"></script>
+
 @yield('modals')
 </body>
 </html>
