@@ -73,6 +73,12 @@
                                 </i>Keluar Masuk Barang
                             </a>
                         </li>
+                        <li>
+                            <a href="{{route('baranginout.index')}}">
+                                <i class="metismenu-icon">
+                                </i>Request Permintaan Bahan
+                            </a>
+                        </li>
                     </ul>
                 </li>
                 <li  >
@@ -81,11 +87,17 @@
                         Tables
                     </a>
                 </li>
-                <li class="app-sidebar__heading">Widgets</li>
+                <li class="app-sidebar__heading">Pengadaan Bahan Bangunan</li>
+                <li>
+                    <a href="{{ route('request.index')}}">
+                        <i class="metismenu-icon pe-7s-display2"></i>
+                        Request
+                    </a>
+                </li>
                 <li>
                     <a href="dashboard-boxes.html">
                         <i class="metismenu-icon pe-7s-display2"></i>
-                        Dashboard Boxes
+                        Riwayat Permintaan
                     </a>
                 </li>
                 <li class="app-sidebar__heading">Forms</li>

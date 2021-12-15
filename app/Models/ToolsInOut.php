@@ -11,8 +11,8 @@ class ToolsInOut extends Model
 {
     use HasFactory;
 
-    protected $table = 'baranginout';
-    protected $fillable = (['date_in', 'id_barang', 'stock_in', 'id_destination']);
+    protected $table = 'logistic';
+    protected $fillable = (['date', 'type', 'destination', 'id_destination']);
 
     public function barang()
     {

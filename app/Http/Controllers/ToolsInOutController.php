@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\ToolsInOut;
 use App\Models\Barang;
 use App\Models\Project;
+use App\Models\ListItem;
 use Illuminate\Http\Request;
 // use App\Models\ToolsInOut;
 use Response;
@@ -82,7 +83,74 @@ class ToolsInOutController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $data = $request->data;
+        
+
+        // return Response::json($data['listItem']);
+
+        // insert record logistic masuk
+        
+        $logistic = new ToolsInOut;
+        $logistic->type = $data['type'];
+        $logistic->destination = "Kantor";
+        $logistic->id_destination = 0;
+        $logistic->description = $data['keterangan'] == NULL ? NULL : $data['keterangan'];
+
+        $logistic->save();
+
+        $id = $logistic->id;
+
+        $totalItem = count($data['listItem']);
+        $dataItem = $data['listItem'];
+
+        // return Response::json($dataItem[0]);
+
+        // update stok item
+        for ($i=0; $i < $totalItem; $i++) { 
+            $item = new ListItem;
+            $item->id_logistic = $id;
+            $item->type = $data['type'];
+            $item->id_barang = $dataItem[$i]['id_barang'];
+            $item->qty = $dataItem[$i]['qty'];
+            $item->status = "Selesai";
+
+            $item->save();
+            $barang = Barang::find($dataItem[$i]['id_barang']);
+            $barang->stock_now = $barang->stock_now + $dataItem[$i]['qty'];
+            $barang->save();
+            
+        }
+
+        if ($data['tertuju'] == "Proyek") {
+            $logisticout = new ToolsInOut;
+            $logisticout->type = "Keluar";
+            $logisticout->destination = $data['tertuju'];
+            $logisticout->id_destination = $data['lokasi'];
+            $logisticout->description = $data['keterangan'] == NULL ? NULL : $data['keterangan'];
+
+            $logisticout->save();
+
+            $id = $logisticout->id;
+
+            $totalItem = count($data['listItem']);
+            $dataItem = $data['listItem'];
+
+            for ($i=0; $i < $totalItem; $i++) { 
+                $item = new ListItem;
+                $item->id_logistic = $id;
+                $item->type = "Keluar";
+                $item->id_barang = $dataItem[$i]['id_barang'];
+                $item->qty = $dataItem[$i]['qty'];
+                $item->status = "Selesai";
+    
+                $item->save();
+                $barang = Barang::find($dataItem[$i]['id_barang']);
+                $barang->stock_now = $barang->stock_now - $dataItem[$i]['qty'];
+                $barang->save();
+                
+            }
+        }
+        return Response::json("sukses");
     }
 
     /**

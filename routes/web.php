@@ -5,6 +5,7 @@ Use App\Http\Controllers\BarangController;
 Use App\Http\Controllers\ProjectController;
 Use App\Http\Controllers\TenagaKerjaController;
 Use App\Http\Controllers\ToolsInOutController;
+Use App\Http\Controllers\RequestController;
 
 /*
 |--------------------------------------------------------------------------
@@ -25,6 +26,7 @@ Route::resource('barang', BarangController::Class);
 Route::resource('proyek', ProjectController::Class);
 Route::resource('tenagakerja', TenagaKerjaController::Class);
 Route::resource('baranginout', ToolsInOutController::Class);
+Route::resource('request', RequestController::Class);
 // Route::get('/proyek/showketua', ProjectController::Class, 'showketua');
 Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
     return view('dashboard');

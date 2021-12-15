@@ -19,10 +19,31 @@
                             <h5 class="card-title">Data Barang Masuk</h5>
                             <div class="inputItem">
                                 <div class="form-row">
+                                    <div class="col-md-4"> 
+                                        <fieldset class="position-relative form-group">
+                                            <label for="exampleText" class="">Tertuju</label>
+                                            <div class="position-relative form-check">
+                                                <input class="radio_tertuju" type="radio" id="radio_kantor" name="tertuju" value="Kantor">
+                                                <label for="html">Kantor</label>
+                                                <input class="radio_tertuju" type="radio" id="radio_proyek" name="tertuju" value="Proyek">
+                                                <label for="css">Proyek</label><br>
+                                            </div>
+                                        </fieldset>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="position-relative form-group tujuan" style="display:none;">
+                                            <label for="exampleCustomSelect" class="">Tujuan Proyek</label>
+                                            <select type="select" id="selectTujuan" name="lokasi" class="custom-select">
+                                                
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-row">
                                     <div class="col-md-8">
                                         <div class="position-relative form-group" id="tambah-barang-masuk">
                                             <label for="name-barang" class="">Nama Barang Masuk</label>
-                                            <select type="select" id="selectBarang-1" name="ketua" class="custom-select">
+                                            <select type="select" id="selectBarang-1" name="barang-1" class="custom-select">
                                                 <option style='font-weight: bolder;' value=''>-- Pilih Barang --</option>
                                             </select>
                                         </div>
@@ -30,45 +51,26 @@
                                     <div class="col-md-4">
                                         <div class="position-relative form-group" id="tambah-stock_in">
                                             <label for="exampleText" class="">Stok Masuk</label>
-                                            <input name="stock_in" id="exampleText" class="form-control" type="number"></input>
+                                            <input name="qty-1" id="exampleText" class="form-control" type="number"></input>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                             <div class="form-row">
                                 <div class="mx-auto">
+                                    <input type="text" name="total_item" id="totalItem" value="1" style="display:none;">
                                     <button class="mb-2 mr-2 btn-transition btn btn-outline-primary" onclick="addItem()">
                                         <span class="btn-icon-wrapper pr-2 opacity-7">
                                         <i class="fa fa-plus-square fa-w-20"></i>
                                         </span>
                                         Tambah Item
                                     </button>
-                                `</div>
-                            </div>
-                            <div class="form-row">
-                                <div class="col-md-4"> 
-                                    <fieldset class="position-relative form-group">
-                                        <label for="exampleText" class="">Tertuju</label>
-                                        <div class="position-relative form-check">
-                                            <input class="radio_tertuju" type="radio" id="radio_kantor" name="placement_edit" value="Kantor">
-                                            <label for="html">Kantor</label>
-                                            <input class="radio_tertuju" type="radio" id="radio_proyek" name="placement_edit" value="Proyek">
-                                            <label for="css">Proyek</label><br>
-                                        </div>
-                                    </fieldset>
-                                </div>
-                                <div class="col-md-4">
-                                    <div class="position-relative form-group tujuan" style="display:none;">
-                                        <label for="exampleCustomSelect" class="">Tujuan Proyek</label>
-                                        <select type="select" id="selectTujuan" name="role" class="custom-select">
-                                            
-                                        </select>
-                                    </div>
                                 </div>
                             </div>
+                            
                             <div class="position-relative form-group" id="tambah-address">
                                 <label for="exampleText" class="">Keterangan</label>
-                                <textarea rows="3" name="description" id="exampleText" class="form-control" placeholder="Masukan Keterangan"></textarea>
+                                <textarea name="keterangan" rows="3" name="description" id="exampleText" class="form-control" placeholder="Masukan Keterangan"></textarea>
                             </div>
                         </div>
                     </div>
@@ -162,7 +164,7 @@
         $('#tambahForm')[0].reset();
         $('.tujuan').hide();
         $('.children').remove();
-        $('#selectTujuan').empty().append(`<option style='font-weight: bolder;' selected="selected">-- Pilih Lokasi --</option>`);
+        $('#selectTujuan').empty().append(`<option style='font-weight: bolder;' selected="selected" value="0">-- Pilih Lokasi --</option>`);
         let proyek;
         $.ajax({
             dataType: "json",
@@ -205,14 +207,16 @@
                 <div class="col-md-4">
                     <div class="position-relative form-group" id="tambah-stock_in">
                         <label for="exampleText" class="">Stok Masuk</label>
-                        <input name="stock_in-${index_select}" id="exampleText" class="form-control" type="number"></input>
+                        <input name="qty-${index_select}" id="exampleText" class="form-control" type="number"></input>
                     </div>
                 </div>
             </div>`
         );
         setSelectOpt(index_select, barang);
-        index_select = index_select + 1;
+        $('#totalItem').val(index_select);
         console.log(index_select);
+        index_select = index_select + 1;
+        // console.log("val : "+ $('#totalItem').val());
     }
 
     function setSelectOpt(index, brg) {
@@ -247,11 +251,10 @@
         ,
         columns: [
             {data: 'DT_RowIndex', name: 'DT_RowIndex', orderable: false, searchable: false},
-            {data: 'date_in', name: 'date_in'},
-            {data: 'barang', name: 'barang'},
-            {data: 'stock_in', name: 'stock_in'},
-            {data: 'stock_out', name: 'stock_out'},
-            {data: 'proyek', name: 'proyek'},
+            {data: 'date', name: 'date'},
+            {data: 'type', name: 'type'},
+            {data: 'destination', name: 'destination'},
+            {data: 'id_destination', name: 'id_destination'},
             {data: 'description', name: 'description'},
             {data: 'aksi', name: 'aksi', orderable: false, searchable: false},
         ],
@@ -270,5 +273,52 @@
         }
     })
 
-    
+    $('#btn-tambah').on('click', function() {
+        var url = '{{ route("baranginout.store") }}';
+        const formData = $('#tambahForm').serialize();
+        let totalItem = $('#totalItem').val();
+        let tertuju = $("input[name='tertuju']:checked").val();
+        let lokasi = $('#selectTujuan').val();
+        let keterangan = $("textarea[name='keterangan']").val();
+        // console.log(keterangan);
+        let data = {
+            tertuju : tertuju,
+            lokasi : lokasi,
+            keterangan : keterangan,
+            type: "Masuk"
+        }
+        let dataItem = [];
+        let itemloop = 1;
+
+        for (let i = 0; i < totalItem; i++) {
+            let id_barang = $(`select[name='barang-${itemloop}']`).val();
+            let qty = $(`input[name='qty-${itemloop}']`).val();
+            dataItem.push({
+                id_barang,
+                qty
+            })
+
+            itemloop += 1;
+        }
+
+        data.listItem = dataItem;
+        console.log(data);
+
+        $.ajax({
+            url: url,
+            method: 'POST',
+            data: {
+            data:data,
+            },
+            success: function(res){
+                console.log(res);
+            },
+            error:function(error){
+                console.log(error.responseText);
+            }
+        });
+
+        // console.log(dataItem);
+        // console.log($('barang-2').val());
+    });
 </script>

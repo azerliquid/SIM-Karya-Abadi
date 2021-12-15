@@ -51,7 +51,7 @@
                 <div class="card-body">
                 <h5 styleclass="card-title">Tabel Data Tenaga Kerja</h5>
                 
-                    <table class="mb-0 table table-striped datatable">
+                    <table class="mb-0 table table-striped datatable" >
                         <thead>
                         <tr>
                             <th>#</th>
