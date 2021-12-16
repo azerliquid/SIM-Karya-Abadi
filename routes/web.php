@@ -18,16 +18,56 @@ Use App\Http\Controllers\RequestController;
 |
 */
 
-Route::get('/', function () {
-    return view('component.content');
+Route::get('/dashboard', function () {
+    // return response()->json( Auth::user());
+    if (Auth::user()->role == 'admin') {
+        return redirect('barang');
+    }elseif (Auth::user()->role == 'logistic') {
+        return redirect('barang');
+    }elseif (Auth::user()->role == 'hr') {
+        return redirect('proyek');
+    }elseif (Auth::user()->role == 'mandor') {
+        return redirect('request');
+    }
 });
 
-Route::resource('barang', BarangController::Class);
-Route::resource('proyek', ProjectController::Class);
-Route::resource('tenagakerja', TenagaKerjaController::Class);
-Route::resource('baranginout', ToolsInOutController::Class);
-Route::resource('request', RequestController::Class);
 // Route::get('/proyek/showketua', ProjectController::Class, 'showketua');
-Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
-    return view('dashboard');
-})->name('dashboard');
+// Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
+//     // dd();
+//     return view('dashboard');
+// })->name('dashboard');
+
+Route::group(['middleware' => ['auth:sanctum', 'checkRole:admin']], function()
+{
+    Route::resource('barang', BarangController::Class);
+    Route::resource('proyek', ProjectController::Class);
+    Route::resource('tenagakerja', TenagaKerjaController::Class);
+    Route::resource('baranginout', ToolsInOutController::Class);
+    Route::resource('request', RequestController::Class);
+
+});
+
+Route::group(['middleware' => ['auth:sanctum', 'checkRole:logistic']], function()
+{
+    Route::resource('barang', BarangController::Class);
+    Route::resource('baranginout', ToolsInOutController::Class);
+    Route::resource('request', RequestController::Class);
+
+});
+
+Route::group(['middleware' => ['auth:sanctum', 'checkRole:hr']], function()
+{
+    Route::resource('proyek', ProjectController::Class);
+    Route::resource('tenagakerja', TenagaKerjaController::Class);
+});
+
+Route::group(['middleware' => ['auth:sanctum', 'checkRole:mandor']], function()
+{
+    Route::resource('baranginout', ToolsInOutController::Class);
+    Route::resource('request', RequestController::Class);
+});
+
+Route::get('/', function ()
+{
+    return redirect('/dashboard');
+});

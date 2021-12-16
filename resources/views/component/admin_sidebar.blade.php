@@ -31,28 +31,31 @@
     </div>    <div class="scrollbar-sidebar">
         <div class="app-sidebar__inner">
             <ul class="vertical-nav-menu">
-                <li class="app-sidebar__heading">HR</li>
-                <li>
-                    <a href="#">
-                        <i class="metismenu-icon pe-7s-server"></i>
-                        Data Master
-                        <i class="metismenu-state-icon pe-7s-angle-down caret-left"></i>
-                    </a>
-                    <ul>
-                        <li>
-                            <a href="{{route('tenagakerja.index')}}">
-                                <i class="metismenu-icon">
-                                </i>Tenaga Kerja
-                            </a>
-                        </li>
-                        <li>
-                            <a href="{{route('proyek.index')}}">
-                                <i class="metismenu-icon">
-                                </i>Proyek
-                            </a>
-                        </li>
-                    </ul>
-                </li>
+                <!-- {{ Auth::user()}} -->
+
+                    <li class="app-sidebar__heading">HR</li>
+                    <li>
+                        
+                        <a href="#">
+                            <i class="metismenu-icon pe-7s-server"></i>
+                            Data Master
+                            <i class="metismenu-state-icon pe-7s-angle-down caret-left"></i>
+                        </a>
+                        <ul>
+                            <li>
+                                <a href="{{route('tenagakerja.index')}}">
+                                    <i class="metismenu-icon">
+                                    </i>Tenaga Kerja
+                                </a>
+                            </li>
+                            <li>
+                                <a href="{{route('proyek.index')}}">
+                                    <i class="metismenu-icon">
+                                    </i>Proyek
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
                 <li class="app-sidebar__heading">Logistik</li>
                 <li>
                     <a href="#">
@@ -81,12 +84,6 @@
                         </li>
                     </ul>
                 </li>
-                <li  >
-                    <a href="tables-regular.html">
-                        <i class="metismenu-icon pe-7s-display2"></i>
-                        Tables
-                    </a>
-                </li>
                 <li class="app-sidebar__heading">Pengadaan Bahan Bangunan</li>
                 <li>
                     <a href="{{ route('request.index')}}">
@@ -100,40 +97,21 @@
                         Riwayat Permintaan
                     </a>
                 </li>
-                <li class="app-sidebar__heading">Forms</li>
-                <li>
-                    <a href="forms-controls.html">
-                        <i class="metismenu-icon pe-7s-mouse">
-                        </i>Forms Controls
-                    </a>
-                </li>
-                <li>
-                    <a href="forms-layouts.html">
-                        <i class="metismenu-icon pe-7s-eyedropper">
-                        </i>Forms Layouts
-                    </a>
-                </li>
-                <li>
-                    <a href="forms-validation.html">
-                        <i class="metismenu-icon pe-7s-pendrive">
-                        </i>Forms Validation
-                    </a>
-                </li>
-                <li class="app-sidebar__heading">Charts</li>
-                <li>
-                    <a href="charts-chartjs.html">
-                        <i class="metismenu-icon pe-7s-graph2">
-                        </i>ChartJS
-                    </a>
-                </li>
-                <li class="app-sidebar__heading">PRO Version</li>
-                <li>
-                    <a href="https://dashboardpack.com/theme-details/architectui-dashboard-html-pro/" target="_blank">
-                        <i class="metismenu-icon pe-7s-graph2">
-                        </i>
-                        Upgrade to PRO
-                    </a>
-                </li>
+                <!-- <form method="POST" action="{{ route('logout') }}">
+                    @csrf
+                    <li>
+                        <a href="{{route('logout')}}" onclick="event.preventDefault();
+                                                    this.closest('form').submit();>
+                            <i class="metismenu-icon pe-7s-display2"></i>
+                            Logout
+                        </a> 
+                        <a data-toggle="tooltip" data-placement="top" title="Logout" href="{{route('logout')}}"
+                        onclick="event.preventDefault();
+                                                    this.closest('form').submit();">
+                        <span class="glyphicon glyphicon-off" aria-hidden="true"></span></a>
+                    </li>
+                </form> -->
+
             </ul>
         </div>
     </div>

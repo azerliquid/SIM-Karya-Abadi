@@ -9,6 +9,9 @@
     let index_select = 2;
 
     $(document).ready(function(params) {
+        // $('.datepicker').datetimepicker({
+        //     format: 'dd/mm/yyyy'
+        // });
         let proyek;
         $.ajax({
             dataType: "json",
@@ -84,7 +87,8 @@
         );
 
         setSelectOpt(index_select, barang);
-        $('#totalItem').val(index_select);
+        let total = $('#totalItem').val(index_select);
+        // console.log("total : " + $('#totalItem').val());
         // console.log(index_select);
         index_select = index_select + 1;
         // console.log("val : "+ $('#totalItem').val());
@@ -102,10 +106,54 @@
         setStockNow(index, stock, satuan);
     }
 
+    // $('.datepicker').datepicker();
 
     function setStockNow(index, stock, satuan) {
         $(`label[id="satuan-${index}"]`).text('');
         $(`input[name="stock-${index}"]`).val(stock);
         $(`label[id="satuan-${index}"]`).text(satuan);
     }
+
+    $('#btnTambah').on('click', function() {
+        var url = '{{ route("request.store") }}';
+        console.log('oke');
+        const formData = $('#tambahForm').serialize();
+        let totalItem = $('#totalItem').val();
+        let keterangan = $("textarea[name='keterangan']").val();
+        // console.log(keterangan);
+        let data = {
+            keterangan : keterangan,
+            type: "Keluar"
+        }
+        let dataItem = [];
+        let itemloop = 1;
+
+        for (let i = 0; i < totalItem; i++) {
+            let id_barang = $(`select[name='barang-${itemloop}']`).val();
+            let qty = $(`input[name='qty-${itemloop}']`).val();
+            dataItem.push({
+                id_barang,
+                qty
+            })
+
+            itemloop += 1;
+        }
+
+        data.listItem = dataItem;
+        console.log(data);
+
+        $.ajax({
+            url: url,
+            method: 'POST',
+            data: {
+                data:data,
+            },
+            success: function(res){
+                console.log(res);
+            },
+            error:function(error){
+                console.log(error.responseText);
+            }
+        });
+    })
 </script>

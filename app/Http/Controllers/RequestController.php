@@ -4,7 +4,10 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Barang;
+use App\Models\RequestOrder;
+use App\Models\ListItem;
 use Response;
+use Carbon\Carbon;
 
 class RequestController extends Controller
 {
@@ -39,7 +42,37 @@ class RequestController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        // return Response::json($request->data['keterangan']);
+        $now = Carbon::now();
+        if ($request->ajax()) {
+            $request_order = new RequestOrder;
+            $request_order->no_reference = '';
+            $request_order->date_procurement = $now;
+            $request_order->id_project = 29;
+            $request_order->id_head_project = 13;
+            $request_order->status = "Menunggu Konfirmasi";
+            $request_order->description = $request->data['keterangan'];
+
+            $request_order->save();
+
+            $item = $request->data['listItem'];
+            $id_req = $request_order->id;
+
+            for ($i=0; $i < count($item) ; $i++) { 
+                $listitem = new ListItem;
+                $listitem->id_logistic = $id_req;
+                $listitem->type = $request->data['type'];
+                $listitem->id_barang = $item[$i]['id_barang'];
+                $listitem->qty = $item[$i]['qty'];
+                $listitem->status = "Menunggu Konfirmasi";
+
+                $listitem->save();
+
+                return Response::json(['sukses' => 'data berhasil masuk']);
+            }
+
+
+        }
     }
 
     /**

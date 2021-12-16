@@ -321,7 +321,16 @@
             </div>
         </div>        
         <div class="app-main">
-            @include('component.sidebar')
+            <!-- {{Auth::user()}} -->
+            @if(Auth::user()->role == 'admin')
+                @include('component.admin_sidebar')
+            @elseif(Auth::user()->role == 'hr')
+                @include('component.hr_sidebar')
+            @elseif(Auth::user()->role == 'logistic')
+                @include('component.logistic_sidebar')
+            @elseif(Auth::user()->role == 'mandor')
+                @include('component.mandor_sidebar')
+            @endif
             <div class="app-main__outer">
                 @yield('content')
                 @include('component.footer')
@@ -347,7 +356,9 @@
 <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 <!-- Select2 JS --> 
 <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/js/select2.min.js"></script>
-
+<!-- jquery ui  -->
+<!-- <script src="https://code.jquery.com/jquery-1.10.2.js"></script> -->
+<script src="https://code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
 @yield('modals')
 </body>
 </html>
