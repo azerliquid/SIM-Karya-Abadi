@@ -141,7 +141,7 @@
         var tambah = $('#tambahForm');
         var formData = tambah.serialize();
         const jenis = 'tambah';
-        const url = "{{route('barang.store')}}"
+        const url = "/barang"
         const type = "POST"
         console.log(formData);
         setValidate(formData, jenis, url, type);        
@@ -161,7 +161,7 @@
         $('input[name="name"]').val(col1);
         $('input[name="unit"]').val(col3);
         
-        var url = '{{ route("barang.update", ":id")}}';
+        var url = '/barang/:id';
         url = url.replace(':id', id);
         $('#editForm').attr('action', url);
         $('#editBarangModal').modal();
@@ -192,7 +192,7 @@
     $('#btn-hapus').on('click', function() {
         event.preventDefault();
         var dataId = $(this).data('id');
-        var url = '{{ route("barang.destroy", ":id") }}';
+        var url = '/barang/:id';
         url = url.replace(':id', dataId);
         $('#hapusBarangForm').attr('action' , url);
         console.log(dataId);
@@ -217,7 +217,12 @@
                     }, 2000);
                     // location.reload();
                 }
-            }
+            },
+            error: function (xhr, ajaxOptions, thrownError) {
+                console.log(xhr.status);
+                console.log(xhr.responseText);
+                console.log(thrownError);
+            },
         });
     })
 

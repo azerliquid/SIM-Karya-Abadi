@@ -4,10 +4,13 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Barang;
-use App\Models\RequestOrder;
-use App\Models\ListItem;
+use App\Models\RequestLogistic;
+use App\Models\DetailLogistic;
 use Response;
 use Carbon\Carbon;
+// use Auth;
+use Illuminate\Support\Facades\Auth;
+
 
 class RequestController extends Controller
 {
@@ -16,10 +19,18 @@ class RequestController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
-        return view('ketua_lapangan.request.index');
+
+        // dd($type);
+        // if ($request->ajax()) {
+
+        //     $data = RequestLogistic::with('head_project','project')->where('status', 'Menunggu Konfirmasi')->get();
+
+        //     return Response::json($data);
+        // }
+
+        return view('ketua_lapangan.historyrequest.index');
     }
 
     /**
@@ -42,24 +53,24 @@ class RequestController extends Controller
      */
     public function store(Request $request)
     {
-        // return Response::json($request->data['keterangan']);
+
         $now = Carbon::now();
         if ($request->ajax()) {
-            $request_order = new RequestOrder;
+            $request_order = new RequestLogistic;
             $request_order->no_reference = '';
             $request_order->date_procurement = $now;
-            $request_order->id_project = 29;
-            $request_order->id_head_project = 13;
+            $request_order->id_project = 24;
+            $request_order->id_head_project = Auth::user()->id;
             $request_order->status = "Menunggu Konfirmasi";
             $request_order->description = $request->data['keterangan'];
 
             $request_order->save();
 
-            $item = $request->data['listItem'];
             $id_req = $request_order->id;
+            $item = $request->data['listItem'];
 
-            for ($i=0; $i < count($item) ; $i++) { 
-                $listitem = new ListItem;
+            for ($i=0; $i < count($item); $i++) { 
+                $listitem = new DetailLogistic;
                 $listitem->id_logistic = $id_req;
                 $listitem->type = $request->data['type'];
                 $listitem->id_barang = $item[$i]['id_barang'];
@@ -68,10 +79,8 @@ class RequestController extends Controller
 
                 $listitem->save();
 
-                return Response::json(['sukses' => 'data berhasil masuk']);
             }
-
-
+            return Response::json(['sukses' => 'data berhasil masuk']);
         }
     }
 
@@ -118,5 +127,43 @@ class RequestController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    public function showForm()
+    {
+        // return Response::json(Auth::user());
+
+        return view('ketua_lapangan.request.index');
+    }
+
+    public function getListItem($id)
+    {
+        $data = DetailLogistic::with('barang')->where('id_logistic', $id)->get();
+        return Response::json(['id' => $id,'data' => $data]);
+    }
+
+    public function showData($type)
+    {
+        if ($type == 'all') {
+            $data = RequestLogistic::with('head_project','project')->get();
+
+            return $data;
+        }
+        if ($type == 'waiting') {
+            $data = RequestLogistic::with('head_project','project')->where('status', 'Menunggu Konfirmasi')->get();
+
+            return $data;
+        }
+        if ($type == 'procces') {
+            $data = RequestLogistic::with('head_project','project')->where('status', 'Diproses')->get();
+
+            return $data;
+        }
+        if ($type == 'done') {
+            $data = RequestLogistic::with('head_project','project')->where('status', 'Selesai')->get();
+
+            return $data;
+        }
+        // return Response::json($type);
     }
 }

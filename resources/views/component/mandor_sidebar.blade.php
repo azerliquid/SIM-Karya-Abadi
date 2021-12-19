@@ -34,13 +34,13 @@
                 
                 <li class="app-sidebar__heading">Pengadaan Bahan Bangunan</li>
                 <li>
-                    <a href="{{ route('request.index')}}">
+                    <a href="/request">
                         <i class="metismenu-icon pe-7s-display2"></i>
                         Request
                     </a>
                 </li>
                 <li>
-                    <a href="dashboard-boxes.html">
+                    <a href="/historyrequest">
                         <i class="metismenu-icon pe-7s-display2"></i>
                         Riwayat Permintaan
                     </a>

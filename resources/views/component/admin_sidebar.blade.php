@@ -43,13 +43,13 @@
                         </a>
                         <ul>
                             <li>
-                                <a href="{{route('tenagakerja.index')}}">
+                                <a href="/tenagakerja">
                                     <i class="metismenu-icon">
                                     </i>Tenaga Kerja
                                 </a>
                             </li>
                             <li>
-                                <a href="{{route('proyek.index')}}">
+                                <a href="/proyek">
                                     <i class="metismenu-icon">
                                     </i>Proyek
                                 </a>
@@ -65,7 +65,7 @@
                     </a>
                     <ul>                    
                         <li>
-                            <a href="{{route('barang.index')}}">
+                            <a href="/barang">
                                 <i class="metismenu-icon pe-7s-tools" ></i>
                                 Barang
                             </a>
@@ -86,7 +86,7 @@
                 </li>
                 <li class="app-sidebar__heading">Pengadaan Bahan Bangunan</li>
                 <li>
-                    <a href="{{ route('request.index')}}">
+                    <a href="/request">
                         <i class="metismenu-icon pe-7s-display2"></i>
                         Request
                     </a>

@@ -15,7 +15,7 @@
         let proyek;
         $.ajax({
             dataType: "json",
-            url : '{{ route("request.create")}}',
+            url : '/request/create',
             type: "GET",
             success: function(res) {
                 // console.log(res);
@@ -115,7 +115,7 @@
     }
 
     $('#btnTambah').on('click', function() {
-        var url = '{{ route("request.store") }}';
+        var url = '/request/store';
         console.log('oke');
         const formData = $('#tambahForm').serialize();
         let totalItem = $('#totalItem').val();

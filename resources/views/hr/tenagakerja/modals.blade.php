@@ -338,7 +338,7 @@
         const formData = pegawai.serialize();
         console.log(formData.description);
         const jenis = 'tambah';
-        const url = "{{route('tenagakerja.store')}}";
+        const url = "/tenagakerja";
         const type = "POST";
         setValidate(formData, url, jenis, type)
     })
@@ -363,7 +363,7 @@
         // const col3 = currow.find('td:eq(3)').text();
         // // const col4 = currow.find('td:eq(4)').text();
         const id = $(this).data('id');
-        let url = '{{ route("tenagakerja.show", ":id")}}';
+        let url = '/tenagakerja/show/:id';
         url = url.replace(':id', id);
         const type = "GET";
 
@@ -433,7 +433,7 @@
         // $('input[name="unit"]').val(col3);
         $('#editPegawaiModal').modal();
         
-        let urlPost = '{{ route("tenagakerja.update", ":id")}}';
+        let urlPost = '/tenagakerja/:id';
         urlPost = urlPost.replace(':id', id);
         $('#editForm').attr('action', urlPost);
         // console.log($('#editForm'));
@@ -460,7 +460,7 @@
     $('#btn-hapus').click(function() {
         event.preventDefault();
         const dataId = $(this).data('id');
-        var url = '{{ route("tenagakerja.destroy", ":id") }}';
+        var url = '/tenagakerja/:id';
         url = url.replace(":id", dataId);
         $('#hapusPegawaiModal').attr('action', url);
         $.ajax({

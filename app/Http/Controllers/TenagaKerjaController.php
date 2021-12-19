@@ -75,6 +75,7 @@ class TenagaKerjaController extends Controller
             $user->name = $request->name;
             $user->username = $request->username;
             $user->email = $request->email;
+            $user->role = "mandor";
             $user->password = Hash::make($request->username);
             $user->save();
             $id = $user->id;

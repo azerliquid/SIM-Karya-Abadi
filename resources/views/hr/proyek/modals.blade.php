@@ -116,7 +116,7 @@
             // serverSide: true,
             
             dataType: "json",
-            url : '{{ route("proyek.create")}}',
+            url : '/proyek/create',
             type: "GET",
             success: function(res) {
                 console.log(res);
@@ -168,7 +168,7 @@
         const formData = tambah.serialize();
         console.log(formData);
         const jenis = 'tambah';
-        const url = "{{route('proyek.store')}}";
+        const url = "/proyek";
         const type = "POST";
         setValidate(formData, url, jenis, type)
     })
@@ -185,7 +185,7 @@
         $('textarea[name="location"]').val(col2);
         $('#editProjectModal').modal();
 
-        var url = '{{ route("proyek.update", ":id") }}'
+        var url = '/proyek/:id'
         url = url.replace(':id', id);
         
         $('#editForm').attr('action', url);
@@ -211,7 +211,7 @@
     $('#btn-hapus').click(function() {
         event.preventDefault();
         const dataId = $(this).data('id');
-        var url = '{{ route("proyek.destroy", ":id") }}';
+        var url = '/proyek/:id';
         url = url.replace(":id", dataId);
         $('#hapusProyekModal').attr('action', url);
         $.ajax({
