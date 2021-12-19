@@ -40,19 +40,19 @@
                     </a>
                     <ul>                    
                         <li>
-                            <a href="{{route('barang.index')}}">
+                            <a href="/barang">
                                 <i class="metismenu-icon pe-7s-tools" ></i>
                                 Barang
                             </a>
                         </li>
                         <li>
-                            <a href="{{route('baranginout.index')}}">
+                            <a href="/baranginout">
                                 <i class="metismenu-icon">
                                 </i>Keluar Masuk Barang
                             </a>
                         </li>
                         <li>
-                            <a href="{{route('baranginout.index')}}">
+                            <a href="/listrequest">
                                 <i class="metismenu-icon">
                                 </i>Request Permintaan Bahan
                             </a>

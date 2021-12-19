@@ -31,6 +31,12 @@
                         </div>
                     </div> -->
                     <div class="row">
+                        <div class="col-md-12">
+                            <h5>No Referensi : <b>{{$no_ref}}</b></h5>
+                            <input type="hidden" name="noref" id="noref" value="{{$no_ref}}">
+                        </div>
+                    </div>
+                    <div class="row">
                         <div class="col-md-7">
                             <div class="position-relative form-group" id="request-barang">
                                 <label for="name-barang" class="">Nama Barang</label>

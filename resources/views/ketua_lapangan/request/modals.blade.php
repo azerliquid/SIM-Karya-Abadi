@@ -119,12 +119,15 @@
         console.log('oke');
         const formData = $('#tambahForm').serialize();
         let totalItem = $('#totalItem').val();
+        let noref = $('#noref').val();
         let keterangan = $("textarea[name='keterangan']").val();
         // console.log(keterangan);
         let data = {
             keterangan : keterangan,
+            noref : noref,
             type: "Keluar"
         }
+
         let dataItem = [];
         let itemloop = 1;
 

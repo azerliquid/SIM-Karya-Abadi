@@ -21,16 +21,12 @@ class RequestController extends Controller
      */
     public function index(Request $request)
     {
-
-        // dd($type);
-        // if ($request->ajax()) {
-
-        //     $data = RequestLogistic::with('head_project','project')->where('status', 'Menunggu Konfirmasi')->get();
-
-        //     return Response::json($data);
-        // }
-
-        return view('ketua_lapangan.historyrequest.index');
+        if (Auth::user()->role == 'mandor') {
+            return view('ketua_lapangan.historyrequest.index');
+        }
+        if (Auth::user()->role == 'logistic') {
+            return view('logistik.listrequest.index');
+        }
     }
 
     /**
@@ -57,7 +53,7 @@ class RequestController extends Controller
         $now = Carbon::now();
         if ($request->ajax()) {
             $request_order = new RequestLogistic;
-            $request_order->no_reference = '';
+            $request_order->no_reference = $request->data['noref'];
             $request_order->date_procurement = $now;
             $request_order->id_project = 24;
             $request_order->id_head_project = Auth::user()->id;
@@ -132,35 +128,52 @@ class RequestController extends Controller
     public function showForm()
     {
         // return Response::json(Auth::user());
+        $last_id = RequestLogistic::latest()->first()->id;
+        $noref = Carbon::now()->format('ymd') . Auth::user()->id. $last_id;
+        // $no_ref = ; 
 
-        return view('ketua_lapangan.request.index');
+
+        return view('ketua_lapangan.request.index', ['no_ref'=>$noref]);
     }
 
     public function getListItem($id)
     {
-        $data = DetailLogistic::with('barang')->where('id_logistic', $id)->get();
-        return Response::json(['id' => $id,'data' => $data]);
+        // return Response::json('oke'+$id);
+        if (Auth::user()->role == 'mandor') {
+            $data = DetailLogistic::with('barang')->where('id_logistic', $id)->get();
+            return Response::json(['id' => $id,'data' => $data]);
+        }
+        if (Auth::user()->role == 'logistic') {
+            // return Response::json('nyampe sini');
+            $data = DetailLogistic::with('barang')->where('id_logistic', $id)->get();
+            return Response::json(['id' => $id,'data' => $data]);
+        }
     }
 
     public function showData($type)
     {
         if ($type == 'all') {
-            $data = RequestLogistic::with('head_project','project')->get();
+            $data = RequestLogistic::with('head_project','project')
+            ->orderBy('created_at', 'DESC')
+            ->orderBy('created_at', 'DESC')->get();
 
             return $data;
         }
         if ($type == 'waiting') {
-            $data = RequestLogistic::with('head_project','project')->where('status', 'Menunggu Konfirmasi')->get();
+            $data = RequestLogistic::with('head_project','project')->where('status', 'Menunggu Konfirmasi')
+            ->orderBy('created_at', 'DESC')->get();
 
             return $data;
         }
         if ($type == 'procces') {
-            $data = RequestLogistic::with('head_project','project')->where('status', 'Diproses')->get();
+            $data = RequestLogistic::with('head_project','project')->where('status', 'Diproses')
+            ->orderBy('created_at', 'DESC')->get();
 
             return $data;
         }
         if ($type == 'done') {
-            $data = RequestLogistic::with('head_project','project')->where('status', 'Selesai')->get();
+            $data = RequestLogistic::with('head_project','project')->where('status', 'Selesai')
+            ->orderBy('created_at', 'DESC')->get();
 
             return $data;
         }

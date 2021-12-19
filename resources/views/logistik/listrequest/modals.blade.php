@@ -7,20 +7,21 @@
 
     let rowData;
     $(document).ready(function() {
-        console.log('okeeee');
+        // console.log('okeeee');
         generateType('all');
     });
 
     function setTable(id) {
-        console.log(id);
-        let url = `/listitem/${id}`;
+        // console.log(id);
+        let url = `/listitemrequest/${id}`;
         // url.replace(':id', id);
+        // console.log(url);
         $.ajax({
             dataType: "json",
             url : url,
             type: "GET",
             success: function(res) {
-                console.log(res);
+                // console.log(res);
                 // console.log("ini id Pro " + res.id);
                 // console.log("ini id : "+res.id);
                 // console.log(`#table-list-${res.id}`); 
@@ -47,7 +48,7 @@
     }
 
     function setLabelStatus(id, status) {
-        console.log(id, status);
+        // console.log(id, status);
         let color;
         if (status == "Menunggu Konfirmasi") {
             color = 'text-warning';
@@ -56,7 +57,7 @@
         }if (status == "Selesai") {
             color = 'text-success';
         }
-        console.log(color);
+        // console.log(color);
         $(`#labelStatus-${id}`).addClass(color);
     }
 
@@ -82,9 +83,10 @@
         // rowData.ajax({url:newUrl}).load();
         $.ajax({
             dataType: "json",
-            url : "/historyrequest/"+url,
+            url : "/listrequest/"+url,
             type: "GET",
             success: function(res) {
+                // console.log(res);
                 if (res.length == 0) {
                     $('#listData').append(`<div class="card-body">
                         <h4 style="text-align:center;">Tidak ada data untuk ditampilkan</h4>
@@ -140,7 +142,7 @@
                         </div>`);
                         setTable(res[i].id);
                         setLabelStatus(res[i].id, res[i].status)
-                        // console.log();
+                        // console.log(res[i].id);s
                     }
                 
                 }

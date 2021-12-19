@@ -75,13 +75,18 @@ Route::group(['middleware' => ['auth:sanctum', 'checkRole:admin']], function()
 
 });
 
-// Route::group(['middleware' => ['auth:sanctum', 'checkRole:logistic']], function()
-// {
-//     // Route::resource('barang', BarangController::Class);  
-//     Route::resource('baranginout', ToolsInOutController::Class);
-//     Route::resource('request', RequestController::Class);
+Route::group(['middleware' => ['auth:sanctum', 'checkRole:logistic']], function()
+{
+    // Route::resource('barang', BarangController::Class);  
+    Route::get('/barang', [BarangController::Class, 'index']);
+    Route::get('/baranginout', [ToolsInOutController::Class, 'index']);
+    Route::get('/listrequest', [RequestController::Class, 'index']);
+    // Route::get('/listrequest/create', [RequestController::Class, 'create']);
+    Route::get('/listrequest/{type}', [RequestController::Class, 'showData']);
+    Route::get('/listitemrequest/{id}', [RequestController::Class, 'getListItem']);
+    Route::resource('request', RequestController::Class);
 
-// });
+});
 
 // Route::group(['middleware' => ['auth:sanctum', 'checkRole:hr']], function()
 // {
@@ -93,7 +98,7 @@ Route::group(['middleware' => ['auth:sanctum', 'checkRole:mandor']], function()
 {
     // Route::resource('baranginout', ToolsInOutController::Class);
     Route::get('/request', [RequestController::Class, 'showForm']);
-    Route::get('/request', [RequestController::Class, 'index']);
+    // Route::get('/request', [RequestController::Class, 'index']);
     Route::get('/request/create', [RequestController::Class, 'create']);
     Route::post('/request/store', [RequestController::Class, 'store']);
     Route::get('/historyrequest', [RequestController::Class, 'index']);
