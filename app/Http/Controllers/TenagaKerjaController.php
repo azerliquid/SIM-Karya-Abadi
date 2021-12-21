@@ -9,6 +9,7 @@ use Response;
 use Illuminate\Support\Facades\Hash;
 use Yajra\DataTables\DataTables;
 use Validator;
+use Illuminate\Support\Facades\Auth;
 
 class TenagaKerjaController extends Controller
 {
@@ -34,7 +35,12 @@ class TenagaKerjaController extends Controller
             ->make(true);
         }
         // return view('logistik.barang.index');
-        return view('hr.tenagakerja.index');
+        if (Auth::user()->role == 'admin') {
+            return view('admin.hr.tenagakerja.index');
+        }
+        if (Auth::user()->role == 'hr') {
+            return view('hr.tenagakerja.index');
+        }
     }
 
     /**

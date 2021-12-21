@@ -24,22 +24,22 @@
                 <ul class="tabs-animated-shadow nav-justified tabs-animated nav">
                     <li class="nav-item">
                         <a onclick="generateType('all')" role="tab" style="font-size:12; font-weight:bold;" class="nav-link active show" id="tabs-all" data-toggle="tab" href="" aria-selected="true">
-                            <span class="nav-text">Semua <label style="font-weight:bold;" id="badge-semua"></label></span>
+                            <span class="nav-text">Semua</span>
                         </a>
                     </li>
                     <li class="nav-item">
                         <a onclick="generateType('waiting')" role="tab" style="font-size:14; font-weight:bold;" class="nav-link show" id="tab-c1-1" data-toggle="tab" href="#tab-animated1-1" aria-selected="false">
-                            <span class="nav-text">Perlu di Konfirmasi <label style="font-weight:bold;" id="badge-menunggu"></label></span>
+                            <span class="nav-text">Menunggu Konfirmasi</span>
                         </a>
                     </li>
                     <li class="nav-item">
                         <a onclick="generateType('procces')" role="tab" style="font-size:14; font-weight:bold;" class="nav-link show" id="tab-c1-1" data-toggle="tab" href="#tab-animated1-1" aria-selected="false">
-                            <span class="nav-text">Diproses <label style="font-weight:bold;" id="badge-diproses"></label></span>
+                            <span class="nav-text">Diproses</span>
                         </a>
                     </li>
                     <li class="nav-item">
                         <a onclick="generateType('done')" role="tab" style="font-size:14; font-weight:bold;" class="nav-link show" id="tab-c1-2" data-toggle="tab" href="#tab-animated1-2" aria-selected="false">
-                            <span class="nav-text">Selesai <label style="font-weight:bold;" id="badge-selesai"></label></span>
+                            <span class="nav-text">Selesai</span>
                         </a>
                     </li>
                 </ul>
@@ -55,5 +55,5 @@
 @endsection
 
 @section('modals')
-  @include('logistik.listrequest.modals')
+  @include('ketua_lapangan.historyrequest.modals')
 @endsection

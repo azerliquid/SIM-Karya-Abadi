@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Response;
 use Yajra\DataTables\DataTables;
 use Validator;
+use Illuminate\Support\Facades\Auth;
 
 class BarangController extends Controller
 {
@@ -31,7 +32,12 @@ class BarangController extends Controller
             ->rawColumns(['aksi'])
             ->make(true);
         }
-        return view('logistik.barang.index');
+        if (Auth::user()->role == 'admin') {
+            return view('admin.logistik.barang.index');
+        }
+        if (Auth::user()->role == 'logistic') {
+            return view('logistik.barang.index');
+        }
     }
 
     /**

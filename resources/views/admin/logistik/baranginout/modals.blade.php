@@ -168,7 +168,7 @@
         let proyek;
         $.ajax({
             dataType: "json",
-            url : '/baranginout/create',
+            url : '{{ route("baranginout.create")}}',
             type: "GET",
             success: function(res) {
                 console.log(res);
@@ -274,7 +274,7 @@
     })
 
     $('#btn-tambah').on('click', function() {
-        var url = '/baranginout/store';
+        var url = '{{ route("baranginout.store") }}';
         const formData = $('#tambahForm').serialize();
         let totalItem = $('#totalItem').val();
         let tertuju = $("input[name='tertuju']:checked").val();

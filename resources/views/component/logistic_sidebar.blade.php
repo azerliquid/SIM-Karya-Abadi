@@ -33,31 +33,22 @@
             <ul class="vertical-nav-menu">
                 <li class="app-sidebar__heading">Logistik</li>
                 <li>
-                    <a href="#">
+                    <a href="/barang">
                         <i class="metismenu-icon pe-7s-tools"></i>
                         Barang
-                        <i class="metismenu-state-icon pe-7s-angle-down caret-left"></i>
                     </a>
-                    <ul>                    
-                        <li>
-                            <a href="/barang">
-                                <i class="metismenu-icon pe-7s-tools" ></i>
-                                Barang
-                            </a>
-                        </li>
-                        <li>
-                            <a href="/baranginout">
-                                <i class="metismenu-icon">
-                                </i>Keluar Masuk Barang
-                            </a>
-                        </li>
-                        <li>
-                            <a href="/listrequest">
-                                <i class="metismenu-icon">
-                                </i>Request Permintaan Bahan
-                            </a>
-                        </li>
-                    </ul>
+                </li>
+                <li>
+                    <a href="/baranginout">
+                        <i class="metismenu-icon pe-7s-tools"></i>
+                        Keluar Masuk Barang
+                    </a>
+                </li>
+                <li>
+                    <a href="/listrequest">
+                        <i class="metismenu-icon pe-7s-tools"></i>
+                        Permintaan Barang
+                    </a>
                 </li>
                 
                 <!-- <form method="POST" action="{{ route('logout') }}">

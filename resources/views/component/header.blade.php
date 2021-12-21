@@ -32,13 +32,13 @@
     <div class="app-header__content">
         <div class="app-header-left">
             <div class="search-wrapper">
-                <div class="input-holder">
+                <!-- <div class="input-holder">
                     <input type="text" class="search-input" placeholder="Type to search">
                     <button class="search-icon"><span></span></button>
                 </div>
-                <button class="close"></button>
+                <button class="close"></button> -->
             </div>
-            <ul class="header-menu nav">
+            <!-- <ul class="header-menu nav">
                 <li class="nav-item">
                     <a href="javascript:void(0);" class="nav-link">
                         <i class="nav-link-icon fa fa-database"> </i>
@@ -57,7 +57,8 @@
                         Settings
                     </a>
                 </li>
-            </ul>        </div>
+            </ul>         -->
+        </div>
         <div class="app-header-right">
             <div class="header-btn-lg pr-0">
                 <div class="widget-content p-0">
@@ -80,10 +81,10 @@
                         </div>
                         <div class="widget-content-left  ml-3 header-user-info">
                             <div class="widget-heading">
-                                Alina Mclourd
+                                {{ Auth::user()->name }}
                             </div>
                             <div class="widget-subheading">
-                                VP People Manager
+                                {{ Auth::user()->role}}
                             </div>
                         </div>
                         <div class="widget-content-right header-user-info ml-3">

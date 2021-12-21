@@ -8,6 +8,7 @@ use Response;
 use Yajra\DataTables\DataTables;
 use Validator;
 use App\Models\TenagaKerja;
+use Illuminate\Support\Facades\Auth;
 
 class ProjectController extends Controller
 {
@@ -36,7 +37,12 @@ class ProjectController extends Controller
             ->rawColumns(['aksi'])
             ->make(true);
         }
-        return view('hr.proyek.index');
+        if (Auth::user()->role == 'admin') {
+            return view('admin.hr.proyek.index');
+        }
+        if (Auth::user()->role == 'hr') {
+            return view('hr.proyek.index');
+        }
     }
 
     /**

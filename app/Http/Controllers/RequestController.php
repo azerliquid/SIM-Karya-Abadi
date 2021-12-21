@@ -8,6 +8,7 @@ use App\Models\RequestLogistic;
 use App\Models\DetailLogistic;
 use Response;
 use Carbon\Carbon;
+use DB;
 // use Auth;
 use Illuminate\Support\Facades\Auth;
 
@@ -21,6 +22,7 @@ class RequestController extends Controller
      */
     public function index(Request $request)
     {
+        // return Response::json(Auth::user()->id);
         if (Auth::user()->role == 'mandor') {
             return view('ketua_lapangan.historyrequest.index');
         }
@@ -153,27 +155,43 @@ class RequestController extends Controller
     public function showData($type)
     {
         if ($type == 'all') {
-            $data = RequestLogistic::with('head_project','project')
-            ->orderBy('created_at', 'DESC')
+            // $total = DB::table('request_logistic')
+            // ->select('status', DB::raw('count(*) as total'))
+            // ->groupBy('status')
+            // ->get();
+            $data = RequestLogistic::with('head_project','project');
+            if (Auth::user()->role == 'mandor') {
+                $data = $data->where('id_head_project', Auth::user()->id);
+            }
+            $data = $data->orderBy('created_at', 'DESC')
             ->orderBy('created_at', 'DESC')->get();
 
-            return $data;
+            return Response::json($data);
         }
         if ($type == 'waiting') {
-            $data = RequestLogistic::with('head_project','project')->where('status', 'Menunggu Konfirmasi')
-            ->orderBy('created_at', 'DESC')->get();
+            $data = RequestLogistic::with('head_project','project');
+            if (Auth::user()->role == 'mandor') {
+                $data = $data->where('id_head_project', Auth::user()->id);
+            }
+            $data = $data->where('status', 'Menunggu Konfirmasi')->orderBy('created_at', 'DESC')->get();
 
             return $data;
         }
         if ($type == 'procces') {
-            $data = RequestLogistic::with('head_project','project')->where('status', 'Diproses')
-            ->orderBy('created_at', 'DESC')->get();
+            $data = RequestLogistic::with('head_project','project');
+            if (Auth::user()->role == 'mandor') {
+                $data = $data->where('id_head_project', Auth::user()->id);
+            }
+            $data = $data->where('status', 'Diproses')->orderBy('created_at', 'DESC')->get();
 
             return $data;
         }
         if ($type == 'done') {
-            $data = RequestLogistic::with('head_project','project')->where('status', 'Selesai')
-            ->orderBy('created_at', 'DESC')->get();
+            $data = RequestLogistic::with('head_project','project');
+            if (Auth::user()->role == 'mandor') {
+                $data = $data->where('id_head_project', Auth::user()->id);
+            }
+            $data = $data->where('status', 'Selesai')->orderBy('created_at', 'DESC')->get();
 
             return $data;
         }
