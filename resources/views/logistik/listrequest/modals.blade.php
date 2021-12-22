@@ -53,7 +53,6 @@
             url : url,
             type: "GET",
             success: function(res) {
-                console.log(res);
                 // console.log("ini id Pro " + res.id);
                 // console.log("ini id : "+res.id);
                 // console.log(`#table-list-${res.id}`); 
@@ -65,6 +64,7 @@
                                     <td scope="row">${no}</td>
                                     <td>${res.data[j].barang.name}</td>
                                     <td style="text-align:center">${res.data[j].qty}</td>
+                                    ${cekStatus(res.data[j].status, res.data[j].qty_alocated, res.data[j].id)}
                                 </tr>`;
                 no++;
                 }
@@ -77,6 +77,18 @@
                 console.log(err.Message);
             }
         });
+    }
+    function setHeaderTable(id, status) {
+        if (status == 'Diproses' || status == 'Selesai') {
+            let table = $(`#table-content-${id} table thead tr`);
+            table.append('<th style="text-align:center">Alokasi</th>');
+        }
+    }
+    function cekStatus(status, qty_alocated, idtable) {
+        if (status == 'Diproses' || status == 'Selesai') {
+            $(`#tabel-list-${idtable} thead tr`).append('<tr>Alokasi</tr>');
+            return `<td style="text-align:center">${qty_alocated}</td>`;
+        }
     }
 
     function setLabelStatus(id, status) {
@@ -186,7 +198,8 @@
                         setTable(res[i].id);
                         setLabelStatus(res[i].id, res[i].status)
                         addButtonValidate(res[i].id, i, res[i].status)
-                        // console.log(res[i].id);s
+                        setHeaderTable(res[i].id, res[i].status)
+                        // console.log(res[i].id);
                     }
                 
                 }

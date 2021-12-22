@@ -7,12 +7,12 @@
 
     let rowData;
     $(document).ready(function() {
-        console.log('okeeee');
+        // console.log('okeeee');
         generateType('all');
     });
 
     function setTable(id) {
-        console.log(id);
+        // console.log(id);
         let url = `/listitem/${id}`;
         // url.replace(':id', id);
         $.ajax({
@@ -20,7 +20,7 @@
             url : url,
             type: "GET",
             success: function(res) {
-                console.log(res);
+                // console.log(res);
                 // console.log("ini id Pro " + res.id);
                 // console.log("ini id : "+res.id);
                 // console.log(`#table-list-${res.id}`); 
@@ -31,7 +31,8 @@
                     listBarang += `<tr>
                                     <th scope="row">${no}</th>
                                     <td>${res.data[j].barang.name}</td>
-                                    <td>${res.data[j].qty}</td>
+                                    <td style="text-align:center">${res.data[j].qty}</td>
+                                    ${cekStatus(res.data[j].status, res.data[j].qty_alocated, res.data[j].id)}
                                 </tr>`;
                 no++;
                 }
@@ -46,8 +47,22 @@
         });
     }
 
+    function setHeaderTable(id, status) {
+        if (status == 'Diproses' || status == 'Selesai') {
+            let table = $(`#table-content-${id} table thead tr`);
+            table.append('<th style="text-align:center">Alokasi</th>');
+        }
+    }
+    function cekStatus(status, qty_alocated, idtable) {
+        // console.log(idtable);
+        if (status == 'Diproses' || status == 'Selesai') {
+            $(`#tabel-list-${idtable} thead tr`).append('<tr>Alokasi</tr>');
+            return `<td style="text-align:center">${qty_alocated}</td>`;
+        }
+    }
+
     function setLabelStatus(id, status) {
-        console.log(id, status);
+        // console.log(id, status);
         let color;
         if (status == "Menunggu Konfirmasi") {
             color = 'text-warning';
@@ -56,7 +71,7 @@
         }if (status == "Selesai") {
             color = 'text-success';
         }
-        console.log(color);
+        // console.log(color);
         $(`#labelStatus-${id}`).addClass(color);
     }
 
@@ -120,7 +135,7 @@
                                             </tbody>
                                         </table>
                                     </div>
-                                    <div class="col-md-6">
+                                    <div class="col-md-6 removeClass" id="table-content-${res[i].id}">
                                     <h4 style="text-align:center">Data Barang</h4>
                                         <table class="mb-0 table table-sm" id="table-list-${res[i].id}">
                                             <thead>
@@ -140,6 +155,7 @@
                         </div>`);
                         setTable(res[i].id);
                         setLabelStatus(res[i].id, res[i].status)
+                        setHeaderTable(res[i].id, res[i].status)
                         // console.log();
                     }
                 
