@@ -86,6 +86,7 @@ Route::group(['middleware' => ['auth:sanctum', 'checkRole:logistic']], function(
     Route::get('/baranginout/create', [BarangInOutController::Class, 'create']);
     Route::post('/baranginout/store', [BarangInOutController::Class, 'store']);
     Route::get('/listrequest', [RequestController::Class, 'index']);
+    Route::post('/updaterequest', [RequestController::Class, 'saverequest']);
     // Route::get('/listrequest/create', [RequestController::Class, 'create']);
     Route::get('/listrequest/{type}', [RequestController::Class, 'showData']);
     Route::get('/listitemrequest/{id}', [RequestController::Class, 'getListItem']);
@@ -100,7 +101,7 @@ Route::group(['middleware' => ['auth:sanctum', 'checkRole:logistic']], function(
 
 Route::group(['middleware' => ['auth:sanctum', 'checkRole:mandor']], function()
 {
-    Route::resource('baranginout', ToolsInOutController::Class);
+    // Route::resource('baranginout', ToolsInOutController::Class);
     Route::get('/request', [RequestController::Class, 'showForm']);
     Route::get('/request/create', [RequestController::Class, 'create']);
     Route::post('/request/store', [RequestController::Class, 'store']);

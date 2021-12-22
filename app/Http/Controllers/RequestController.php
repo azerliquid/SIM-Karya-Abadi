@@ -197,4 +197,27 @@ class RequestController extends Controller
         }
         // return Response::json($type);
     }
+
+    public function saverequest(Request $request)
+    {
+        $request_order = RequestLogistic::find($request->idRequest);
+
+        $request_order->status = "Diproses";
+        $request_order->save();
+
+        $id_request = $request_order->id;
+        $listitem = $request->item;
+        // return Response::json($request->qty_alocated);
+
+
+        for ($i=0; $i < $request->totalItem ; $i++) { 
+            $detailRequest = DetailLogistic::find($listitem[$i]['idBarang']);
+
+            $detailRequest->qty_alocated = $listitem[$i]['qtyAlocated'];
+            $detailRequest->status = 'Diproses';
+            $detailRequest->save();
+        }
+
+        return Response::json(['sukses' => $request->all()]);
+    }
 }

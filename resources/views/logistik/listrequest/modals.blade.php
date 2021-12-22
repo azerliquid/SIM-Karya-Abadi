@@ -19,8 +19,10 @@
                         </div>
                     </div>
                 <div class="modal-footer">
+                <input type="number" name="idRequest" id="idRequest" value="" style="display:none;">
+                <!-- <input type="number" name="totalItem" id="totalItem" value="" style="display:none;"> -->
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary" id="btn-tambah">Save Data</button>
+                    <button type="button" class="btn btn-primary" id="btn-simpan-realisasi">Save Data</button>
                 </div>
                 </form>
             </div>
@@ -59,8 +61,8 @@
                 var no=1;
                 for (let j = 0; j < res.data.length; j++) {
                     // console.log(res);
-                    listBarang += `<tr>
-                                    <th scope="row">${no}</th>
+                    listBarang += `<tr id="${res.data[j].id}">
+                                    <td scope="row">${no}</td>
                                     <td>${res.data[j].barang.name}</td>
                                     <td style="text-align:center">${res.data[j].qty}</td>
                                 </tr>`;
@@ -139,8 +141,8 @@
                             <div class="card-body">
                                 <div class="row">
                                     <div class="col-md-6" style="background-color: " id="form-content-${res[i].id}">
+                                        <h3 id="status"><b class="" id="labelStatus-${res[i].id}">: </b></h5>
                                         <h5 id="noref">No Referensi <b>: ${res[i].no_reference}</b></h5>
-                                        <h5 id="status">Status <b class="" id="labelStatus-${res[i].id}">: </b></h5>
                                         <table style="width:100%">
                                             <tbody>
                                                 <tr id="baris-tertuju">
@@ -198,12 +200,11 @@
         })
     }
     function addButtonValidate(idData, id, status) {
-        console.log(id);
-        console.log(status);
+        // console.log(id);
+        // console.log(status);
         if (status == 'Menunggu Konfirmasi') {
         $('#list-'+id).append(`<div class="form-row">
                         <div class="mx-auto">
-                            <input type="text" name="idData-${idData}" id="totalItem" value="${idData}" style="display:none;">
                             <button class="btn-shadow btn btn-info" onclick="realisasi(${idData})" id="btn-realisasi" data-id="${idData}" data-toggle="modal" data-target="#modal-realisasi">
                                 Realisasi
                             </button>
@@ -212,34 +213,70 @@
         }
     }
 
-    // $('#modal-realisasi').on('show.bs.modal', function() {
-    //     $('#form-to-replace').empty();
-    //     let index = $(this).
-    //     let document = $('#form-content-0').html();
-    //     // console.log(document);
-    //     // console.log(typeof document);
-    //     $('#form-to-replace').html(document);
-    //     // $('#form-to-replace .removeClass').remove();
 
-
-
-    //     // console.log(document);
-    // })
-
-    function realisasi(params) {
-        $('#form-to-replace ').empty();
-        $('#table-to-replace ').empty();
-        let data = $('#form-content-'+params).html();
-        let table = $('#table-content-'+params).html();
+    function realisasi(id) {
+        // console.log(id);
+        $('#form-to-replace').empty();
+        $('#table-to-replace').empty();
+        let data = $('#form-content-'+id).html();
+        let table = $('#table-content-'+id).html();
         $('#form-to-replace ').html(data);
         $('#table-to-replace ').html(table);
         let row = $('#table-to-replace table tbody').children();
-        console.log(row);
         $('#table-to-replace table thead tr th:eq(2)').text('Permintaan');
         $('#table-to-replace table thead tr').append('<th style="width:20%">Jumlah Realisasi</th>');
-        let column ='<td><input type="number"></td>';
+        let totalItem = 0;
         for (let i = 0; i < row.length; i++) {
-            $(`#table-to-replace table tbody tr:eq(${i})`).append(column);
+            $(`#table-to-replace table tbody tr:eq(${i})`).append(`<td><input name="item-${i}" type="number" value=""></td>`);
+            totalItem += 1
         }
+        // console.log(totalItem);
+        // $("input[name='totalItem']").val(totalItem);
+        $("input[name='idRequest']").val(id);
     }
+    
+    $('#btn-simpan-realisasi').on('click', function () {
+        let idRequest = $("input[name='idRequest']").val();
+        let table = $('#table-to-replace table tbody tr');
+        // let totalItem = $("input[name='totalItem']").val();
+
+        let data = {
+            idRequest : idRequest,
+            totalItem : table.length
+        }
+
+        let item = [];
+
+        // console.log(table);
+        for (let i = 0; i < table.length; i++) {
+            const element = table[i]
+            // console.log(element);
+            let idBarang = element.id
+            let qtyRequest = element.children[2].innerText
+            let qtyAlocated = element.children[3].children[0].value
+            console.log(qtyRequest);
+
+            item.push({
+                idBarang,
+                qtyRequest,
+                qtyAlocated
+            })
+        }
+
+        data.item = item;
+        console.log(data);
+
+        $.ajax({
+            url : '/updaterequest',
+            method: 'POST',
+            data: data,
+            success: function(res) {
+                console.log(res);
+            },
+            error:function(error){
+                console.log(error.responseText);
+            }
+        })
+        
+    })
 </script>
