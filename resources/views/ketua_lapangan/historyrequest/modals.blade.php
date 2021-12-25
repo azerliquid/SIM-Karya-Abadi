@@ -156,6 +156,7 @@
                         setTable(res[i].id);
                         setLabelStatus(res[i].id, res[i].status)
                         setHeaderTable(res[i].id, res[i].status)
+                        addButtonValidate(res[i].id, i, res[i].status)
                         // console.log();
                     }
                 
@@ -166,6 +167,35 @@
                 console.log(xhr.responseText);
                 console.log(thrownError);
                 console.log(err.Message);
+            }
+        })
+    }
+
+    
+    function addButtonValidate(idData, id, status) {
+        // console.log(idData);
+        // console.log(status);
+        if (status == 'Diproses') {
+        $('#list-'+id).append(`<div class="form-row">
+                        <div class="mx-auto">
+                            <button class="btn-shadow btn btn-info" onclick="konfirmasi(${idData})" id="btn-realisasi" data-id="${idData}">
+                                Konfirmasi Diterima
+                            </button>
+                        </div>
+                    </div>` );
+        }
+    }
+
+    function konfirmasi(idData) {
+        $.ajax({
+            url : `/confirmrequest/${idData}`,
+            method: 'GET',
+            data: idData,
+            success: function(res) {
+                console.log(res);
+            },
+            error:function(error){
+                console.log(error.responseText);
             }
         })
     }

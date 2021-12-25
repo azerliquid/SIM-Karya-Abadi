@@ -10,5 +10,10 @@ class Barang extends Model
     use HasFactory;
 
     protected $table = 'barang';
-    protected $fillable = ['name', 'stock_min'];
+    protected $fillable = ['name', 'unit'];
+
+    public function baranginout()
+    {
+        return $this->hasMany(BarangInOut::class, 'id_barang', 'id');
+    }
 }

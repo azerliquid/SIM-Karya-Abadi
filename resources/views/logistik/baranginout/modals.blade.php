@@ -253,9 +253,10 @@
             {data: 'DT_RowIndex', name: 'DT_RowIndex', orderable: false, searchable: false},
             {data: 'date', name: 'date'},
             {data: 'type', name: 'type'},
+            {data: 'barang', name: 'barang'},
+            {data: 'qty', name: 'qty'},
             {data: 'destination', name: 'destination'},
-            {data: 'id_destination', name: 'id_destination'},
-            {data: 'description', name: 'description'},
+            {data: 'proyek', name: 'proyek'},
             {data: 'aksi', name: 'aksi', orderable: false, searchable: false},
         ],
         language: {

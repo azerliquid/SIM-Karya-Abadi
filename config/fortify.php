@@ -64,16 +64,16 @@ return [
     'home' => function ()
     {
         if (Auth::user()->role == 'admin') {
-            return route('barang.index');
-         }
-         if (Auth::user()->role == 'hr') {
-             return route('proyek.index');
-         }
-         if (Auth::user()->role == 'logistic') {
-             return route('barang.index');
-         }
-         if (Auth::user()->role == 'mandor') {
-             return route('request.index');
+            return redirect('/');
+        }
+        if (Auth::user()->role == 'hr') {
+            return redirect('/');
+        }
+        if (Auth::user()->role == 'logistic') {
+            return redirect('/');
+        }
+        if (Auth::user()->role == 'mandor') {
+            return redirect('/');
          }
     },
 

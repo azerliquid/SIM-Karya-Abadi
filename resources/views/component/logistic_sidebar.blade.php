@@ -50,6 +50,17 @@
                         Permintaan Barang
                     </a>
                 </li>
+                <form method="POST" action="{{ route('logout') }}">
+                <li>
+                                @csrf
+                    <a href="{{ route('logout') }}"
+                                         onclick="event.preventDefault();
+                                                this.closest('form').submit();">
+                        <i class="metismenu-icon pe-7s-display2"></i>
+                        Logout
+                    </a>
+                </li>
+                </form>
                 
                 <!-- <form method="POST" action="{{ route('logout') }}">
                     @csrf

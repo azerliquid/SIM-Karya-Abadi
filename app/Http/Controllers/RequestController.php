@@ -130,8 +130,13 @@ class RequestController extends Controller
     public function showForm()
     {
         // return Response::json(Auth::user());
-        $last_id = RequestLogistic::latest()->first()->id;
-        $noref = Carbon::now()->format('ymd') . Auth::user()->id. $last_id;
+        $today = Carbon::today()->toDateString();
+        // $last_id = RequestLogistic::latest()->first()->id;
+        $last_id = RequestLogistic::whereDate('created_at', $today)->where('id_head_project', Auth::user()->id)->get();
+        $total = count($last_id);
+        // return Response::json($total);
+        $id = $total == 0 ? 1 : $total + 1 ;
+        $noref = Carbon::now()->format('ymd') . Auth::user()->id. $id;
         // $no_ref = ; 
 
 
@@ -216,8 +221,24 @@ class RequestController extends Controller
             $detailRequest->qty_alocated = $listitem[$i]['qtyAlocated'];
             $detailRequest->status = 'Diproses';
             $detailRequest->save();
+
+            $updateStock = Barang::find($detailRequest->id_barang);
+            // return Response::json($updateStock);
+            $updateStock->stock_now = $updateStock->stock_now - $listitem[$i]['qtyAlocated'];
+            $updateStock->save();
         }
 
-        return Response::json(['sukses' => $request->all()]);
+        return Response::json(['sukses' => 'Data berhasil diinput']);
+    }
+
+    public function setselesai($id)
+    {
+        $request_logistic = RequestLogistic::find($id);
+        $request_logistic->status = 'Selesai';
+        $request_logistic->save();
+
+        $detail_request = DetailLogistic::where('id_logistic', $id)->update(['status' => 'Selesai']);
+        return Response::json('sukses');
+
     }
 }

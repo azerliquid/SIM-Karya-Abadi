@@ -20,6 +20,11 @@ Use App\Http\Controllers\RequestController;
 */
 
 Route::get('/', function () {
+    // session_destroy();
+    // Auth::logout();
+    // dd(Auth::user());
+    // session_destroy();
+
     
     // $user = Hash::make("admin");
     // return response()->json($user);
@@ -80,6 +85,8 @@ Route::group(['middleware' => ['auth:sanctum', 'checkRole:logistic']], function(
     // Route::resource('barang', BarangController::Class);  
     Route::get('/barang', [BarangController::Class, 'index']);
     Route::post('/barang', [BarangController::Class, 'store']);
+    Route::get('/showdetail/{id}', [BarangController::Class, 'showDetail']);
+    Route::put('/detailBarang/{id}', [BarangController::Class, 'detailBarang']);
     Route::put('/barang/{id}', [BarangController::Class, 'update']);
     Route::delete('/barang/{id}', [BarangController::Class, 'destroy']);
     Route::get('/baranginout', [BarangInOutController::Class, 'index']);
@@ -105,6 +112,7 @@ Route::group(['middleware' => ['auth:sanctum', 'checkRole:mandor']], function()
     Route::get('/request', [RequestController::Class, 'showForm']);
     Route::get('/request/create', [RequestController::Class, 'create']);
     Route::post('/request/store', [RequestController::Class, 'store']);
+    Route::get('/confirmrequest/{id}', [RequestController::Class, 'setselesai']);
     Route::get('/historyrequest', [RequestController::Class, 'index']);
     Route::get('/historyrequest/{type}', [RequestController::Class, 'showData']);
     Route::get('/listitem/{id}', [RequestController::Class, 'getListItem']);

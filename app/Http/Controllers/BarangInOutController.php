@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Models\BarangInOut;
 use App\Models\Barang;
 use App\Models\Project;
-use App\Models\ListItem;
 use Illuminate\Http\Request;
 // use App\Models\ToolsInOut;
 use Response;
@@ -26,11 +25,11 @@ class BarangInOutController extends Controller
                 // return $date;
         
         // $date = new Carbon;
-        // return Response::json($date);
+        // return Response::json($data);
         if ($request->ajax()) {
             return Datatables::of($data)
             ->addIndexColumn()
-            ->addColumn('date_in', function($row)
+            ->addColumn('date', function($row)
             {
                 $date = Carbon::parse($row->date_in)->isoFormat('ddd, D MMM Y');
                 return $date;
@@ -42,13 +41,8 @@ class BarangInOutController extends Controller
             })
             ->addColumn('proyek', function($row)
             {
-                $prj = $row->project->name_project;
+                $prj = $row->project ? $row->project->name_project : "-" ;
                 return $prj;
-            })
-            ->addColumn('stock_out', function($row)
-            {
-                $out = $row->stock_out == 0 ? "-" : $row->stock_out;
-                return $out;
             })
             ->addColumn('aksi', function($row)
             {
@@ -56,7 +50,7 @@ class BarangInOutController extends Controller
                 $btn .= '<button class="mb-2 mr-2 btn btn-sm btn-danger btnHapus" data-id="'.$row->id.'" type="button" data-toggle="tooltip" title="Hapus" data-placement="bottom"><i class="pe-7s-trash"></button>';                
                 return $btn ;
             })
-            ->rawColumns(['date_in','barang', 'proyek', 'aksi', 'stock_out'])
+            ->rawColumns(['date','barang', 'proyek', 'aksi'])
             ->make(true);
         }
         
@@ -84,72 +78,49 @@ class BarangInOutController extends Controller
     public function store(Request $request)
     {
         $data = $request->data;
-        
-
         // return Response::json($data['listItem']);
-
-        // insert record logistic masuk
-        
-        $logistic = new BarangInOut;
-        $logistic->type = $data['type'];
-        $logistic->destination = "Kantor";
-        $logistic->id_destination = 0;
-        $logistic->description = $data['keterangan'] == NULL ? NULL : $data['keterangan'];
-
-        $logistic->save();
-
-        $id = $logistic->id;
 
         $totalItem = count($data['listItem']);
         $dataItem = $data['listItem'];
+        $datenow = Carbon::now();
 
         // return Response::json($dataItem[0]);
 
-        // update stok item
+        // update barang masuk/keluar
         for ($i=0; $i < $totalItem; $i++) { 
-            $item = new ListItem;
-            $item->id_logistic = $id;
-            $item->type = $data['type'];
-            $item->id_barang = $dataItem[$i]['id_barang'];
-            $item->qty = $dataItem[$i]['qty'];
-            $item->status = "Selesai";
-
-            $item->save();
-            $barang = Barang::find($dataItem[$i]['id_barang']);
-            $barang->stock_now = $barang->stock_now + $dataItem[$i]['qty'];
-            $barang->save();
+            $logistic = new BarangInOut;
+            $logistic->date = $datenow;
+            $logistic->type = $data['type'];
+            $logistic->destination = $data['tertuju'];
+            $logistic->id_destination = $data['tertuju'] == 'Kantor' ? 0 : $data['lokasi'];
+            $logistic->id_barang = $dataItem[$i]['id_barang'];
+            $logistic->qty = $dataItem[$i]['qty'];
             
-        }
+            $logistic->save();
 
-        if ($data['tertuju'] == "Proyek") {
-            $logisticout = new BarangInOut;
-            $logisticout->type = "Keluar";
-            $logisticout->destination = $data['tertuju'];
-            $logisticout->id_destination = $data['lokasi'];
-            $logisticout->description = $data['keterangan'] == NULL ? NULL : $data['keterangan'];
-
-            $logisticout->save();
-
-            $id = $logisticout->id;
-
-            $totalItem = count($data['listItem']);
-            $dataItem = $data['listItem'];
-
-            for ($i=0; $i < $totalItem; $i++) { 
-                $item = new ListItem;
-                $item->id_logistic = $id;
-                $item->type = "Keluar";
-                $item->id_barang = $dataItem[$i]['id_barang'];
-                $item->qty = $dataItem[$i]['qty'];
-                $item->status = "Selesai";
-    
-                $item->save();
+            // update stok barang
+            if ($data['tertuju'] == "Kantor") {
                 $barang = Barang::find($dataItem[$i]['id_barang']);
-                $barang->stock_now = $barang->stock_now - $dataItem[$i]['qty'];
+                $barang->stock_now = $barang->stock_now + $dataItem[$i]['qty'];
                 $barang->save();
-                
+            }
+            
+            if ($data['tertuju'] == "Proyek") {
+                for ($i=0; $i < $totalItem; $i++) { 
+                    $logisticout = new BarangInOut;
+                    $logisticout->date = $datenow;
+                    $logisticout->type = "Keluar";
+                    $logisticout->destination = $data['tertuju'];
+                    $logisticout->id_destination = $data['lokasi'];
+                    $logisticout->id_barang = $dataItem[$i]['id_barang'];
+                    $logisticout->qty = $dataItem[$i]['qty'];
+                    // $logisticout->description = $data['keterangan'] == NULL ? NULL : $data['keterangan'];
+        
+                    $logisticout->save();
+                }
             }
         }
+
         return Response::json("sukses");
     }
 

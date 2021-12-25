@@ -189,6 +189,7 @@
         $('#hapusBarangModal').modal();
     })
 
+
     $('#btn-hapus').on('click', function() {
         event.preventDefault();
         var dataId = $(this).data('id');

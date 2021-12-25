@@ -63,9 +63,10 @@
                             <th>#</th>
                             <th>Tanggal</th>
                             <th>Jenis</th>
-                            <th>No Referensi</th>
+                            <th>Barang</th>
+                            <th>Qty</th>
+                            <th>Tujuan</th>
                             <th>Lokasi</th>
-                            <th>Keterangan</th>
                             <th>Aksi</th>
                         </tr>
                         </thead>

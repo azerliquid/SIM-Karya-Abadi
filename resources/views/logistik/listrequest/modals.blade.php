@@ -290,6 +290,5 @@
                 console.log(error.responseText);
             }
         })
-        
     })
 </script>
