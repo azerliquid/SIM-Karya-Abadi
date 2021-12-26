@@ -285,6 +285,17 @@
             data: data,
             success: function(res) {
                 console.log(res);
+                if (res == 'sukses') {
+                    swal({
+                        title: "Sukses!",
+                        text: `Konfirmasi Permintaan Material Berhasil Masuk Sistem !`,
+                        icon: "success",
+                        button : false,
+                    });
+                    setTimeout(function(){
+                    window.location.reload();
+                    }, 2000);
+                }
             },
             error:function(error){
                 console.log(error.responseText);

@@ -30,6 +30,9 @@
     <!-- Select2 CSS --> 
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/css/select2.min.css" rel="stylesheet" /> 
 
+    <!-- <link href="https://cdn.datatables.net/buttons/2.1.0/css/buttons.dataTables.min.css" rel="stylesheet" /> 
+    <link href="https://cdn.datatables.net/1.11.3/css/jquery.dataTables.min.css" rel="stylesheet" />  -->
+
     <style>
         input::-webkit-outer-spin-button,
         input::-webkit-inner-spin-button {

@@ -18,55 +18,62 @@
         </div>
     </div>
     <div class="tab-content">
-        <div class="main-card mb-2 card">
+        <div class="main-card mb-2 p-3 card">
             <div class="card-body">
-                <h5 class="card-title">Masukan Data Permintaan Barang</h5>
-                <div class="inputItem">
-                    <form action="" class="form-row" id="tambahForm">
-                    <!-- <div class="row">
-                        <div class="col-md-12">
-                            <div class="position-relative form-group" id="request-barang">
-                            <label for="exampleText" class="">Alokasi Tanggal</label>
-                            <input type="date" id="birthday" name="birthday">
+                <h2 class="card-title mb-3" style="font-size:1.4em; text-align:center;">Masukan Data Permintaan Barang</h2>
+                <form action="" id="tambahForm">
+                    <div class="inputItem">
+                        <div class="form-row mb-2">
+                            <div class="col-md-12">
+                                <h5>No Referensi : <b>{{$no_ref}}</b></h5>
+                                <input type="hidden" name="noref" id="noref" value="{{$no_ref}}">
+                            </div>
                         </div>
-                    </div> -->
-                    <div class="row">
-                        <div class="col-md-12">
-                            <h5>No Referensi : <b>{{$no_ref}}</b></h5>
-                            <input type="hidden" name="noref" id="noref" value="{{$no_ref}}">
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-7">
-                            <div class="position-relative form-group" id="request-barang">
-                                <label for="name-barang" class="">Nama Barang</label>
-                                <select type="select" id="selectBarang-1" name="barang-1" onchange="getStock(1)" class="custom-select selectBarang">
-                                    <option style='font-weight: bolder;' value=''>-- Pilih Barang --</option>
+                        <div class="form-row mb-2" >
+                            <div class="col-md-6">
+                                <label>Tujuan Proyek : </label>
+                                <select type="select" id="selectProyek" name="proyek" class="custom-select selectProyek">
+                                    <option style='font-weight: bolder;' value=''>-- Pilih Tujuan Proyek --</option>
                                 </select>
                             </div>
-                        </div>
-                        <div class="col-md-2">
-                            <div class="position-relative form-group" id="request-stock-available">
-                                <label for="exampleText" class="">Stok Tersedia</label>
-                                <input name="stock-1" id="exampleText" class="form-control" type="number" disabled></input>
+                            <div class="col-md-6">
+                                <label>Tanggal Permintaan : </label>
+                                <div>
+                                    <input type="datetime-local" name="date_masuk" id="date_masuk">
+                                </div>
                             </div>
                         </div>
-                        <div class="col-md-2">
-                            <div class="position-relative form-group" id="request-stock_in">
-                                <label for="exampleText" class="">Permintaan</label>
-                                <input name="qty-1" id="exampleText" class="form-control" type="number"></input>
+                        <div class="form-row mb-2">
+                            <div class="col-md-7">
+                                <div class="position-relative form-group" id="request-barang">
+                                    <label for="name-barang" class="">Nama Barang</label>
+                                    <select type="select" id="selectBarang-1" name="barang-1" onchange="getStock(1)" class="custom-select selectBarang">
+                                        <option style='font-weight: bolder;' value=''>-- Pilih Barang --</option>
+                                    </select>
+                                </div>
                             </div>
+                            <div class="col-md-2">
+                                <div class="position-relative form-group" id="request-stock-available">
+                                    <label for="exampleText" class="">Stok Tersedia</label>
+                                    <input name="stock-1" id="exampleText" class="form-control" type="number" disabled></input>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="position-relative form-group" id="request-stock_in">
+                                    <label for="exampleText" class="">Permintaan</label>
+                                    <input name="qty-1" id="exampleText" class="form-control" type="number"></input>
+                                </div>
+                            </div>
+                            <div class="col-md-1">
+                                <div class="position-relative form-group" id="request-stock_in">
+                                    <label for="exampleText" class="">Satuan</label>
+                                    <br>
+                                    <label id="satuan-1" class="" style="font-weight: bold"></label>
+                                </div>
+                            </div>    
                         </div>
-                        <div class="col-md-1">
-                            <div class="position-relative form-group" id="request-stock_in">
-                                <label for="exampleText" class="">Satuan</label>
-                                <br>
-                                <label id="satuan-1" class="" style="font-weight: bold"></label>
-                            </div>
-                        </div>    
                     </div>
-                    </form>
-                </div>
+                </form>
                 <div class="form-row">
                     <div class="mx-auto">
                         <input type="text" name="total_item" id="totalItem" value="1" style="display:none;">

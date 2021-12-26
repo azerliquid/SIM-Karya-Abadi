@@ -63,14 +63,15 @@ return [
 
     'home' => function ()
     {
+        // dd(Auth::user()->role);
         if (Auth::user()->role == 'admin') {
-            return redirect('/');
+            return redirect('/barang');
         }
         if (Auth::user()->role == 'hr') {
-            return redirect('/');
+            return redirect('/project');
         }
         if (Auth::user()->role == 'logistic') {
-            return redirect('/');
+            return redirect('/barang');
         }
         if (Auth::user()->role == 'mandor') {
             return redirect('/');

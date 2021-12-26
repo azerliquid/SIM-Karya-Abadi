@@ -9,9 +9,7 @@
     let index_select = 2;
 
     $(document).ready(function(params) {
-        // $('.datepicker').datetimepicker({
-        //     format: 'dd/mm/yyyy'
-        // });
+        // $('#date_masuk').datepicker({  startDate: new Date() });
         let proyek;
         $.ajax({
             dataType: "json",
@@ -20,8 +18,10 @@
             success: function(res) {
                 // console.log(res);
                 
-                barang = res;
-                setSelectOpt(1, res);
+                proyek = res['proyek'];
+                barang = res['barang'];
+                setSelectOpt(1, barang);
+                setSelectOptPro(proyek);
                 
                 // let opt = ;
             },
@@ -34,7 +34,13 @@
         })
     })
 
-    
+    function setSelectOptPro(pry) {
+        for (let j = 0; j < pry.length; j++) {
+            let optpro = `<option value='${pry[j].id}' style="">${pry[j].name_project}</option>`;
+            $('#selectProyek').append(optpro)
+            
+        }
+    }
 
     function setSelectOpt(index, brg) {
         // console.log(brg);
@@ -121,11 +127,15 @@
         let totalItem = $('#totalItem').val();
         let noref = $('#noref').val();
         let keterangan = $("textarea[name='keterangan']").val();
+        let date_masuk = $("input[name='date_masuk']").val();
+        let optpro = $("select[name='proyek']").val();
         // console.log(keterangan);
         let data = {
             keterangan : keterangan,
             noref : noref,
-            type: "Keluar"
+            type: "Keluar",
+            date_minta: date_masuk,
+            proyek: optpro,
         }
 
         let dataItem = [];
@@ -144,6 +154,7 @@
 
         data.listItem = dataItem;
         console.log(data);
+        console.log($('#date_masuk').val());
 
         $.ajax({
             url: url,
@@ -153,10 +164,27 @@
             },
             success: function(res){
                 console.log(res);
+                if (res == 'sukses') {
+                    swal({
+                        title: "Sukses!",
+                        text: `Permintaan Material Berhasil Masuk Sistem !`,
+                        icon: "success",
+                        button : false,
+                    });
+                    setTimeout(function(){
+                    window.location.reload();
+                    }, 2000);
+                }
+                
             },
             error:function(error){
                 console.log(error.responseText);
             }
         });
     })
+    
+    // $('.datepicker').datepicker({
+    //     format: 'dd/mm/yyyy',
+    //     startDate: '-3d'
+    // });
 </script>

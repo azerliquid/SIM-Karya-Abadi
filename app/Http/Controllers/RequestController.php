@@ -6,6 +6,9 @@ use Illuminate\Http\Request;
 use App\Models\Barang;
 use App\Models\RequestLogistic;
 use App\Models\DetailLogistic;
+use App\Models\Project;
+use App\Models\TenagaKerja;
+use App\Models\BarangInOut;
 use Response;
 use Carbon\Carbon;
 use DB;
@@ -38,9 +41,12 @@ class RequestController extends Controller
      */
     public function create()
     {
+        $tenaga = TenagaKerja::where('id_user',  Auth::user()->id)->first();
         $barang = Barang::where('deleted', 0)->get();
+        $proyek = Project::where('deleted', 0)->where('head_project', $tenaga->id)->get();
+        $data = array('barang' => $barang, 'proyek' => $proyek );
         // $proyek = Project::select( 'id', 'name_project')->where('status', 'Aktif')->where('deleted', 0)->get();
-        return Response::json($barang);
+        return Response::json($data);
     }
 
     /**
@@ -56,8 +62,8 @@ class RequestController extends Controller
         if ($request->ajax()) {
             $request_order = new RequestLogistic;
             $request_order->no_reference = $request->data['noref'];
-            $request_order->date_procurement = $now;
-            $request_order->id_project = 24;
+            $request_order->date_procurement = $request->data['date_minta'];
+            $request_order->id_project = $request->data['proyek'];
             $request_order->id_head_project = Auth::user()->id;
             $request_order->status = "Menunggu Konfirmasi";
             $request_order->description = $request->data['keterangan'];
@@ -78,7 +84,7 @@ class RequestController extends Controller
                 $listitem->save();
 
             }
-            return Response::json(['sukses' => 'data berhasil masuk']);
+            return Response::json('sukses');
         }
     }
 
@@ -228,7 +234,7 @@ class RequestController extends Controller
             $updateStock->save();
         }
 
-        return Response::json(['sukses' => 'Data berhasil diinput']);
+        return Response::json('sukses');
     }
 
     public function setselesai($id)
@@ -237,7 +243,22 @@ class RequestController extends Controller
         $request_logistic->status = 'Selesai';
         $request_logistic->save();
 
-        $detail_request = DetailLogistic::where('id_logistic', $id)->update(['status' => 'Selesai']);
+        // set selesai detail
+        
+        $detail_request = DetailLogistic::where('id_logistic', $id)->get();
+
+        // push data to logistic table
+        for ($i=0; $i < count($detail_request) ; $i++) {
+            $logistic = new BarangInOut;
+            $logistic->date = $request_logistic->date_procurement;
+            $logistic->type = "Keluar";
+            $logistic->destination = "Proyek";
+            $logistic->id_destination = $request_logistic->id_project;
+            $logistic->id_barang = $detail_request[$i]->id_barang;
+            $logistic->qty = $detail_request[$i]->qty_alocated;
+            $logistic->save();
+        }
+        
         return Response::json('sukses');
 
     }

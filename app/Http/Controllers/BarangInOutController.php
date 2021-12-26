@@ -31,7 +31,7 @@ class BarangInOutController extends Controller
             ->addIndexColumn()
             ->addColumn('date', function($row)
             {
-                $date = Carbon::parse($row->date_in)->isoFormat('ddd, D MMM Y');
+                $date = Carbon::parse($row->date)->isoFormat('ddd, D MMM Y');
                 return $date;
             })
             ->addColumn('barang', function($row)
@@ -91,8 +91,8 @@ class BarangInOutController extends Controller
             $logistic = new BarangInOut;
             $logistic->date = $datenow;
             $logistic->type = $data['type'];
-            $logistic->destination = $data['tertuju'];
-            $logistic->id_destination = $data['tertuju'] == 'Kantor' ? 0 : $data['lokasi'];
+            $logistic->destination = 'Kantor';
+            $logistic->id_destination = 0 ;
             $logistic->id_barang = $dataItem[$i]['id_barang'];
             $logistic->qty = $dataItem[$i]['qty'];
             
