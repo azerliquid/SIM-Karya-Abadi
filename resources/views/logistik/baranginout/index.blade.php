@@ -34,17 +34,17 @@
                 <div class="card-body">
                     <ul class="tabs-animated-shadow nav-justified tabs-animated nav">
                         <li class="nav-item">
-                            <a onclick="generateType('all')" role="tab" style="font-size:12; font-weight:bold;" class="nav-link active show" id="tabs-all" data-toggle="tab" href="" aria-selected="true">
+                            <a onclick="generateDatatable('All')" role="tab" style="font-size:12; font-weight:bold;" class="nav-link active show" id="tabs-all" data-toggle="tab" href="" aria-selected="true">
                                 <span class="nav-text">Semua <label style="font-weight:bold;" id="badge-semua"></label></span>
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a onclick="generateType('masuk')" role="tab" style="font-size:14; font-weight:bold;" class="nav-link show" id="tab-c1-1" data-toggle="tab" href="#tab-animated1-1" aria-selected="false">
+                            <a onclick="generateDatatable('Masuk')" role="tab" style="font-size:14; font-weight:bold;" class="nav-link show" id="tab-c1-1" data-toggle="tab" href="#tab-animated1-1" aria-selected="false">
                                 <span class="nav-text">Masuk<label style="font-weight:bold;" id="badge-menunggu"></label></span>
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a onclick="generateType('keluar')" role="tab" style="font-size:14; font-weight:bold;" class="nav-link show" id="tab-c1-1" data-toggle="tab" href="#tab-animated1-1" aria-selected="false">
+                            <a onclick="generateDatatable('Keluar')" role="tab" style="font-size:14; font-weight:bold;" class="nav-link show" id="tab-c1-1" data-toggle="tab" href="#tab-animated1-1" aria-selected="false">
                                 <span class="nav-text">Keluar<label style="font-weight:bold;" id="badge-diproses"></label></span>
                             </a>
                         </li>
@@ -67,7 +67,6 @@
                             <th>Qty</th>
                             <th>Tujuan</th>
                             <th>Lokasi</th>
-                            <th>Aksi</th>
                         </tr>
                         </thead>
                         <tbody>

@@ -49,14 +49,25 @@
                                 </a>
                             </li>
                             <li>
-                                <a href="{{route('proyek.index')}}">
+                                <a href="/proyek">
                                     <i class="metismenu-icon">
                                     </i>Proyek
                                 </a>
                             </li>
                         </ul>
+                        
                     </li>
-                
+                    
+                <form method="POST" action="{{ route('logout') }}">
+                    <li>
+                                    @csrf
+                        <a href="{{ route('logout') }}"
+                                            onclick="event.preventDefault();
+                                                    this.closest('form').submit();">
+                            <i class="metismenu-icon pe-7s-display2"></i>
+                            Logout
+                        </a>
+                    </li>
             </ul>
         </div>
     </div>

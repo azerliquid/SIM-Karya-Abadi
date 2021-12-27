@@ -20,40 +20,6 @@ class BarangInOutController extends Controller
      */
     public function index(Request $request)
     {
-        $data = BarangInOut::with('barang', 'project')->get();
-        // $date = Carbon::createFromDate('d/m/Y', $data[0]->date_in);
-                // return $date;
-        
-        // $date = new Carbon;
-        // return Response::json($data);
-        if ($request->ajax()) {
-            return Datatables::of($data)
-            ->addIndexColumn()
-            ->addColumn('date', function($row)
-            {
-                $date = Carbon::parse($row->date)->isoFormat('ddd, D MMM Y');
-                return $date;
-            })
-            ->addColumn('barang', function($row)
-            {
-                $brg = $row->barang->name;
-                return $brg;
-            })
-            ->addColumn('proyek', function($row)
-            {
-                $prj = $row->project ? $row->project->name_project : "-" ;
-                return $prj;
-            })
-            ->addColumn('aksi', function($row)
-            {
-                $btn = '<button class="mb-2 mr-2 btn btn-sm btn-warning btnEdit" data-id="'.$row->id.'" type="button" data-toggle="tooltip" title="Edit" data-placement="bottom"><i class="pe-7s-pen"></i></button>';
-                $btn .= '<button class="mb-2 mr-2 btn btn-sm btn-danger btnHapus" data-id="'.$row->id.'" type="button" data-toggle="tooltip" title="Hapus" data-placement="bottom"><i class="pe-7s-trash"></button>';                
-                return $btn ;
-            })
-            ->rawColumns(['date','barang', 'proyek', 'aksi'])
-            ->make(true);
-        }
-        
         return view('logistik.baranginout.index');
     }
 
@@ -77,6 +43,7 @@ class BarangInOutController extends Controller
      */
     public function store(Request $request)
     {
+        // return Response::json('sini');
         $data = $request->data;
         // return Response::json($data['listItem']);
 
@@ -168,5 +135,48 @@ class BarangInOutController extends Controller
     public function destroy(BarangInOut $BarangInOut)
     {
         //
+    }
+
+    public function showData(Request $request, $type)
+    {
+        // $date = Carbon::createFromDate('d/m/Y', $data[0]->date_in);
+                // return $date;
+        
+        $data = $this->setDataByType($type);
+        if ($request->ajax()) {
+            // $date = new Carbon;
+            // return Response::json($type);
+            
+            return Datatables::of($data)
+            ->addIndexColumn()
+            ->addColumn('date', function($row)
+            {
+                $date = Carbon::parse($row->date)->isoFormat('ddd, D MMM Y');
+                return $date;
+            })
+            ->addColumn('barang', function($row)
+            {
+                $brg = $row->barang->name;
+                return $brg;
+            })
+            ->addColumn('proyek', function($row)
+            {
+                $prj = $row->project ? $row->project->name_project : "-" ;
+                return $prj;
+            })
+            ->rawColumns(['date','barang', 'proyek'])
+            ->make(true);
+        }
+        
+    }
+
+    public function setDataByType($tp)
+    {
+        if ($tp == 'All') {
+            return BarangInOut::with('barang', 'project')->orderBy('created_at', 'DESC')->get();
+        }
+        if ($tp == 'Masuk' || 'Keluar') {
+            return BarangInOut::where('type', $tp)->with('barang', 'project')->orderBy('created_at', 'DESC')->get();
+        }
     }
 }

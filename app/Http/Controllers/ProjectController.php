@@ -8,7 +8,9 @@ use Response;
 use Yajra\DataTables\DataTables;
 use Validator;
 use App\Models\TenagaKerja;
+use App\Models\BarangInOut;
 use Illuminate\Support\Facades\Auth;
+use Carbon\Carbon;
 
 class ProjectController extends Controller
 {
@@ -30,8 +32,9 @@ class ProjectController extends Controller
             ->addIndexColumn()
             ->addColumn('aksi', function($row)
             {
-                $btn = '<button class="mb-2 mr-2 btn btn-sm btn-warning btnEdit" data-id="'.$row->id.'" type="button" data-toggle="tooltip" title="Edit" data-placement="bottom"><i class="pe-7s-pen"></i></button>';
-                $btn .= '<button class="mb-2 mr-2 btn btn-sm btn-danger btnHapus" data-id="'.$row->id.'" type="button" data-toggle="tooltip" title="Hapus" data-placement="bottom"><i class="pe-7s-trash"></button>';
+                $btn = '<a href="/proyek/show/'.$row->id.'" class="mb-2 mr-2 btn btn-sm btn-info btnDetail" data-id="'.$row->id.'" type="button" data-toggle="tooltip" title="Detail" data-placement="bottom"><i class="pe-7s-info"></i></a>';
+                $btn .= '<button class="mb-2 mr-2 btn btn-sm btn-warning btnEdit" data-id="'.$row->id.'" type="button" data-toggle="tooltip" title="Edit" data-placement="bottom"><i class="pe-7s-pen"></i></button>';
+                $btn .= '<button class="mb-2 mr-2 btn btn-sm btn-danger btnHapus" data-id="'.$row->id.'" type="button" data-toggle="tooltip" title="Hapus" data-placement="bottom"><i class="pe-7s-trash"></i></button>';
                 return $btn ;
             })
             ->rawColumns(['aksi'])
@@ -103,9 +106,10 @@ class ProjectController extends Controller
      * @param  \App\Models\Project  $project
      * @return \Illuminate\Http\Response
      */
-    public function show(Project $project)
+    public function show($id)
     {
-        
+        $project = Project::with('headProject')->select('id', 'head_project', 'name_project', 'location')->get()->find($id);
+        return view('hr.proyek.detail', compact('project')); 
     }
 
     /**
@@ -185,4 +189,28 @@ class ProjectController extends Controller
             return response()->json("wiu");
         }
     }
+
+    public function detail($id)
+    {
+        $data = BarangInOut::with('barangforPro')
+        ->where('id_destination', $id)
+        ->select('id', 'date', 'id_destination', 'id_barang', 'qty', 'type')
+        ->get();
+
+        return Datatables::of($data)
+            ->addIndexColumn()
+            ->addColumn('date', function($row)
+            {
+                $date = Carbon::parse($row->date)->isoFormat('ddd, D MMM Y');
+                return $date;
+            })
+            ->addColumn('barang', function($row)
+            {
+                $brg = $row->barang->name;
+                return $brg;
+            })
+            ->rawColumns(['date','barang'])
+            ->make(true);
+    }
+
 }

@@ -152,13 +152,14 @@
 <script>
 
     $.ajaxSetup({
-    headers: {
-        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-    }
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
     });
 
     let barang;
     let index_select = 2;
+
 
     $("#btn-tambah-barang").on('click', function() {
         $('#tambahForm')[0].reset();
@@ -236,38 +237,73 @@
         
     }
 
-
-    $('.datatable').DataTable({
+    var myDt = $('.datatable').DataTable({
+        
         processing: true,
-        serverSide: true,
+        scrollY:        400,
+        deferRender:    true,
+        scroller:       true,
         ajax:{
-            url:"/baranginout/",
+            url:'/baranginout/All',
+            type: "POST",
             error: function (xhr, ajaxOptions, thrownError) {
                 console.log(xhr.status);
                 console.log(xhr.responseText);
                 console.log(thrownError);
             },
-        }
-        ,
+        },
         columns: [
-            {data: 'DT_RowIndex', name: 'DT_RowIndex', orderable: false, searchable: false},
+            {data: 'DT_RowIndex', name: 'DT_RowIndex', searchable: false},
             {data: 'date', name: 'date'},
             {data: 'type', name: 'type'},
             {data: 'barang', name: 'barang'},
-            {data: 'qty', name: 'qty'},
+            {data: 'qty', name: 'qty', searchable: false},
             {data: 'destination', name: 'destination'},
             {data: 'proyek', name: 'proyek'},
-            {data: 'aksi', name: 'aksi', orderable: false, searchable: false},
         ],
         language: {
             emptyTable: "Tidak ada data tersedia",
         },
-        // dom: 'Bfrtip',
-        // buttons: [
-        //     'print'
-        // ]
+        dom: 'Bfrtip',
+        buttons: [ 'print', 'csv'
+            // {
+            //     extend: 'print',
+            //     text: '<img src="images/printer24x24.png" alt="Print">',
+            //     titleAttr: 'Imprimir',
+            //     title: '',
+            //     columns: ':not(.select-checkbox)',
+            //     orientation: 'landscape'
+            // },
+        ],
+        initComplete: function () {
+            this.api().columns().every( function () {
+                var column = this;
+                var select = $('<select><option value=""></option></select>')
+                    .appendTo( $(column.footer()).empty() )
+                    .on( 'change', function () {
+                        var val = $.fn.dataTable.util.escapeRegex(
+                            $(this).val()
+                        );
+ 
+                        column
+                            .search( val ? '^'+val+'$' : '', true, false )
+                            .draw();
+                    } );
+ 
+                column.data().unique().sort().each( function ( d, j ) {
+                    select.append( '<option value="'+d+'">'+d+'</option>' )
+                } );
+            } );
+        },
         
     });
+
+    function generateDatatable(type) {
+        var urlBaru = "/baranginout/"+type
+        myDt.ajax.url(urlBaru).load();
+        console.log(type);
+    }
+
     $('.radio_tertuju').on('change', function () {
         console.log($(this).val());
         if ($(this).val() == "Proyek") {
@@ -279,7 +315,8 @@
     })
 
     $('#btn-tambah').on('click', function() {
-        var url = '/baranginout/store';
+        // var urlTambah = ;
+        // console.log(url);
         const formData = $('#tambahForm').serialize();
         let totalItem = $('#totalItem').val();
         let tertuju = $("input[name='tertuju']:checked").val();
@@ -307,10 +344,9 @@
         }
 
         data.listItem = dataItem;
-        console.log(data);
 
         $.ajax({
-            url: url,
+            url: '/baranginoutadd/',
             method: 'POST',
             data: {
             data:data,

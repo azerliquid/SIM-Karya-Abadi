@@ -17,4 +17,9 @@ class Project extends Model
     {
         return $this->hasOne(TenagaKerja::class, 'id', 'head_project')->select('id', 'name');
     }
+
+    public function baranginout()
+    {
+        return $this->hasMany(BarangInOut::class, 'id_destination', 'id')->select('id', 'date', 'type', 'id_barang', 'qty');
+    }
 }

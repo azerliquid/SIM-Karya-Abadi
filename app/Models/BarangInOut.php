@@ -16,6 +16,10 @@ class BarangInOut extends Model
     {
         return $this->hasOne(Barang::class, 'id', 'id_barang')->select('id', 'name', 'unit');
     }
+    public function barangforPro()
+    {
+        return $this->hasOne(Barang::class, 'id', 'id_barang')->select('id', 'name');
+    }
 
     public function project()
     {
