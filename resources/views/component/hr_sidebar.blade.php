@@ -1,6 +1,6 @@
 <div class="app-sidebar sidebar-shadow">
     <div class="app-header__logo">
-        <div class="logo-src"></div>
+        <div class="">Karya Abadi</div>
         <div class="header__pane ml-auto">
             <div>
                 <button type="button" class="hamburger close-sidebar-btn hamburger--elastic" data-class="closed-sidebar">
@@ -64,7 +64,7 @@
                         <a href="{{ route('logout') }}"
                                             onclick="event.preventDefault();
                                                     this.closest('form').submit();">
-                            <i class="metismenu-icon pe-7s-display2"></i>
+                            <i class="metismenu-icon pe-7s-back"></i>
                             Logout
                         </a>
                     </li>

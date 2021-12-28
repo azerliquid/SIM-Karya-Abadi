@@ -40,13 +40,13 @@
                 </li>
                 <li>
                     <a href="/baranginout">
-                        <i class="metismenu-icon pe-7s-tools"></i>
+                        <i class="metismenu-icon pe-7s-refresh-2"></i>
                         Keluar Masuk Barang
                     </a>
                 </li>
                 <li>
                     <a href="/listrequest">
-                        <i class="metismenu-icon pe-7s-tools"></i>
+                        <i class="metismenu-icon pe-7s-download"></i>
                         Permintaan Barang
                     </a>
                 </li>
@@ -56,7 +56,7 @@
                     <a href="{{ route('logout') }}"
                                          onclick="event.preventDefault();
                                                 this.closest('form').submit();">
-                        <i class="metismenu-icon pe-7s-display2"></i>
+                        <i class="metismenu-icon pe-7s-back"></i>
                         Logout
                     </a>
                 </li>

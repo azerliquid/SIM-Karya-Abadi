@@ -35,13 +35,13 @@
                 <li class="app-sidebar__heading">Pengadaan Bahan Bangunan</li>
                 <li>
                     <a href="/request">
-                        <i class="metismenu-icon pe-7s-display2"></i>
+                        <i class="metismenu-icon pe-7s-upload"></i>
                         Request
                     </a>
                 </li>
                 <li>
                     <a href="/historyrequest">
-                        <i class="metismenu-icon pe-7s-display2"></i>
+                        <i class="metismenu-icon pe-7s-timer"></i>
                         Riwayat Permintaan
                     </a>
                 </li>
@@ -51,7 +51,7 @@
                     <a href="{{ route('logout') }}"
                                          onclick="event.preventDefault();
                                                 this.closest('form').submit();">
-                        <i class="metismenu-icon pe-7s-display2"></i>
+                        <i class="metismenu-icon pe-7s-back"></i>
                         Logout
                     </a>
                 </li>
