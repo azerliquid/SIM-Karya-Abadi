@@ -43,7 +43,7 @@
                         </a>
                         <ul>
                             <li>
-                                <a href="{{route('tenagakerja.index')}}">
+                                <a href="/tenagakerja">
                                     <i class="metismenu-icon">
                                     </i>Tenaga Kerja
                                 </a>
@@ -68,6 +68,7 @@
                             Logout
                         </a>
                     </li>
+                </form>
             </ul>
         </div>
     </div>

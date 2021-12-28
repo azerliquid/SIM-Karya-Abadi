@@ -30,6 +30,8 @@ class RequestController extends Controller
             return view('ketua_lapangan.historyrequest.index');
         }
         if (Auth::user()->role == 'logistic') {
+            // $total = RequestLogistic::groupBy('status')->selectRaw('count(*) as total, status')->get();
+            // return Response::json($total);
             return view('logistik.listrequest.index');
         }
     }

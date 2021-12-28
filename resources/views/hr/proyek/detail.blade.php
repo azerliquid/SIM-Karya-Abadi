@@ -6,7 +6,7 @@
             <div class="page-title-heading">
                 <div>
                     <h2>{{ $project->name_project}}</h2>
-                    <div class="page-title-subheading"> Data Alokasi Penggunaan Barang Material
+                    <div class="page-title-subheading">Pemimpin Ketua Lapangan : <b>{{ $project->headProject->name}}</b>
                     </div>
                 </div>
             </div>
@@ -70,8 +70,7 @@
                             <tr>
                                 <td>No</td>
                                 <td>Tanggal</td>
-                                <td>Jenis</td>
-                                <td>Barang</td>
+                                <td>Nama Barang</td>
                                 <td>Qty</td>
                             </tr>
                         </thead>

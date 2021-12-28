@@ -4,6 +4,10 @@
     <div class="row">
         <div class="col-md-5">
             <div class="page-title-heading">
+                <div class="page-title-icon">
+                    <i class="pe-7s-plane icon-gradient bg-tempting-azure">
+                    </i>
+                </div>
                 <div>
                     <h2>{{ $barang->name . " (" .$barang->unit. ")" }}</h2>
                     <div class="page-title-subheading"> Data Keluar Masuk Barang
@@ -33,7 +37,7 @@
                                     <div class="widget-content">
                                         <div class="widget-content-wrapper">
                                             <div class="widget-content-right ml-0 mr-3">
-                                                <div class="widget-numbers text-warning">{{ $masukTotal[0]->masuk}}</div>
+                                                <div class="widget-numbers text-info">{{ $masukTotal[0]->masuk}}</div>
                                             </div>
                                             <div class="widget-content-left">
                                                 <div class="widget-heading">Total Masuk</div>

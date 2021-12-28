@@ -65,16 +65,16 @@ return [
     {
         // dd(Auth::user()->role);
         if (Auth::user()->role == 'admin') {
-            return redirect('/barang');
+            return url('/barang');
         }
         if (Auth::user()->role == 'hr') {
-            return redirect('/project');
+            return url('/proyek');
         }
         if (Auth::user()->role == 'logistic') {
-            return redirect('/barang');
+            return url('/barang');
         }
         if (Auth::user()->role == 'mandor') {
-            return redirect('/');
+            return url('/request');
          }
     },
 

@@ -84,34 +84,17 @@
                         </li>
                     </ul>
                 </li>
-                <li class="app-sidebar__heading">Pengadaan Bahan Bangunan</li>
-                <li>
-                    <a href="/request">
-                        <i class="metismenu-icon pe-7s-display2"></i>
-                        Request
-                    </a>
-                </li>
-                <li>
-                    <a href="dashboard-boxes.html">
-                        <i class="metismenu-icon pe-7s-display2"></i>
-                        Riwayat Permintaan
-                    </a>
-                </li>
-                <!-- <form method="POST" action="{{ route('logout') }}">
-                    @csrf
+                <form method="POST" action="{{ route('logout') }}">
                     <li>
-                        <a href="{{route('logout')}}" onclick="event.preventDefault();
-                                                    this.closest('form').submit();>
+                                    @csrf
+                        <a href="{{ route('logout') }}"
+                                            onclick="event.preventDefault();
+                                                    this.closest('form').submit();">
                             <i class="metismenu-icon pe-7s-display2"></i>
                             Logout
-                        </a> 
-                        <a data-toggle="tooltip" data-placement="top" title="Logout" href="{{route('logout')}}"
-                        onclick="event.preventDefault();
-                                                    this.closest('form').submit();">
-                        <span class="glyphicon glyphicon-off" aria-hidden="true"></span></a>
+                        </a>
                     </li>
-                </form> -->
-
+                </form>
             </ul>
         </div>
     </div>

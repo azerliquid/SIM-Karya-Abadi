@@ -193,8 +193,8 @@ class ProjectController extends Controller
     public function detail($id)
     {
         $data = BarangInOut::with('barangforPro')
-        ->where('id_destination', $id)
-        ->select('id', 'date', 'id_destination', 'id_barang', 'qty', 'type')
+        ->where('type', 'Keluar')->where('id_destination', $id)
+        ->select('id', 'date', 'id_destination', 'id_barang', 'qty')
         ->get();
 
         return Datatables::of($data)

@@ -27,7 +27,7 @@ Route::get('/', function () {
 
     
     // $user = Hash::make("admin");
-    // return response()->json($user);
+    // return response()->json(Auth::user());
     // dd($user);
     if (Auth::check()) {
         // return Response::json(Auth::user()->role);
@@ -61,20 +61,20 @@ Route::get('/', function () {
 
 Route::group(['middleware' => ['auth:sanctum', 'checkRole:admin']], function()
 {
-    // Route::get('/listbarang', [BarangController::Class, 'index']);
-    // Route::post('/listbarang', [BarangController::Class, 'store']);
-    // Route::put('/listbarang/{id}', [BarangController::Class, 'update']);
-    // Route::delete('/listbarang/{id}', [BarangController::Class, 'destroy']);
-    // Route::get('/listtenagakerja', [TenagaKerjaController::Class, 'index']);
-    // Route::post('/listtenagakerja', [TenagaKerjaController::Class, 'store']);
-    // Route::put('/listtenagakerja/{id}', [TenagaKerjaController::Class, 'update']);
-    // Route::delete('/listtenagakerja/{id}', [TenagaKerjaController::Class, 'destroy']);
-    // Route::get('/listtenagakerja/show/{id}', [TenagaKerjaController::Class, 'show']);
-    // Route::get('/listproyek', [ProjectController::Class, 'index']);
-    // Route::get('/listproyek/create', [ProjectController::Class, 'create']);
-    // Route::post('/listproyek/', [ProjectController::Class, 'store']);
-    // Route::put('/listproyek/{id}', [ProjectController::Class, 'update']);
-    // Route::delete('/listproyek/{id}', [ProjectController::Class, 'destroy']);
+    Route::get('/listbarang', [BarangController::Class, 'index']);
+    Route::post('/listbarang', [BarangController::Class, 'store']);
+    Route::put('/listbarang/{id}', [BarangController::Class, 'update']);
+    Route::delete('/listbarang/{id}', [BarangController::Class, 'destroy']);
+    Route::get('/listtenagakerja', [TenagaKerjaController::Class, 'index']);
+    Route::post('/listtenagakerja', [TenagaKerjaController::Class, 'store']);
+    Route::put('/listtenagakerja/{id}', [TenagaKerjaController::Class, 'update']);
+    Route::delete('/listtenagakerja/{id}', [TenagaKerjaController::Class, 'destroy']);
+    Route::get('/listtenagakerja/show/{id}', [TenagaKerjaController::Class, 'show']);
+    Route::get('/listproyek', [ProjectController::Class, 'index']);
+    Route::get('/listproyek/create', [ProjectController::Class, 'create']);
+    Route::post('/listproyek/', [ProjectController::Class, 'store']);
+    Route::put('/listproyek/{id}', [ProjectController::Class, 'update']);
+    Route::delete('/listproyek/{id}', [ProjectController::Class, 'destroy']);
     // Route::resource('tenagakerja', TenagaKerjaController::Class);
     // Route::resource('baranginout', ToolsInOutController::Class);
 
@@ -111,7 +111,11 @@ Route::group(['middleware' => ['auth:sanctum', 'checkRole:hr']], function()
     Route::put('/proyek/detail/{id}', [ProjectController::Class, 'detail']);
     Route::delete('/proyek/{id}', [ProjectController::Class, 'destroy']);
     // Route::resource('proyek', ProjectController::Class);
-    Route::resource('tenagakerja', TenagaKerjaController::Class);
+    Route::get('/tenagakerja', [TenagaKerjaController::Class, 'index']);
+    Route::post('/tenagakerja', [TenagaKerjaController::Class, 'store']);
+    Route::get('/tenagakerja/show/{id}', [TenagaKerjaController::Class, 'show']);
+    Route::put('/tenagakerja/{id}', [TenagaKerjaController::Class, 'update']);
+    Route::delete('/tenagakerja/{id}', [TenagaKerjaController::Class, 'destroy']);
 });
 
 Route::group(['middleware' => ['auth:sanctum', 'checkRole:mandor']], function()

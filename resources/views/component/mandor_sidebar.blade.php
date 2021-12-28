@@ -56,21 +56,6 @@
                     </a>
                 </li>
                 </form>
-                <!-- <form method="POST" action="{{ route('logout') }}">
-                    @csrf
-                    <li>
-                        <a href="{{route('logout')}}" onclick="event.preventDefault();
-                                                    this.closest('form').submit();>
-                            <i class="metismenu-icon pe-7s-display2"></i>
-                            Logout
-                        </a> 
-                        <a data-toggle="tooltip" data-placement="top" title="Logout" href="{{route('logout')}}"
-                        onclick="event.preventDefault();
-                                                    this.closest('form').submit();">
-                        <span class="glyphicon glyphicon-off" aria-hidden="true"></span></a>
-                    </li>
-                </form> -->
-
             </ul>
         </div>
     </div>

@@ -238,6 +238,7 @@
         $('.jabatan_tambah').hide();
         $('.account_tambah').hide();
         $('#keterangan_tambah').hide();
+        // console.log(url());
     })
 
     $('.datatable').DataTable({

@@ -26,8 +26,6 @@
         })
 
         $('#tableDetail').DataTable({
-            processing: true,
-            serverSide: true,
             ajax:{
                 url: url,
                 type: 'PUT',
@@ -41,7 +39,6 @@
             columns: [
                 {data: 'DT_RowIndex', name: 'DT_RowIndex', orderable: false, searchable: false},
                 {data: 'date', name: 'date'},
-                {data: 'type', name: 'type'},
                 {data: 'barang', name: 'barang'},
                 {data: 'qty', name: 'qty'},
             ],

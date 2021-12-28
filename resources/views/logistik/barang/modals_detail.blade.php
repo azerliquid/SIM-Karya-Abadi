@@ -49,7 +49,14 @@
             language: {
                 emptyTable: "Tidak ada data tersedia",
             },
-        
+            "createdRow": function( row, data, dataIndex ) {
+                // console.log(data.type);
+                if ( data.type == "Masuk" ) {        
+                    $(row).addClass('bg-light text-dark');
+                }else{
+                    $(row).addClass('bg-dark text-light'); 
+                }
+            }
         });
     })
     

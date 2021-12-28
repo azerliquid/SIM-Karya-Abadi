@@ -187,7 +187,7 @@ class BarangController extends Controller
         ->leftjoin('barang', 'logistic.id_barang', '=', 'barang.id')
         ->leftjoin('project', 'logistic.id_destination', '=', 'project.id')
         ->select('logistic.*', 'barang.name', 'project.name_project')
-        ->where('logistic.id_barang', $id)->get();
+        ->where('logistic.id_barang', $id)->orderBy('logistic.date', 'DESC')->get();
         // $dtbarang = $barang[0]->baranginout;
         // return response()->json($barang);
 
