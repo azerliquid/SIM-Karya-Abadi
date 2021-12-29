@@ -33,6 +33,9 @@
     <link href="https://cdn.datatables.net/buttons/2.1.0/css/buttons.dataTables.min.css" rel="stylesheet" />  
     <link href="https://cdn.datatables.net/1.11.3/css/jquery.dataTables.min.css" rel="stylesheet" />
 
+    <!-- daterangepicker -->
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
+
     <style>
         input::-webkit-outer-spin-button,
         input::-webkit-inner-spin-button {
@@ -82,6 +85,11 @@
 <script src="https://cdn.datatables.net/buttons/2.1.0/js/buttons.html5.min.js"></script>
 <script src="https://cdn.datatables.net/buttons/2.1.0/js/buttons.print.min.js"></script>
 <!-- <script src="https://code.jquery.com/jquery-3.5.1.js"></script> -->
+
+<!-- daterangepicker -->
+
+<script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
 
 <!-- sweetaklert -->
 <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>

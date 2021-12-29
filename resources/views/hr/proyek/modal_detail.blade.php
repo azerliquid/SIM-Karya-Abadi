@@ -47,6 +47,27 @@
             },
         
         });
+
+        $('#tableSumBarang').DataTable({
+            ajax:{
+                url: '/proyek/alocated/'+idProyek,
+                type: 'PUT',
+                error: function (xhr, ajaxOptions, thrownError) {
+                    console.log(xhr.status);
+                    console.log(xhr.responseText);
+                    console.log(thrownError);
+                },
+            },
+            columns: [
+                {data: 'DT_RowIndex', name: 'DT_RowIndex', orderable: false, searchable: false},
+                {data: 'barang', name: 'barang'},
+                {data: 'total', name: 'total'},
+            ],
+            language: {
+                emptyTable: "Tidak ada data tersedia",
+            },
+        
+        });
     })
     
 </script>   

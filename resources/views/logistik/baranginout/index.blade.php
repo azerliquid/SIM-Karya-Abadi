@@ -28,10 +28,10 @@
             </div>    
         </div>
     </div>            
-    <div class="row">
-        <div class="col-md-12">
-            <div class="main-card mb-2 card">
-                <div class="card-body">
+    <div class="main-card mb-2 card">
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-12">
                     <ul class="tabs-animated-shadow nav-justified tabs-animated nav">
                         <li class="nav-item">
                             <a onclick="generateDatatable('All')" role="tab" style="font-size:12; font-weight:bold;" class="nav-link active show" id="tabs-all" data-toggle="tab" href="" aria-selected="true">
@@ -49,6 +49,14 @@
                             </a>
                         </li>
                     </ul>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="position-relative form-group" id="request-stock_in">
+                        <label for="exampleText" class="">Permintaan</label>
+                        <input class="form-control" type="text" name="daterangeBarangInOut" value="" />
+                    </div>
                 </div>
             </div>
         </div>

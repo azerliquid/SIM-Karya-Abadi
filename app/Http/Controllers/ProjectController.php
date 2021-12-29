@@ -11,6 +11,7 @@ use App\Models\TenagaKerja;
 use App\Models\BarangInOut;
 use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
+use DB;
 
 class ProjectController extends Controller
 {
@@ -195,13 +196,14 @@ class ProjectController extends Controller
         $data = BarangInOut::with('barangforPro')
         ->where('type', 'Keluar')->where('id_destination', $id)
         ->select('id', 'date', 'id_destination', 'id_barang', 'qty')
+        ->orderBy('date', 'DESC')
         ->get();
 
         return Datatables::of($data)
             ->addIndexColumn()
             ->addColumn('date', function($row)
             {
-                $date = Carbon::parse($row->date)->isoFormat('ddd, D MMM Y');
+                $date = Carbon::parse($row->date)->isoFormat('ddd, D-MM-Y');
                 return $date;
             })
             ->addColumn('barang', function($row)
@@ -211,6 +213,26 @@ class ProjectController extends Controller
             })
             ->rawColumns(['date','barang'])
             ->make(true);
+    }
+
+    public function sumBarang($id)
+    {
+        $barang = BarangInOut::with('barangforPro')
+        ->where('type', 'Keluar')->where('id_destination', $id)
+        ->select(DB::raw("id_barang, SUM(qty) as total"))
+        ->groupBy('id_barang')
+        ->orderBy('total', 'DESC')
+        ->get();
+
+        return Datatables::of($barang)
+        ->addIndexColumn()
+        ->addColumn('barang', function($row)
+        {
+            $brg = $row->barang->name;
+            return $brg;
+        })
+        ->rawColumns(['barang'])
+        ->make(true);
     }
 
 }

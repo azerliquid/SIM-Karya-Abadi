@@ -151,10 +151,45 @@
 
 <script>
 
+    var startDate = {!! json_encode($start) !!};
+    var endDate = {!! json_encode($end) !!};
+
+    var newStartDate = moment(startDate).format('DD-MM-YYYY');
+    var newEndDate = moment(endDate).format('DD-MM-YYYY');
+
+    // setDate
+
     $.ajaxSetup({
         headers: {
             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
         }
+    });
+
+    $(function() {
+        $('input[name="daterangeBarangInOut"]').daterangepicker({
+            "showDropdowns": true,
+            ranges: {
+                'Hari Ini': [moment(), moment()],
+                'Kemarin': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
+                '7 Hari Terakhir': [moment().subtract(6, 'days'), moment()],
+                '30 Hari Terakhir': [moment().subtract(29, 'days'), moment()],
+                'Bulan Ini': [moment().startOf('month'), moment().endOf('month')],
+                'Bulan Kemarin': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
+            },
+            "alwaysShowCalendars": true,
+            "startDate": newStartDate,
+            "endDate": newEndDate,    
+            "drops": "auto",
+            // "locale" : 'DD-MM-YYYY'
+            locale: {
+                format: 'DD-MM-YYYY',
+                separator : ' to '
+            }
+        }, function(start, end, label) {
+            newStartDate = start.format('YYYY-MM-DD');
+            console.log('New date range selected: ' + start.format('YYYY-MM-DD') + ' to ' + end.format('YYYY-MM-DD') + ' (predefined range: ' + label + ')');
+            console.log(newStartDate);
+        });
     });
 
     let barang;
@@ -162,6 +197,7 @@
 
 
     $("#btn-tambah-barang").on('click', function() {
+        // console.log($('input[name="daterangeBarangInOut"]').val());
         $('#tambahForm')[0].reset();
         $('.tujuan').hide();
         $('.children').remove();
@@ -244,8 +280,11 @@
         deferRender:    true,
         scroller:       true,
         ajax:{
-            url:'/baranginout/All',
+            url:'/baranginout/All/'+newStartDate+'/'+newEndDate,
             type: "POST",
+            // success: function (res) {
+            //     console.log(res);
+            // },
             error: function (xhr, ajaxOptions, thrownError) {
                 console.log(xhr.status);
                 console.log(xhr.responseText);
@@ -265,7 +304,15 @@
             emptyTable: "Tidak ada data tersedia",
         },
         dom: 'Bfrtip',
-        buttons: [ 'print', 'csv'
+        buttons: [
+            {
+                extend: 'print',
+                title: 'Laporan Data Keluar Masuk Barang',
+                messageTop: 'Periode '
+            },{
+                extend: 'csv',
+                title: 'This print was produced using the Print button for DataTables'
+            }
             // {
             //     extend: 'print',
             //     text: '<img src="images/printer24x24.png" alt="Print">',
@@ -299,9 +346,11 @@
     });
 
     function generateDatatable(type) {
-        var urlBaru = "/baranginout/"+type
+        var date = $('input[name="daterangeBarangInOut"]').val();
+        var st = date.slice(0,10);
+        var end = date.slice(14,24);
+        var urlBaru = "/baranginout/"+type+"/"+st+"/"+end;
         myDt.ajax.url(urlBaru).load();
-        console.log(type);
     }
 
     $('.radio_tertuju').on('change', function () {

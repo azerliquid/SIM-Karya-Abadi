@@ -20,7 +20,10 @@ class BarangInOutController extends Controller
      */
     public function index(Request $request)
     {
-        return view('logistik.baranginout.index');
+        $end = Carbon::now()->isoFormat('MM/DD/YYYY');
+        $start = Carbon::now()->subDays(3)->isoFormat('MM/DD/YYYY');
+        // $date = array('start' => $start, 'end' => $end );
+        return view('logistik.baranginout.index', compact(['end', 'start']));
     }
 
     /**
@@ -137,15 +140,24 @@ class BarangInOutController extends Controller
         //
     }
 
-    public function showData(Request $request, $type)
+    public function showData(Request $request, $type, $start, $end)
     {
-        // $date = Carbon::createFromDate('d/m/Y', $data[0]->date_in);
-                // return $date;
         
-        $data = $this->setDataByType($type);
+        // $date = Carbon::createFromDate('d/m/Y', $data[0]->date_in);
+        // return $date;
+        
+        // $end = Carbon::createFromFormat('YYYY-MM-DD', $end);
+        // $start = Carbon::createFromFormat('YYYY-MM-DD', $start);
+        // $end = Carbon::createFromFormat('MM/DD/YYYY', $end)->format('YYYY-MM-DD');
+        $newEnd = Carbon::parse($end);
+        $newStart = Carbon::parse($start);
+
+        // return Response::json($endO);
+        
+        $data = $this->setDataByType($type, $newStart, $newEnd);
+        
         if ($request->ajax()) {
             // $date = new Carbon;
-            // return Response::json($type);
             
             return Datatables::of($data)
             ->addIndexColumn()
@@ -170,13 +182,19 @@ class BarangInOutController extends Controller
         
     }
 
-    public function setDataByType($tp)
-    {
-        if ($tp == 'All') {
-            return BarangInOut::with('barang', 'project')->orderBy('created_at', 'DESC')->get();
-        }
-        if ($tp == 'Masuk' || 'Keluar') {
-            return BarangInOut::where('type', $tp)->with('barang', 'project')->orderBy('created_at', 'DESC')->get();
-        }
+    public function setDataByType($tp, $start, $end)
+    {   
+        // $end = Carbon::createFromFormat('YYYY-MM-DD', $end)->format('YYYY-MM-DD');
+        // $start = Carbon::createFromFormat('YYYY-MM-DD', $start);
+        // return $end;
+            $data = BarangInOut::with('barang', 'project')
+            ->whereDate('date', '>=', $start)
+            ->whereDate('date', '<=', $end);
+            if ($tp != 'All') {
+                $data = $data->where('type', $tp);
+            }
+            $data->orderBy('created_at', 'DESC')->get();
+
+            return $data;
     }
 }

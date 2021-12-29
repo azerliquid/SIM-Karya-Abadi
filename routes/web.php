@@ -90,7 +90,7 @@ Route::group(['middleware' => ['auth:sanctum', 'checkRole:logistic']], function(
     Route::put('/barang/{id}', [BarangController::Class, 'update']);
     Route::delete('/barang/{id}', [BarangController::Class, 'destroy']);
     Route::get('/baranginout', [BarangInOutController::Class, 'index']);
-    Route::post('/baranginout/{type}', [BarangInOutController::Class, 'showData']);
+    Route::post('/baranginout/{type}/{start}/{end}', [BarangInOutController::Class, 'showData']);
     Route::get('/baranginout/create', [BarangInOutController::Class, 'create']);
     Route::post('/baranginoutadd/', [BarangInOutController::Class, 'store']);
     Route::get('/listrequest', [RequestController::Class, 'index']);
@@ -109,6 +109,7 @@ Route::group(['middleware' => ['auth:sanctum', 'checkRole:hr']], function()
     Route::put('/proyek/{id}', [ProjectController::Class, 'update']);
     Route::get('/proyek/show/{id}', [ProjectController::Class, 'show']);
     Route::put('/proyek/detail/{id}', [ProjectController::Class, 'detail']);
+    Route::put('/proyek/alocated/{id}', [ProjectController::Class, 'sumBarang']);
     Route::delete('/proyek/{id}', [ProjectController::Class, 'destroy']);
     // Route::resource('proyek', ProjectController::Class);
     Route::get('/tenagakerja', [TenagaKerjaController::Class, 'index']);

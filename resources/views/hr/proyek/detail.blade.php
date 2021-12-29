@@ -6,7 +6,8 @@
             <div class="page-title-heading">
                 <div>
                     <h2>{{ $project->name_project}}</h2>
-                    <div class="page-title-subheading">Pemimpin Ketua Lapangan : <b>{{ $project->headProject->name}}</b>
+                    <div class="page-title-subheading">Ketua Lapangan : <b>{{ $project->headProject->name}}</b>
+                    <p>Alamat : {{ $project->location}}</p>
                     </div>
                 </div>
             </div>
@@ -61,15 +62,34 @@
         </div>            
     </div>
     <div class="row">
-        <div class="col-lg-12">
-            <div class="main-card mb-6 card">
+        <div class="col-lg-7">
+            <div class="main-card card">
                 <div class="card-body">
-                <h5 class="card-title">Detail Data Penggunaan Barang Material</h5>
+                <h5 class="card-title">Riwayat Data Masuk Barang Material</h5>
                     <table  class="mb-0 table table-striped" style="width: 100%;" id="tableDetail">
                         <thead>
                             <tr>
                                 <td>No</td>
                                 <td>Tanggal</td>
+                                <td>Nama Barang</td>
+                                <td>Qty</td>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-5">
+            <div class="main-card mb-6 card">
+                <div class="card-body">
+                <h5 class="card-title">Data Penggunaan Barang Material</h5>
+                    <table  class="mb-0 table table-striped" style="width: 100%;" id="tableSumBarang">
+                        <thead>
+                            <tr>
+                                <td>No</td>
                                 <td>Nama Barang</td>
                                 <td>Qty</td>
                             </tr>
