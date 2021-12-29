@@ -5,7 +5,7 @@
         <div class="page-title-wrapper">
             <div class="page-title-heading">
                 <div class="page-title-icon">
-                    <i class="pe-7s-drawer icon-gradient bg-happy-itmeo">
+                    <i class="pe-7s-tools icon-gradient bg-happy-itmeo">
                     </i>
                 </div>
                 <div>Data Barang

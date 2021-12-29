@@ -5,13 +5,13 @@
         <div class="page-title-wrapper">
             <div class="page-title-heading" >
                 <div class="page-title-icon">
-                    <i class="pe-7s-drawer icon-gradient bg-happy-itmeo">
+                    <i class="pe-7s-users icon-gradient bg-happy-itmeo">
                     </i>
                 </div>
                 <div class="mr-2" >Data Tenaga Kerja
                 </div>
             </div>
-            <div class="mx-auto">
+            <!-- <div class="mx-auto">
                 <ul class="body-tabs body-tabs-layout tabs-animated body-tabs-animated nav">
                     <li class="nav-item">
                         <a role="tab" class="nav-link show active" id="tab-0" data-toggle="tab" href="#tab-content-0" aria-selected="true">
@@ -29,7 +29,7 @@
                         </a>
                     </li>
                 </ul>
-            </div>
+            </div> -->
             <div class="page-title-actions">
                 <!-- <button type="button" data-toggle="tooltip" title="" data-placement="bottom" class="btn-shadow mr-3 btn btn-dark" data-original-title="Example Tooltip">
                     <i class="fa fa-star"></i>
@@ -65,7 +65,7 @@
                         </tr>
                         </thead>
                         <tbody>
-                        
+
                         </tbody>
                     </table>
                 </div>
