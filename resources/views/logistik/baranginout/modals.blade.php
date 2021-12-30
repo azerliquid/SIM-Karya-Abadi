@@ -187,7 +187,7 @@
             }
         }, function(start, end, label) {
             newStartDate = start.format('YYYY-MM-DD');
-            console.log('New date range selected: ' + start.format('YYYY-MM-DD') + ' to ' + end.format('YYYY-MM-DD') + ' (predefined range: ' + label + ')');
+            // console.log('New date range selected: ' + start.format('YYYY-MM-DD') + ' to ' + end.format('YYYY-MM-DD') + ' (predefined range: ' + label + ')');
             console.log(newStartDate);
         });
     });
@@ -308,7 +308,9 @@
             {
                 extend: 'print',
                 title: 'Laporan Data Keluar Masuk Barang',
-                messageTop: 'Periode '
+                messageTop: function() {
+                    return 'Periode ' + $('input[name="daterangeBarangInOut"]').val()
+                }
             },{
                 extend: 'csv',
                 title: 'This print was produced using the Print button for DataTables'
@@ -345,12 +347,19 @@
         
     });
 
-    function generateDatatable(type) {
+    // $('#btnGenerateData').on('click', function() {
+        
+    // })
+
+    function generateDatatables() {
         var date = $('input[name="daterangeBarangInOut"]').val();
+        var type = $('select[name="selectTipe"]').val();
         var st = date.slice(0,10);
         var end = date.slice(14,24);
         var urlBaru = "/baranginout/"+type+"/"+st+"/"+end;
         myDt.ajax.url(urlBaru).load();
+        // console.log(type);/
+        // myDt.buttons();
     }
 
     $('.radio_tertuju').on('change', function () {

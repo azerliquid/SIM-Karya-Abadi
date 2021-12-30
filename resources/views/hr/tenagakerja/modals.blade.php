@@ -319,15 +319,16 @@
 
     $('select[id="selectRoleTambah"]').on('change', function (){
         console.log($(this).val());
-        if ($(this).val() == "Ketua Lapangan") {
+        if ($(this).val() == "Ketua Lapangan" || $(this).val() == "HR" || $(this).val() == "Logistik") {
             $('.account_tambah').show();
-        }else{
+        }
+        else{
             $('.account_tambah').hide();
         }
     })  
     $('select[id="selectRoleEdit"]').on('change', function (){
         console.log($(this).val());
-        if ($(this).val() == "Ketua Lapangan") {
+        if ($(this).val() == "Ketua Lapangan" || $(this).val() == "HR" || $(this).val() == "Logistik") {
             $('.account_edit').show();
         }else{
             $('.account_edit').hide();
@@ -341,6 +342,7 @@
         const jenis = 'tambah';
         const url = "/tenagakerja";
         const type = "POST";
+        console.log(formData);
         setValidate(formData, url, jenis, type)
     })
 

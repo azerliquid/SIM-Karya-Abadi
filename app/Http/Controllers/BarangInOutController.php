@@ -187,14 +187,14 @@ class BarangInOutController extends Controller
         // $end = Carbon::createFromFormat('YYYY-MM-DD', $end)->format('YYYY-MM-DD');
         // $start = Carbon::createFromFormat('YYYY-MM-DD', $start);
         // return $end;
-            $data = BarangInOut::with('barang', 'project')
-            ->whereDate('date', '>=', $start)
-            ->whereDate('date', '<=', $end);
-            if ($tp != 'All') {
-                $data = $data->where('type', $tp);
-            }
-            $data->orderBy('created_at', 'DESC')->get();
+        $data = BarangInOut::with('barang', 'project')
+        ->whereDate('date', '>=', $start)
+        ->whereDate('date', '<=', $end);
+        if ($tp != 'All') {
+            $data = $data->where('type', $tp);
+        }
+        $data->orderBy('created_at', 'DESC')->get();
 
-            return $data;
+        return $data;
     }
 }

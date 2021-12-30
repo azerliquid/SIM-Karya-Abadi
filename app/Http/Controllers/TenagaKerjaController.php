@@ -75,13 +75,19 @@ class TenagaKerjaController extends Controller
         $tenagaKerja->save();
         $id_tenagakerja = $tenagaKerja->id;
 
-        if ($request->role === "Ketua Lapangan") {
+        if ($request->placement === "Staff") {
             // return Response::json(['data' => $request->all()]);
             $user = new User;
             $user->name = $request->name;
             $user->username = $request->username;
-            $user->email = $request->email;
-            $user->role = "mandor";
+            $user->email = $request->email == null ? null : $request->email;
+            if ($request->role == 'HR') {
+                $user->role = "hr";
+            }elseif ($request->role == 'Logistik') {
+                $user->role = "logistic";
+            }elseif ($request->role == 'Ketua Lapangan') {
+                $user->role = "mandor";
+            }
             $user->password = Hash::make($request->username);
             $user->save();
             $id = $user->id;
@@ -151,12 +157,15 @@ class TenagaKerjaController extends Controller
         // return response()->json(['id' => $tenagaKerja] );
         
         $tenagaKerja->save();
+
+        // return Response::json('ini'.$placementOld);
         $id_tenagakerja = $tenagaKerja->id;
             if ($request->placement_edit == "Staff" && $placementOld != $request->placement_edit ) {
-                $user = new User;
+                $user = new User;   
                 $user->name = $request->name;
                 $user->username = $request->username;
                 $user->email = $request->email;
+                $user->role = $request->role;
                 $user->password = Hash::make($request->username);
                 $user->save();
                 $id = $user->id;

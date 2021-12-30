@@ -28,13 +28,13 @@
             </div>    
         </div>
     </div>            
-    <div class="main-card mb-2 card">
-        <div class="card-body">
-            <div class="row">
+    <!-- <div class="main-card mb-2 card">
+        <div class="card-body"> -->
+            <!-- <div class="row">
                 <div class="col-md-12">
                     <ul class="tabs-animated-shadow nav-justified tabs-animated nav">
                         <li class="nav-item">
-                            <a onclick="generateDatatable('All')" role="tab" style="font-size:12; font-weight:bold;" class="nav-link active show" id="tabs-all" data-toggle="tab" href="" aria-selected="true">
+                            <a onclick="generateDatatable('All')" role="tab" style="font-size:14; font-weight:bold;" class="nav-link active show" id="tabs-all" data-toggle="tab" href="" aria-selected="true">
                                 <span class="nav-text">Semua <label style="font-weight:bold;" id="badge-semua"></label></span>
                             </a>
                         </li>
@@ -50,21 +50,42 @@
                         </li>
                     </ul>
                 </div>
-            </div>
+            </div> -->  
             <div class="row">
-                <div class="col-md-4">
+                <div class="col-md-5">
                     <div class="position-relative form-group" id="request-stock_in">
-                        <label for="exampleText" class="">Permintaan</label>
+                        <label for="exampleText" class="">Custom Tanggal :</label>
                         <input class="form-control" type="text" name="daterangeBarangInOut" value="" />
                     </div>
                 </div>
+                <div class="col-md-7" >
+                    <label>Tipe (Semua/Masuk/Keluar) : </label>
+                    <div class="row">
+                        <div class="col-md-8">
+                            <select type="select" id="selectTipe" name="selectTipe" class="custom-select selectTipe">
+                                <option value="All" style="">Semua</option>
+                                <option value="Masuk" style="">Masuk</option>
+                                <option value="Keluar" style="">Keluar</option>
+                            </select>
+                        </div>
+                        <div class="col-md-4">
+                            <button  class="btn-shadow btn btn-info" onclick="generateDatatables()" id="btnGenerateData">
+                                <span class="btn-icon-wrapper opacity-7">
+                                    <i class="fa fa-search fa-w-20"></i>
+                                </span>
+                                Cari
+                            </button>
+                        </div>
+                    </div>
+                </div>
             </div>
-        </div>
-    </div>
+        <!-- </div>
+    </div> -->
     <div class="row">
         <div class="col-lg-12">
-            <div class="main-card mb-6 card">
-                <div class="card-body"><h5 class="card-title">Tabel Data Barang</h5>
+            <div class="main-card mb-2 card">
+                <div class="card-body">
+                <!-- <h5 class="card-title">Tabel Data Barang</h5> -->
                     <table class="mb-0 table table-striped datatable" style="width: 100%;">
                         <thead>
                         <tr>
