@@ -71,7 +71,7 @@
                             </a>
                         </li>
                         <li>
-                            <a href="">
+                            <a href="/listbaranginout">
                                 <i class="metismenu-icon">
                                 </i>Keluar Masuk Barang
                             </a>

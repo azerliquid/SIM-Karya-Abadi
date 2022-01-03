@@ -178,7 +178,14 @@ class BarangController extends Controller
         ->where('type', 'Keluar')
         ->where('id_barang', $id)->get();
         // dd($masukTotal);
-        return view('logistik.barang.detail', compact(['barang','masukTotal', 'keluarTotal']));
+        if (Auth::user()->role = 'admin') {
+
+            return view('admin.logistik.barang.detail', compact(['barang','masukTotal', 'keluarTotal']));
+        }
+        if (Auth::user()->role = 'logistik') {
+
+            return view('logistik.barang.detail', compact(['barang','masukTotal', 'keluarTotal']));
+        }
     }
 
     public function detailBarang(Request $request, $id)

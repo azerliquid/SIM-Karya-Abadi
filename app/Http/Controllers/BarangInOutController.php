@@ -8,6 +8,7 @@ use App\Models\Project;
 use Illuminate\Http\Request;
 // use App\Models\ToolsInOut;
 use Response;
+use Illuminate\Support\Facades\Auth;
 use Yajra\DataTables\DataTables;
 use Carbon\Carbon;
 
@@ -23,7 +24,12 @@ class BarangInOutController extends Controller
         $end = Carbon::now()->isoFormat('MM/DD/YYYY');
         $start = Carbon::now()->subDays(3)->isoFormat('MM/DD/YYYY');
         // $date = array('start' => $start, 'end' => $end );
-        return view('logistik.baranginout.index', compact(['end', 'start']));
+        if (Auth::user()->role = 'admin') {
+            return view('admin.logistik.baranginout.index', compact(['end', 'start']));   
+        }
+        if (Auth::user()->role = 'logistik') {
+            return view('logistik.baranginout.index', compact(['end', 'start']));
+        }
     }
 
     /**
@@ -173,7 +179,13 @@ class BarangInOutController extends Controller
             })
             ->addColumn('barang', function($row)
             {
-                $brg = '<a href="/showdetail/'.$row->id_barang.'" style="color:darkblue;">'.$row->barang->name.' ('.$row->barang->unit.')' .' <small><i class="fa fa-share"></i></small></a>';
+                
+                if (Auth::user()->role == 'admin') {
+                    $brg = '<a href="/showdetailbarang/'.$row->id_barang.'" style="color:darkblue;">'.$row->barang->name.' ('.$row->barang->unit.')' .' <small><i class="fa fa-share"></i></small></a>'; 
+                }
+                if (Auth::user()->role == 'logistik') {
+                    $brg = '<a href="/showdetail/'.$row->id_barang.'" style="color:darkblue;">'.$row->barang->name.' ('.$row->barang->unit.')' .' <small><i class="fa fa-share"></i></small></a>'; 
+                }
                 return $brg;
             })
             ->addColumn('proyek', function($row)

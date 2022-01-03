@@ -151,16 +151,53 @@
 
 <script>
 
+    var startDate = {!! json_encode($start) !!};
+    var endDate = {!! json_encode($end) !!};
+
+    var newStartDate = moment(startDate).format('DD-MM-YYYY');
+    var newEndDate = moment(endDate).format('DD-MM-YYYY');
+
+    // setDate
+
     $.ajaxSetup({
-    headers: {
-        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-    }
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+    });
+
+    $(function() {
+        $('input[name="daterangeBarangInOut"]').daterangepicker({
+            "showDropdowns": true,
+            ranges: {
+                'Hari Ini': [moment(), moment()],
+                'Kemarin': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
+                '7 Hari Terakhir': [moment().subtract(6, 'days'), moment()],
+                '30 Hari Terakhir': [moment().subtract(29, 'days'), moment()],
+                'Bulan Ini': [moment().startOf('month'), moment().endOf('month')],
+                'Bulan Kemarin': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
+            },
+            "alwaysShowCalendars": true,
+            "startDate": newStartDate,
+            "endDate": newEndDate,    
+            "drops": "auto",
+            // "locale" : 'DD-MM-YYYY'
+            locale: {
+                format: 'DD-MM-YYYY',
+                separator : ' to '
+            }
+        }, function(start, end, label) {
+            newStartDate = start.format('YYYY-MM-DD');
+            // console.log('New date range selected: ' + start.format('YYYY-MM-DD') + ' to ' + end.format('YYYY-MM-DD') + ' (predefined range: ' + label + ')');
+            console.log(newStartDate);
+        });
     });
 
     let barang;
     let index_select = 2;
 
+
     $("#btn-tambah-barang").on('click', function() {
+        // console.log($('input[name="daterangeBarangInOut"]').val());
         $('#tambahForm')[0].reset();
         $('.tujuan').hide();
         $('.children').remove();
@@ -168,7 +205,7 @@
         let proyek;
         $.ajax({
             dataType: "json",
-            url : '{{ route("baranginout.create")}}',
+            url : '/listbaranginout/create',
             type: "GET",
             success: function(res) {
                 console.log(res);
@@ -236,33 +273,95 @@
         
     }
 
-
-    $('.datatable').DataTable({
+    var myDt = $('.datatable').DataTable({
+        
         processing: true,
-        serverSide: true,
+        scrollY:        400,
+        deferRender:    true,
+        scroller:       true,
         ajax:{
-            url:"/baranginout/",
+            url:'/listbaranginout/All/'+newStartDate+'/'+newEndDate,
+            type: "POST",
+            // success: function (res) {
+            //     console.log(res);
+            // },
             error: function (xhr, ajaxOptions, thrownError) {
                 console.log(xhr.status);
                 console.log(xhr.responseText);
                 console.log(thrownError);
             },
-        }
-        ,
+        },
         columns: [
-            {data: 'DT_RowIndex', name: 'DT_RowIndex', orderable: false, searchable: false},
-            {data: 'date', name: 'date'},
+            {data: 'DT_RowIndex', name: 'DT_RowIndex', searchable: false},
+            {data: 'date', name: 'date', searchable: false},
             {data: 'type', name: 'type'},
+            {data: 'barang', name: 'barang'},
+            {data: 'qty', name: 'qty', searchable: false},
             {data: 'destination', name: 'destination'},
-            {data: 'id_destination', name: 'id_destination'},
-            {data: 'description', name: 'description'},
-            {data: 'aksi', name: 'aksi', orderable: false, searchable: false},
+            {data: 'proyek', name: 'proyek'},
         ],
         language: {
             emptyTable: "Tidak ada data tersedia",
         },
+        dom: 'Bfrtip',
+        buttons: [
+            {
+                extend: 'print',
+                title: 'Laporan Data Keluar Masuk Barang',
+                messageTop: function() {
+                    return 'Periode ' + $('input[name="daterangeBarangInOut"]').val()
+                }
+            },{
+                extend: 'csv',
+                title: 'This print was produced using the Print button for DataTables'
+            }
+            // {
+            //     extend: 'print',
+            //     text: '<img src="images/printer24x24.png" alt="Print">',
+            //     titleAttr: 'Imprimir',
+            //     title: '',
+            //     columns: ':not(.select-checkbox)',
+            //     orientation: 'landscape'
+            // },
+        ],
+        initComplete: function () {
+            this.api().columns().every( function () {
+                var column = this;
+                var select = $('<select><option value=""></option></select>')
+                    .appendTo( $(column.footer()).empty() )
+                    .on( 'change', function () {
+                        var val = $.fn.dataTable.util.escapeRegex(
+                            $(this).val()
+                        );
+ 
+                        column
+                            .search( val ? '^'+val+'$' : '', true, false )
+                            .draw();
+                    } );
+ 
+                column.data().unique().sort().each( function ( d, j ) {
+                    select.append( '<option value="'+d+'">'+d+'</option>' )
+                } );
+            } );
+        },
         
     });
+
+    // $('#btnGenerateData').on('click', function() {
+        
+    // })
+
+    function generateDatatables() {
+        var date = $('input[name="daterangeBarangInOut"]').val();
+        var type = $('select[name="selectTipe"]').val();
+        var st = date.slice(0,10);
+        var end = date.slice(14,24);
+        var urlBaru = "/listbaranginout/"+type+"/"+st+"/"+end;
+        myDt.ajax.url(urlBaru).load();
+        // console.log(type);/
+        // myDt.buttons();
+    }
+
     $('.radio_tertuju').on('change', function () {
         console.log($(this).val());
         if ($(this).val() == "Proyek") {
@@ -274,7 +373,8 @@
     })
 
     $('#btn-tambah').on('click', function() {
-        var url = '{{ route("baranginout.store") }}';
+        // var urlTambah = ;
+        // console.log(url);
         const formData = $('#tambahForm').serialize();
         let totalItem = $('#totalItem').val();
         let tertuju = $("input[name='tertuju']:checked").val();
@@ -302,16 +402,26 @@
         }
 
         data.listItem = dataItem;
-        console.log(data);
 
         $.ajax({
-            url: url,
+            url: '/listbaranginoutadd/',
             method: 'POST',
             data: {
             data:data,
             },
             success: function(res){
                 console.log(res);
+                if (res == 'sukses') {
+                    swal({
+                        title: "Sukses!",
+                        text: `Penambahan Material Berhasil Masuk Sistem !`,
+                        icon: "success",
+                        button : false,
+                    });
+                    setTimeout(function(){
+                    window.location.reload();
+                    }, 2000);
+                }
             },
             error:function(error){
                 console.log(error.responseText);

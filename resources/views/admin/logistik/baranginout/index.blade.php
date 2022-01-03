@@ -5,7 +5,7 @@
         <div class="page-title-wrapper">
             <div class="page-title-heading">
                 <div class="page-title-icon">
-                    <i class="pe-7s-drawer icon-gradient bg-happy-itmeo">
+                    <i class="pe-7s-refresh-2 icon-gradient bg-happy-itmeo">
                     </i>
                 </div>
                 <div>Data Keluar/Masuk Barang
@@ -28,20 +28,74 @@
             </div>    
         </div>
     </div>            
+    <!-- <div class="main-card mb-2 card">
+        <div class="card-body"> -->
+            <!-- <div class="row">
+                <div class="col-md-12">
+                    <ul class="tabs-animated-shadow nav-justified tabs-animated nav">
+                        <li class="nav-item">
+                            <a onclick="generateDatatable('All')" role="tab" style="font-size:14; font-weight:bold;" class="nav-link active show" id="tabs-all" data-toggle="tab" href="" aria-selected="true">
+                                <span class="nav-text">Semua <label style="font-weight:bold;" id="badge-semua"></label></span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a onclick="generateDatatable('Masuk')" role="tab" style="font-size:14; font-weight:bold;" class="nav-link show" id="tab-c1-1" data-toggle="tab" href="#tab-animated1-1" aria-selected="false">
+                                <span class="nav-text">Masuk<label style="font-weight:bold;" id="badge-menunggu"></label></span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a onclick="generateDatatable('Keluar')" role="tab" style="font-size:14; font-weight:bold;" class="nav-link show" id="tab-c1-1" data-toggle="tab" href="#tab-animated1-1" aria-selected="false">
+                                <span class="nav-text">Keluar<label style="font-weight:bold;" id="badge-diproses"></label></span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div> -->  
+            <div class="row">
+                <div class="col-md-5">
+                    <div class="position-relative form-group" id="request-stock_in">
+                        <label for="exampleText" class="">Custom Tanggal :</label>
+                        <input class="form-control" type="text" name="daterangeBarangInOut" value="" />
+                    </div>
+                </div>
+                <div class="col-md-7" >
+                    <label>Tipe (Semua/Masuk/Keluar) : </label>
+                    <div class="row">
+                        <div class="col-md-8">
+                            <select type="select" id="selectTipe" name="selectTipe" class="custom-select selectTipe">
+                                <option value="All" style="">Semua</option>
+                                <option value="Masuk" style="">Masuk</option>
+                                <option value="Keluar" style="">Keluar</option>
+                            </select>
+                        </div>
+                        <div class="col-md-4">
+                            <button  class="btn-shadow btn btn-info" onclick="generateDatatables()" id="btnGenerateData">
+                                <span class="btn-icon-wrapper opacity-7">
+                                    <i class="fa fa-search fa-w-20"></i>
+                                </span>
+                                Cari
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        <!-- </div>
+    </div> -->
     <div class="row">
         <div class="col-lg-12">
-            <div class="main-card mb-6 card">
-                <div class="card-body"><h5 class="card-title">Tabel Data Barang</h5>
+            <div class="main-card mb-2 card">
+                <div class="card-body">
+                <!-- <h5 class="card-title">Tabel Data Barang</h5> -->
                     <table class="mb-0 table table-striped datatable" style="width: 100%;">
                         <thead>
                         <tr>
                             <th>#</th>
                             <th>Tanggal</th>
                             <th>Jenis</th>
-                            <th>Tertuju</th>
+                            <th>Barang</th>
+                            <th>Qty</th>
+                            <th>Tujuan</th>
                             <th>Lokasi</th>
-                            <th>Keterangan</th>
-                            <th>Aksi</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -56,5 +110,5 @@
 @endsection
 
 @section('modals')
-  @include('logistik.baranginout.modals')
+  @include('admin.logistik.baranginout.modals')
 @endsection
