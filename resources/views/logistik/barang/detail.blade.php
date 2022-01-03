@@ -25,7 +25,7 @@
                                     <div class="widget-content">
                                         <div class="widget-content-wrapper">
                                             <div class="widget-content-right ml-0 mr-3">
-                                                <div class="widget-numbers text-success">{{ $barang->stock_now}}</div>
+                                                <div class="widget-numbers text-primary">{{ $barang->stock_now}}</div>
                                             </div>
                                             <div class="widget-content-left">
                                                 <div class="widget-heading">Stok Tersedia</div>
@@ -37,7 +37,7 @@
                                     <div class="widget-content">
                                         <div class="widget-content-wrapper">
                                             <div class="widget-content-right ml-0 mr-3">
-                                                <div class="widget-numbers text-info">{{ $masukTotal[0]->masuk}}</div>
+                                                <div class="widget-numbers text-success">{{ $masukTotal[0]->masuk}}</div>
                                             </div>
                                             <div class="widget-content-left">
                                                 <div class="widget-heading">Total Masuk</div>
@@ -49,7 +49,7 @@
                                     <div class="widget-content">
                                         <div class="widget-content-wrapper">
                                             <div class="widget-content-right ml-0 mr-3">
-                                                <div class="widget-numbers text-danger">{{ $keluarTotal[0]->keluar}}</div>
+                                                <div class="widget-numbers text-warning">{{ $keluarTotal[0]->keluar}}</div>
                                             </div>
                                             <div class="widget-content-left">
                                                 <div class="widget-heading">Total Keluar</div>
@@ -83,7 +83,7 @@
                         <tbody>
                             
                         </tbody>
-                    </table>
+                    </table>    
                 </div>
             </div>
         </div>

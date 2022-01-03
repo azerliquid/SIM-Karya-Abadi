@@ -37,9 +37,13 @@
                                 </select>
                             </div>
                             <div class="col-md-6">
-                                <label>Tanggal Permintaan : </label>
+                                <!-- <label>Tanggal Permintaan : </label> -->
+                                <label for="exampleText" class="">Custom Tanggal :</label>
                                 <div>
-                                    <input type="datetime-local" name="date_masuk" id="date_masuk">
+                                    <!-- <input type="datetime-local" name="date_masuk" id="date_masuk"> -->
+                                    
+                                    <input class="form-control" type="text" name="daterangeBarangInOut" value="" />
+                                    <!-- <input class="form-control" type="text" name="daterangeBarangInOut" value="" /> -->
                                 </div>
                             </div>
                         </div>

@@ -166,9 +166,14 @@ class BarangInOutController extends Controller
                 $date = Carbon::parse($row->date)->isoFormat('ddd, D MMM Y');
                 return $date;
             })
+            ->addColumn('type', function($row)
+            {
+                $tp = '<div class="badge badge-'.($row->type == "Masuk" ? "success" : "warning").'">'.$row->type.'</div>';
+                return $tp;
+            })
             ->addColumn('barang', function($row)
             {
-                $brg = $row->barang->name;
+                $brg = '<a href="/showdetail/'.$row->id_barang.'" style="color:darkblue;">'.$row->barang->name.' ('.$row->barang->unit.')' .' <small><i class="fa fa-share"></i></small></a>';
                 return $brg;
             })
             ->addColumn('proyek', function($row)
@@ -176,7 +181,7 @@ class BarangInOutController extends Controller
                 $prj = $row->project ? $row->project->name_project : "-" ;
                 return $prj;
             })
-            ->rawColumns(['date','barang', 'proyek'])
+            ->rawColumns(['date', 'type','barang', 'proyek'])
             ->make(true);
         }
         

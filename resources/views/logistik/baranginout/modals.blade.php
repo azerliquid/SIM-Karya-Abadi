@@ -293,7 +293,7 @@
         },
         columns: [
             {data: 'DT_RowIndex', name: 'DT_RowIndex', searchable: false},
-            {data: 'date', name: 'date'},
+            {data: 'date', name: 'date', searchable: false},
             {data: 'type', name: 'type'},
             {data: 'barang', name: 'barang'},
             {data: 'qty', name: 'qty', searchable: false},

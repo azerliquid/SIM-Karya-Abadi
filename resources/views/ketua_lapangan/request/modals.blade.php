@@ -1,14 +1,27 @@
 <script>
     $.ajaxSetup({
-    headers: {
-        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-    }
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
     });
 
     let barang;
     let index_select = 2;
+    var today = new Date();
 
     $(document).ready(function(params) {
+        $('input[name="daterangeBarangInOut"]').daterangepicker({
+            singleDatePicker: true,
+            // showDropdowns: true,
+            "startDate" : today,
+            minYear: 2020,
+            maxYear: parseInt(moment().format('YYYY'),10),
+            locale: {
+                format: 'DD-MM-YYYY',
+            },
+        }, function(start, end, label) {
+            var years = moment().diff(start, 'years');
+        });
         // $('#date_masuk').datepicker({  startDate: new Date() });
         let proyek;
         $.ajax({
@@ -127,7 +140,7 @@
         let totalItem = $('#totalItem').val();
         let noref = $('#noref').val();
         let keterangan = $("textarea[name='keterangan']").val();
-        let date_masuk = $("input[name='date_masuk']").val();
+        let date_masuk = $("input[name='daterangeBarangInOut']").val();
         let optpro = $("select[name='proyek']").val();
         // console.log(keterangan);
         let data = {

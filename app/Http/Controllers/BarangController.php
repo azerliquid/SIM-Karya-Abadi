@@ -199,12 +199,17 @@ class BarangController extends Controller
                 $date = Carbon::parse($row->date)->isoFormat('ddd, D MMM Y');
                 return $date;
             })
+            ->addColumn('type', function($row)
+            {
+                $tp = '<div class="badge badge-'.($row->type == "Masuk" ? "success" : "warning").'">'.$row->type.'</div>';
+                return $tp;
+            })
             ->addColumn('location', function($row)
             {
                 $loc = $row->name_project == null ? '-' : $row->name_project;
                 return $loc;
             })
-            ->rawColumns(['date', 'location'])
+            ->rawColumns(['date', 'type', 'location'])
             ->make(true);
         }
     }

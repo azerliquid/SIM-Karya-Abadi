@@ -64,7 +64,7 @@ class RequestController extends Controller
         if ($request->ajax()) {
             $request_order = new RequestLogistic;
             $request_order->no_reference = $request->data['noref'];
-            $request_order->date_procurement = $request->data['date_minta'];
+            $request_order->date_procurement = Carbon::parse($request->data['date_minta']);
             $request_order->id_project = $request->data['proyek'];
             $request_order->id_head_project = Auth::user()->id;
             $request_order->status = "Menunggu Konfirmasi";
