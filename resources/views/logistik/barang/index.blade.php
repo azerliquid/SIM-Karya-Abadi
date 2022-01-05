@@ -303,7 +303,7 @@
                         <tr>
                             <th>#</th>
                             <th>Nama Barang</th>
-                            <th>Stok Saat Ini</th>
+                            <th>Stok Tersedia</th>
                             <th>Satuan</th>
                             <th>Aksi</th>
                         </tr>

@@ -9,7 +9,7 @@
 
     $(document).ready(function(params) {
         idBarang = {!! json_encode($barang->id) !!};
-        var url ="/detailBarang/"+idBarang;
+        var url ="/detailbarang/"+idBarang;
         console.log(url);
 
         $.ajax({

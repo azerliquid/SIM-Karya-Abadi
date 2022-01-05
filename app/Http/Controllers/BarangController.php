@@ -28,7 +28,12 @@ class BarangController extends Controller
             ->addIndexColumn()
             ->addColumn('aksi', function($row)
             {
-                $btn = '<a class="mb-2 mr-2 btn btn-sm btn-info btnDetail" href="/showdetail/'.$row->id.'" data-id="'.$row->id.'"  data-toggle="tooltip" title="Detail" data-placement="bottom"><i class="pe-7s-info"></i></a>';
+                if (Auth::user()->role == 'admin') {
+                    $btn = '<a class="mb-2 mr-2 btn btn-sm btn-info btnDetail" href="/showdetailbarang/'.$row->id.'" data-id="'.$row->id.'"  data-toggle="tooltip" title="Detail" data-placement="bottom"><i class="pe-7s-info"></i></a>';
+                }
+                if (Auth::user()->role == 'logistic') {
+                    $btn = '<a class="mb-2 mr-2 btn btn-sm btn-info btnDetail" href="/showdetail/'.$row->id.'" data-id="'.$row->id.'"  data-toggle="tooltip" title="Detail" data-placement="bottom"><i class="pe-7s-info"></i></a>';
+                }
                 $btn .= '<button class="mb-2 mr-2 btn btn-sm btn-warning btnEdit" data-id="'.$row->id.'" type="button" data-toggle="tooltip" title="Edit" data-placement="bottom"><i class="pe-7s-pen"></i></button>';
                 $btn .= '<button class="mb-2 mr-2 btn btn-sm btn-danger btnHapus" data-id="'.$row->id.'" type="button" data-toggle="tooltip" title="Hapus" data-placement="bottom"><i class="pe-7s-trash"></button>';                
                 return $btn ;
@@ -178,12 +183,10 @@ class BarangController extends Controller
         ->where('type', 'Keluar')
         ->where('id_barang', $id)->get();
         // dd($masukTotal);
-        if (Auth::user()->role = 'admin') {
-
+        if (Auth::user()->role == 'admin') {
             return view('admin.logistik.barang.detail', compact(['barang','masukTotal', 'keluarTotal']));
         }
-        if (Auth::user()->role = 'logistik') {
-
+        if (Auth::user()->role == 'logistic') {
             return view('logistik.barang.detail', compact(['barang','masukTotal', 'keluarTotal']));
         }
     }

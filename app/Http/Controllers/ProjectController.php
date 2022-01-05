@@ -22,7 +22,7 @@ class ProjectController extends Controller
      */
     public function index(Request $request)
     {
-
+        
         
         $data = Project::with('headProject')->where('status', 'Aktif')
         ->where('deleted', 0)->get();
@@ -108,9 +108,16 @@ class ProjectController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function show($id)
-    {
+    { 
+        $now = Carbon::now();
+        // $start = Carbon::now()->subDays(3)->isoFormat('MM/DD/YYYY');
+        $start = $now->startOfWeek(Carbon::FRIDAY)->isoFormat('MM/DD/YYYY');
+        $end = $now->endOfWeek(Carbon::THURSDAY)->isoFormat('MM/DD/YYYY');
         $project = Project::with('headProject')->select('id', 'head_project', 'name_project', 'location')->get()->find($id);
-        return view('hr.proyek.detail', compact('project')); 
+        $barang = BarangInOut::where('type', 'Keluar')
+        ->where('id_destination', $id)
+        ->sum(DB::raw("qty*price"));
+        return view('hr.proyek.detail', compact('project', 'barang', 'start', 'end')); 
     }
 
     /**
@@ -191,19 +198,20 @@ class ProjectController extends Controller
         }
     }
 
-    public function detail($id)
+    public function detail($id, $start, $end)
     {
-        $data = BarangInOut::with('barangforPro')
-        ->where('type', 'Keluar')->where('id_destination', $id)
-        ->select('id', 'date', 'id_destination', 'id_barang', 'qty')
-        ->orderBy('date', 'DESC')
-        ->get();
+        $newEnd = Carbon::parse($end);
+        $newStart = Carbon::parse($start);
+
+        // return Response::json($endO);
+        
+        $data = $this->setDetailByDate($id, $newStart, $newEnd);
 
         return Datatables::of($data)
             ->addIndexColumn()
             ->addColumn('date', function($row)
             {
-                $date = Carbon::parse($row->date)->isoFormat('ddd, D-MM-Y');
+                $date = Carbon::parse($row->date)->isoFormat('dddd, D-MM-Y');
                 return $date;
             })
             ->addColumn('barang', function($row)
@@ -211,20 +219,38 @@ class ProjectController extends Controller
                 $brg = $row->barang->name;
                 return $brg;
             })
-            ->rawColumns(['date','barang'])
+            ->addColumn('total', function($row)
+            {
+                $ttl = $row->qty * $row->price;
+                return $ttl;
+            })
+            ->rawColumns(['date','barang', 'total'])
             ->make(true);
     }
 
-    public function sumBarang($id)
+    public function setDetailByDate($id, $start, $end)
     {
-        $barang = BarangInOut::with('barangforPro')
+        $data = BarangInOut::with('barangforPro')
         ->where('type', 'Keluar')->where('id_destination', $id)
-        ->select(DB::raw("id_barang, SUM(qty) as total"))
-        ->groupBy('id_barang')
-        ->orderBy('total', 'DESC')
+        ->whereDate('date', '>=', $start)
+        ->whereDate('date', '<=', $end)
+        ->select('id', 'date', 'id_destination', 'id_barang', 'qty', 'price')
+        ->orderBy('date', 'DESC')
         ->get();
 
-        return Datatables::of($barang)
+        return $data;
+    }
+
+    public function sumBarang($id, $start, $end)
+    {
+        $newEnd = Carbon::parse($end);
+        $newStart = Carbon::parse($start);
+
+        // return Response::json($endO);
+        
+        $data = $this->setSumBarang($id, $newStart, $newEnd);
+
+        return Datatables::of($data)
         ->addIndexColumn()
         ->addColumn('barang', function($row)
         {
@@ -233,6 +259,20 @@ class ProjectController extends Controller
         })
         ->rawColumns(['barang'])
         ->make(true);
+    }
+
+    public function setSumBarang($id, $start, $end)
+    {
+        $barang = BarangInOut::with('barangforPro')
+        ->where('type', 'Keluar')->where('id_destination', $id)
+        ->whereDate('date', '>=', $start)
+        ->whereDate('date', '<=', $end)
+        ->select(DB::raw("id_barang, SUM(qty) as total, SUM(qty*price) as pemakaian"))
+        ->groupBy('id_barang')
+        ->orderBy('total', 'DESC')
+        ->get();
+
+        return $barang;
     }
 
 }

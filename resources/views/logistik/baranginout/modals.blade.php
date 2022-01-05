@@ -1,10 +1,10 @@
-<!-- Tambah modal -->
+<!-- Masuk modal -->
 
 <div id="tambahBarangModal" class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLongTitle">Form Tambah Barang</h5>
+                <h5 class="modal-title" id="exampleModalLongTitle">Form Input Barang Masuk</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -33,7 +33,7 @@
                                     <div class="col-md-4">
                                         <div class="position-relative form-group tujuan" style="display:none;">
                                             <label for="exampleCustomSelect" class="">Tujuan Proyek</label>
-                                            <select type="select" id="selectTujuan" name="lokasi" class="custom-select">
+                                            <select type="select" id="selectTujuanIn" name="lokasi" class="custom-select">
                                                 
                                             </select>
                                         </div>
@@ -67,7 +67,6 @@
                                     </button>
                                 </div>
                             </div>
-                            
                             <div class="position-relative form-group" id="tambah-address">
                                 <label for="exampleText" class="">Keterangan</label>
                                 <textarea name="keterangan" rows="3" name="description" id="exampleText" class="form-control" placeholder="Masukan Keterangan"></textarea>
@@ -85,69 +84,88 @@
     </div>
 </div>
 
-<!-- Edit modal -->
+<!-- Keluar modal -->
 
-<div id="editBarangModal" class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+<div id="keluarBarangModal" class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLongTitle">From Edit Barang</h5>
+                <h5 class="modal-title" id="exampleModalLongTitle">Form Input Barang Keluar</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
             <div class="modal-body">
-                <form class="" id="editForm" method="POST">
+                <form class="" id="keluarForm">
                     {{ csrf_field() }}
-                    {{ method_field('PUT')}}
-                    <div class="form-row">
-                        <div class="col-md-8">
-                            <div class="position-relative form-group" id="edit-name">
-                            <label for="exampleEmail11" class="">Nama Barang</label>
-                            <input name="name"  placeholder="Masukan nama barang" type="text" class="form-control"></div>
-                        </div>
-                        <div class="col-md-4">
-                            <div class="position-relative form-group" id="edit-unit">
-                            <label for="examplePassword11" class="">Satuan</label>
-                            <input name="unit" placeholder="Masukan satuan barang" type="text"class="form-control"></div>
+                    
+                <div class="col-md-12">
+                    <div class="main-card mb-2 card">
+                        <div class="card-body">
+                            <h5 class="card-title">Data Barang Keluar</h5>
+                            <div class="inputItemOut">
+                                <div class="form-row">
+                                    <div class="col-md-12">
+                                        <div class="position-relative form-group tujuan">
+                                            <label for="exampleCustomSelect" class="">Tujuan Proyek</label>
+                                            <select type="select" id="selectTujuanOut" name="lokasiOut" class="custom-select">
+                                                <option style='font-weight: bolder;' value=''>-- Pilih Tujuan --</option>
+
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="col-md-6">
+                                        <div class="position-relative form-group" id="tambah-barang-keluar">
+                                            <label for="name-barang" class="">Nama Barang Keluar</label>
+                                            <select type="select" id="selectBarangOut-1" name="barangOut-1" class="custom-select">
+                                                <option style='font-weight: bolder;' value=''>-- Pilih Barang --</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <div class="position-relative form-group" id="tambah-stock_out">
+                                            <label for="exampleText" class="">Qty</label>
+                                            <input name="qtyOut-1" id="exampleText" class="form-control" type="number"></input>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="position-relative form-group" id="tambah-stock_out">
+                                            <label for="exampleText" class="">Harga Retail</label>
+                                            <input name="priceOut-1" id="exampleText" class="form-control" type="number"></input>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="mx-auto">
+                                    <input type="text" name="total_item_out" id="totalItemOut" value="1" style="display:none;">
+                                    <button class="mb-2 mr-2 btn-transition btn btn-outline-primary" onclick="addItemOut()">
+                                        <span class="btn-icon-wrapper pr-2 opacity-7">
+                                        <i class="fa fa-plus-square fa-w-20"></i>
+                                        </span>
+                                        Tambah Item
+                                    </button>
+                                </div>
+                            </div>
+                            
+                            <div class="position-relative form-group" id="tambah-address">
+                                <label for="exampleText" class="">Keterangan</label>
+                                <textarea name="keteranganOut" rows="3" name="description" id="exampleText" class="form-control" placeholder="Masukan Keterangan"></textarea>
+                            </div>
                         </div>
                     </div>
+                </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button type="submit" class="btn btn-primary" id="btn-update">Save Data</button>
+                    <button type="button" class="btn btn-primary" id="btn-keluar">Save Data</button>
                 </div>
                 </form>
             </div>
         </div>
     </div>
 </div>
-
-
-<!-- Show Modal Hapus -->
-<div class="modal fade" id="hapusBarangModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Konfirmasi Hapus</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <p class="mb-0">Apakah anda yakin akan menghapus data ini?</p>
-            </div>
-            <div class="modal-footer">
-            <form id="hapusBarangForm" method="POST">
-            {{ csrf_field() }}
-            {{ method_field('DELETE') }}
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <button type="submit" class="btn btn-primary" id="btn-hapus" >Save changes</button>
-            </form>
-            </div>
-        </div>
-    </div>
-</div>
-
 
 <script>
 
@@ -183,7 +201,7 @@
             // "locale" : 'DD-MM-YYYY'
             locale: {
                 format: 'DD-MM-YYYY',
-                separator : ' to '
+                separator : ' s/d '
             }
         }, function(start, end, label) {
             newStartDate = start.format('YYYY-MM-DD');
@@ -194,14 +212,31 @@
 
     let barang;
     let index_select = 2;
+    let index_select_out = 2;
 
 
     $("#btn-tambah-barang").on('click', function() {
         // console.log($('input[name="daterangeBarangInOut"]').val());
+        $(`#selectBarang-1`).empty().append(`<option style='font-weight: bolder;' value=''>-- Pilih Barang --</option>`);
         $('#tambahForm')[0].reset();
         $('.tujuan').hide();
         $('.children').remove();
-        $('#selectTujuan').empty().append(`<option style='font-weight: bolder;' selected="selected" value="0">-- Pilih Lokasi --</option>`);
+        $('#selectTujuanIn').empty().append(`<option style='font-weight: bolder;' selected="selected" value="0">-- Pilih Lokasi --</option>`);
+        getDataOpt('In');
+    });
+
+    $("#btn-keluar-barang").on('click', function() {
+        console.log('okeokeoke');
+        // console.log($('input[name="daterangeBarangInOut"]').val());
+        // $(`#selectBarang-1`).empty().append(`<option style='font-weight: bolder;' value=''>-- Pilih Barang --</option>`);
+        // $('#tambahForm')[0].reset();
+        // $('.tujuan').hide();
+        // $('.children').remove();
+        // $('#selectTujuan').empty().append(`<option style='font-weight: bolder;' selected="selected" value="0">-- Pilih Lokasi --</option>`);
+        getDataOpt('Out');
+    });
+
+    function getDataOpt(type) {
         let proyek;
         $.ajax({
             dataType: "json",
@@ -213,9 +248,15 @@
                 proyek = res.proyek;
                 for (let pro = 0; pro < proyek.length; pro++) {
                     let opt = `<option value='${proyek[pro].id}'>${proyek[pro].name_project}</option>`;
-                    $(`#selectTujuan`).append(opt);
+                    $(`#selectTujuan${type}`).append(opt);
                 }
-                setSelectOpt(1, barang);
+                if (type == 'In') {
+                    setSelectOpt(1, barang);
+                }
+                if (type == 'Out') {
+                    setSelectOptOut(1, barang);
+                    
+                }
                 
                 // let opt = ;
             },
@@ -226,12 +267,12 @@
                 console.log(err.Message);
             }
         })
-    })
+    }
 
     function addItem() {
         event.preventDefault();
         console.log('oke');
-        $('.inputItem').append(
+        $(`.inputItem`).append(
             `<div class="form-row children">
                 <div class="col-md-8">
                     <div class="position-relative form-group" id="tambah-barang-masuk">
@@ -256,6 +297,40 @@
         // console.log("val : "+ $('#totalItem').val());
     }
 
+    function addItemOut() {
+        event.preventDefault();
+        console.log('oke');
+        $(`.inputItemOut`).append(
+            `<div class="form-row children">
+                <div class="col-md-6">
+                    <div class="position-relative form-group" id="tambah-barang-keluar">
+                        <label for="name-barang" class="">Nama Barang Keluar</label>
+                        <select type="select" id="selectBarangOut-${index_select_out}" name="barangOut-${index_select_out}" class="custom-select">
+                            <option style='font-weight: bolder;' value=''>-- Pilih Barang --</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="position-relative form-group" id="tambah-stock_out">
+                        <label for="exampleText" class="">Qty</label>
+                        <input name="qtyOut-${index_select_out}" id="exampleText" class="form-control" type="number"></input>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="position-relative form-group" id="tambah-stock_out">
+                        <label for="exampleText" class="">Harga Retail</label>
+                        <input name="priceOut-${index_select_out}" id="exampleText" class="form-control" type="number"></input>
+                    </div>
+                </div>
+            </div>`
+        );
+        setSelectOptOut(index_select_out, barang);
+        $('#totalItemOut').val(index_select_out);
+        // console.log($('#totalItemOut').val());
+        index_select_out = index_select_out + 1;
+        // console.log("val : "+ $('#totalItem').val());
+    }
+
     function setSelectOpt(index, brg) {
         for (let i = 0; i < brg.length; i++) {
             let opt = `<option value='${brg[i].id}'>${brg[i].name} (${brg[i].unit})</option>`;
@@ -263,6 +338,22 @@
         }
         // $().select2();
         $(`#selectBarang-${index}`).each((_i, e) => {
+            var $e = $(e);
+            $e.select2({
+                dropdownParent: $e.parent()
+            });
+        })
+        
+        // $(`#selectBarang-${index}`).addClass("custom-select");
+    }
+
+    function setSelectOptOut(index, brg) {
+        for (let i = 0; i < brg.length; i++) {
+            let opt = `<option value='${brg[i].id}'>${brg[i].name} (${brg[i].unit})</option>`;
+            $(`#selectBarangOut-${index}`).append(opt);
+        }
+        // $().select2();
+        $(`#selectBarangOut-${index}`).each((_i, e) => {
             var $e = $(e);
             $e.select2({
                 dropdownParent: $e.parent()
@@ -294,9 +385,11 @@
         columns: [
             {data: 'DT_RowIndex', name: 'DT_RowIndex', searchable: false},
             {data: 'date', name: 'date', searchable: false},
-            {data: 'type', name: 'type'},
             {data: 'barang', name: 'barang'},
+            {data: 'type', name: 'type'},
+            {data: 'stock_now', name: 'stock_now', searchable: false},
             {data: 'qty', name: 'qty', searchable: false},
+            {data: 'last_stock', name: 'last_stock', searchable: false},
             {data: 'destination', name: 'destination'},
             {data: 'proyek', name: 'proyek'},
         ],
@@ -355,7 +448,7 @@
         var date = $('input[name="daterangeBarangInOut"]').val();
         var type = $('select[name="selectTipe"]').val();
         var st = date.slice(0,10);
-        var end = date.slice(14,24);
+        var end = date.slice(15,25);
         var urlBaru = "/baranginout/"+type+"/"+st+"/"+end;
         myDt.ajax.url(urlBaru).load();
         // console.log(type);/
@@ -378,7 +471,7 @@
         const formData = $('#tambahForm').serialize();
         let totalItem = $('#totalItem').val();
         let tertuju = $("input[name='tertuju']:checked").val();
-        let lokasi = $('#selectTujuan').val();
+        let lokasi = $('#selectTujuanIn').val();
         let keterangan = $("textarea[name='keterangan']").val();
         // console.log(keterangan);
         let data = {
@@ -403,9 +496,51 @@
 
         data.listItem = dataItem;
 
+        saveData('/baranginoutadd/', 'POST', data);
+        // console.log(dataItem);
+        // console.log($('barang-2').val());
+    });
+
+    $('#btn-keluar').on('click', function() {
+        const formData = $('#keluarForm').serialize();
+        let totalItem = $('#totalItemOut').val();
+        // let tertuju = $("input[name='tertuju']:checked").val();
+        let lokasi = $('#selectTujuanOut').val();
+        let keterangan = $("textarea[name='keteranganOut']").val();
+
+        let data = {
+            tertuju: "ProyekKeluar",
+            lokasi : lokasi,
+            keterangan : keterangan,
+            type: "Keluar"
+        }
+
+        let dataItem = [];
+        let itemloop = 1;
+
+        for (let i = 0; i < totalItem; i++) {
+            let id_barang = $(`select[name='barangOut-${itemloop}']`).val();
+            let qty = $(`input[name='qtyOut-${itemloop}']`).val();
+            let price = $(`input[name='priceOut-${itemloop}']`).val();
+            dataItem.push({
+                id_barang,
+                qty,
+                price
+            })
+
+            itemloop += 1;
+        }
+
+        data.listItem = dataItem;
+
+        saveData('/baranginoutadd/', 'POST', data);
+        // console.log(data);
+    })    
+
+    function saveData(url, method, data){
         $.ajax({
-            url: '/baranginoutadd/',
-            method: 'POST',
+            url: url,
+            method: method,
             data: {
             data:data,
             },
@@ -428,7 +563,5 @@
             }
         });
 
-        // console.log(dataItem);
-        // console.log($('barang-2').val());
-    });
+    }
 </script>

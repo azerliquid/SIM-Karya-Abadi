@@ -21,13 +21,15 @@ class BarangInOutController extends Controller
      */
     public function index(Request $request)
     {
-        $end = Carbon::now()->isoFormat('MM/DD/YYYY');
-        $start = Carbon::now()->subDays(3)->isoFormat('MM/DD/YYYY');
+        $now = Carbon::now();
+        // $start = Carbon::now()->subDays(3)->isoFormat('MM/DD/YYYY');
+        $start = $now->startOfWeek(Carbon::FRIDAY)->isoFormat('MM/DD/YYYY');
+        $end = $now->endOfWeek(Carbon::THURSDAY)->isoFormat('MM/DD/YYYY');
         // $date = array('start' => $start, 'end' => $end );
-        if (Auth::user()->role = 'admin') {
+        if (Auth::user()->role == 'admin') {
             return view('admin.logistik.baranginout.index', compact(['end', 'start']));   
         }
-        if (Auth::user()->role = 'logistik') {
+        if (Auth::user()->role == 'logistic') {
             return view('logistik.baranginout.index', compact(['end', 'start']));
         }
     }
@@ -65,18 +67,26 @@ class BarangInOutController extends Controller
         // update barang masuk/keluar
         for ($i=0; $i < $totalItem; $i++) { 
             $logistic = new BarangInOut;
+            $barang = Barang::find($dataItem[$i]['id_barang']);
+
             $logistic->date = $datenow;
             $logistic->type = $data['type'];
-            $logistic->destination = 'Kantor';
-            $logistic->id_destination = 0 ;
+            $logistic->destination = $data['type'] == 'Masuk' ? 'Kantor' : 'Proyek';
+            $logistic->id_destination = $data['tertuju'] == 'ProyekKeluar' ? $data['lokasi'] : 0;
             $logistic->id_barang = $dataItem[$i]['id_barang'];
             $logistic->qty = $dataItem[$i]['qty'];
+            $logistic->stock_now = $barang->stock_now;
+            if ($data['tertuju'] == 'ProyekKeluar') {
+                $logistic->last_stock = $barang->stock_now - $dataItem[$i]['qty'];
+            }else{
+                $logistic->last_stock = $barang->stock_now + $dataItem[$i]['qty'];
+            }
+            $logistic->price = $dataItem[$i]['price'];
             
             $logistic->save();
 
             // update stok barang
             if ($data['tertuju'] == "Kantor") {
-                $barang = Barang::find($dataItem[$i]['id_barang']);
                 $barang->stock_now = $barang->stock_now + $dataItem[$i]['qty'];
                 $barang->save();
             }
@@ -89,11 +99,17 @@ class BarangInOutController extends Controller
                     $logisticout->destination = $data['tertuju'];
                     $logisticout->id_destination = $data['lokasi'];
                     $logisticout->id_barang = $dataItem[$i]['id_barang'];
-                    $logisticout->qty = $dataItem[$i]['qty'];
+                    $logisticout->qty = $dataItem[$i]['qty'];            
+                    $logisticout->stock_now = $barang->stock_now + $dataItem[$i]['qty'];
+                    $logisticout->last_stock = $barang->stock_now - $dataItem[$i]['qty'];
                     // $logisticout->description = $data['keterangan'] == NULL ? NULL : $data['keterangan'];
         
                     $logisticout->save();
                 }
+            }
+            if ($data['tertuju'] == 'ProyekKeluar') {
+                $barang->stock_now = $barang->stock_now - $dataItem[$i]['qty'];
+                $barang->save();
             }
         }
 
@@ -183,9 +199,10 @@ class BarangInOutController extends Controller
                 if (Auth::user()->role == 'admin') {
                     $brg = '<a href="/showdetailbarang/'.$row->id_barang.'" style="color:darkblue;">'.$row->barang->name.' ('.$row->barang->unit.')' .' <small><i class="fa fa-share"></i></small></a>'; 
                 }
-                if (Auth::user()->role == 'logistik') {
+                if (Auth::user()->role == 'logistic') {
                     $brg = '<a href="/showdetail/'.$row->id_barang.'" style="color:darkblue;">'.$row->barang->name.' ('.$row->barang->unit.')' .' <small><i class="fa fa-share"></i></small></a>'; 
                 }
+
                 return $brg;
             })
             ->addColumn('proyek', function($row)
