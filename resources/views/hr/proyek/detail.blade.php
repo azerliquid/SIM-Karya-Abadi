@@ -18,10 +18,10 @@
                     <div class="widget-content-wrapper">
                         <div class="widget-content-left mr-4">
                             <div class="widget-heading">Dana dibelanjakan</div>
-                            <div class="widget-subheading"></div>
+                            <div class="widget-subheading" ></div>
                         </div>
                         <div class="widget-content-right">
-                            <div class="widget-numbers text-success">@currency($barang)</div>
+                            <div class="widget-numbers text-success" id="sumPemakaian"></div>
                         </div>
                     </div>
                 </div>

@@ -6,11 +6,12 @@ use App\Models\BarangInOut;
 use App\Models\Barang;
 use App\Models\Project;
 use Illuminate\Http\Request;
-// use App\Models\ToolsInOut;
+use Validator;
 use Response;
 use Illuminate\Support\Facades\Auth;
 use Yajra\DataTables\DataTables;
 use Carbon\Carbon;
+use Illuminate\Validation\Rule;
 
 class BarangInOutController extends Controller
 {
@@ -54,18 +55,15 @@ class BarangInOutController extends Controller
      */
     public function store(Request $request)
     {
-        // return Response::json('sini');
         $data = $request->data;
-        // return Response::json($data['listItem']);
+            // return Response::json(var_dump($data['lokasi']));
 
         $totalItem = count($data['listItem']);
         $dataItem = $data['listItem'];
         $datenow = Carbon::now();
 
-        // return Response::json($dataItem[0]);
-
         // update barang masuk/keluar
-        for ($i=0; $i < $totalItem; $i++) { 
+        for ($i=0; $i < $totalItem; $i++) {
             $logistic = new BarangInOut;
             $barang = Barang::find($dataItem[$i]['id_barang']);
 
@@ -73,15 +71,25 @@ class BarangInOutController extends Controller
             $logistic->type = $data['type'];
             $logistic->destination = $data['type'] == 'Masuk' ? 'Kantor' : 'Proyek';
             $logistic->id_destination = $data['tertuju'] == 'ProyekKeluar' ? $data['lokasi'] : 0;
-            $logistic->id_barang = $dataItem[$i]['id_barang'];
+            $logistic->id_barang = $dataItem[$i]['id_barang'];  
             $logistic->qty = $dataItem[$i]['qty'];
             $logistic->stock_now = $barang->stock_now;
+            // return Response::json('type : ' .$data['tertuju'] );
+
+            if ($data['tertuju'] != 'ProyekKeluar') {
+                $logistic->last_stock = $barang->stock_now + $dataItem[$i]['qty'];
+                // return Response::json('masuk lasstok : ' .$logistic->last_stock);
+
+            }
             if ($data['tertuju'] == 'ProyekKeluar') {
                 $logistic->last_stock = $barang->stock_now - $dataItem[$i]['qty'];
-            }else{
-                $logistic->last_stock = $barang->stock_now + $dataItem[$i]['qty'];
+                $barang->save();
             }
+            // else{
+            //     $logistic->last_stock = $barang->stock_now - $dataItem[$i]['qty'];
+            // }
             $logistic->price = $dataItem[$i]['price'];
+            $logistic->description = $data['keterangan'] != null ? $data['keterangan'] : '';
             
             $logistic->save();
 
@@ -101,7 +109,11 @@ class BarangInOutController extends Controller
                     $logisticout->id_barang = $dataItem[$i]['id_barang'];
                     $logisticout->qty = $dataItem[$i]['qty'];            
                     $logisticout->stock_now = $barang->stock_now + $dataItem[$i]['qty'];
-                    $logisticout->last_stock = $barang->stock_now - $dataItem[$i]['qty'];
+                    $logisticout->last_stock = $logisticout->stock_now - $dataItem[$i]['qty'];
+                    
+                    $logisticout->description = $data['keterangan'] != null ? $data['keterangan'] : '';
+                    
+                    // return Response::json('keluar stoknow : ' .$logisticout->last_stock);    
                     // $logisticout->description = $data['keterangan'] == NULL ? NULL : $data['keterangan'];
         
                     $logisticout->save();
@@ -112,8 +124,10 @@ class BarangInOutController extends Controller
                 $barang->save();
             }
         }
-
         return Response::json("sukses");
+        
+        // return Response::json(['errors' => $validator->errors()]);
+
     }
 
     /**
@@ -227,7 +241,7 @@ class BarangInOutController extends Controller
         if ($tp != 'All') {
             $data = $data->where('type', $tp);
         }
-        $data->orderBy('created_at', 'DESC')->get();
+        $data->orderBy('id', 'DESC')->get();
 
         return $data;
     }

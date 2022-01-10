@@ -35,7 +35,7 @@
                                 <textarea rows="3" name="address" id="exampleText" class="form-control" placeholder="Masukan Lokasi Tempat Tinggal"></textarea>
                             </div>
                             <div class="form-row">
-                                <div class="col-md-5"> 
+                                <div class="col-md-5" id="tambah-penempatan"> 
                                     <fieldset class="position-relative form-group">
                                         <label for="exampleText" class="">Penempatan</label>
                                         <div class="position-relative form-check">
@@ -46,7 +46,7 @@
                                         </div>
                                     </fieldset>
                                 </div>
-                                <div class="col-md-3">
+                                <div class="col-md-3" id="tambah-jabatan">
                                     <div class="position-relative form-group jabatan_tambah" style="display: none;">
                                         <label for="exampleCustomSelect" class="">Jabatan</label>
                                         <select type="select" id="selectRoleTambah" name="role" class="custom-select">
@@ -68,13 +68,13 @@
                             <h5 class="card-title">Informasi Akun</h5>
                             <div class="form-row">
                                 <div class="col-md-6">
-                                    <div class="position-relative form-group" id="tambah-name">
+                                    <div class="position-relative form-group" id="tambah-username">
                                         <label for="exampleEmail" class="">Username</label>
                                         <input name="username" id="exampleEmail" placeholder="Masukan Username Pengguna" type="text" class="form-control">
                                     </div>
                                 </div>
                                 <div class="col-md-6">
-                                    <div class="position-relative form-group" id="tambah-phone">
+                                    <div class="position-relative form-group" id="tambah-email">
                                         <label for="exampleText" class="">Email (Opsional)</label>
                                         <input name="email" id="exampleText" class="form-control" type="text" placeholder="Masukan Email Pengguna"></input>
                                     </div>

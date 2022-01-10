@@ -91,8 +91,10 @@
         language: {
             emptyTable: "Tidak ada data tersedia",
         },    
+        initComplete: function(data) {
+            $('#sumPemakaian').text(new Intl.NumberFormat("id-ID", { style: "currency", currency: "IDR" }).format(data.json.sumPemakaian))
+        }
     });
-
 
     function generateDatatables() {
         var date = $('input[name="daterangeBarangInOut"]').val();

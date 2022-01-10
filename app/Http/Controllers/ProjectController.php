@@ -114,10 +114,8 @@ class ProjectController extends Controller
         $start = $now->startOfWeek(Carbon::FRIDAY)->isoFormat('MM/DD/YYYY');
         $end = $now->endOfWeek(Carbon::THURSDAY)->isoFormat('MM/DD/YYYY');
         $project = Project::with('headProject')->select('id', 'head_project', 'name_project', 'location')->get()->find($id);
-        $barang = BarangInOut::where('type', 'Keluar')
-        ->where('id_destination', $id)
-        ->sum(DB::raw("qty*price"));
-        return view('hr.proyek.detail', compact('project', 'barang', 'start', 'end')); 
+        
+        return view('hr.proyek.detail', compact('project', 'start', 'end')); 
     }
 
     /**
@@ -250,6 +248,12 @@ class ProjectController extends Controller
         
         $data = $this->setSumBarang($id, $newStart, $newEnd);
 
+        $barang = BarangInOut::where('type', 'Keluar')
+        ->where('id_destination', $id)
+        ->whereDate('date', '>=', $newStart)
+        ->whereDate('date', '<=', $newEnd)
+        ->sum(DB::raw("qty*price"));
+
         return Datatables::of($data)
         ->addIndexColumn()
         ->addColumn('barang', function($row)
@@ -257,6 +261,9 @@ class ProjectController extends Controller
             $brg = $row->barang->name;
             return $brg;
         })
+        ->with([
+            'sumPemakaian' => $barang,
+        ])
         ->rawColumns(['barang'])
         ->make(true);
     }

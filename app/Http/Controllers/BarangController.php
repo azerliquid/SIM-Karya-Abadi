@@ -182,45 +182,63 @@ class BarangController extends Controller
         ->select(DB::raw('sum(qty) as keluar'))
         ->where('type', 'Keluar')
         ->where('id_barang', $id)->get();
+
+        $now = Carbon::now();
+        // $start = Carbon::now()->subDays(3)->isoFormat('MM/DD/YYYY');
+        $start = $now->startOfWeek(Carbon::FRIDAY)->isoFormat('MM/DD/YYYY');
+        $end = $now->endOfWeek(Carbon::THURSDAY)->isoFormat('MM/DD/YYYY');
         // dd($masukTotal);
         if (Auth::user()->role == 'admin') {
-            return view('admin.logistik.barang.detail', compact(['barang','masukTotal', 'keluarTotal']));
+            return view('admin.logistik.barang.detail', compact(['barang','masukTotal', 'keluarTotal', 'start', 'end']));
         }
         if (Auth::user()->role == 'logistic') {
-            return view('logistik.barang.detail', compact(['barang','masukTotal', 'keluarTotal']));
+            return view('logistik.barang.detail', compact(['barang','masukTotal', 'keluarTotal', 'start', 'end']));
         }
     }
 
-    public function detailBarang(Request $request, $id)
+    public function detailBarang($id, $start, $end, $type)
+    {
+        $newEnd = Carbon::parse($end);
+        $newStart = Carbon::parse($start);
+        $data = $this->setDataByType($id, $newStart, $newEnd, $type);
+        // $dtbarang = $barang[0]->baranginout;
+        // return response()->json($barang);
+        // return Response::json($data);
+        return Datatables::of($data)
+        ->addIndexColumn()
+        ->addColumn('date', function($row)
+        {
+            $date = Carbon::parse($row->date)->isoFormat('ddd, D MMM Y');
+            return $date;
+        })
+        ->addColumn('type', function($row)
+        {
+            $tp = '<div class="badge badge-'.($row->type == "Masuk" ? "success" : "warning").'">'.$row->type.'</div>';
+            return $tp;
+        })
+        ->addColumn('location', function($row)
+        {
+            $loc = $row->name_project == null ? '-' : $row->name_project;
+            return $loc;
+        })
+        ->rawColumns(['date', 'type', 'location'])
+        ->make(true);
+    }
+
+    public function setDataByType($id, $st, $end, $tp)
     {
         $barang = DB::table('logistic')
         ->leftjoin('barang', 'logistic.id_barang', '=', 'barang.id')
         ->leftjoin('project', 'logistic.id_destination', '=', 'project.id')
         ->select('logistic.*', 'barang.name', 'project.name_project')
-        ->where('logistic.id_barang', $id)->orderBy('logistic.date', 'DESC')->get();
-        // $dtbarang = $barang[0]->baranginout;
-        // return response()->json($barang);
-
-        if ($request->ajax()) {
-            return Datatables::of($barang)
-            ->addIndexColumn()
-            ->addColumn('date', function($row)
-            {
-                $date = Carbon::parse($row->date)->isoFormat('ddd, D MMM Y');
-                return $date;
-            })
-            ->addColumn('type', function($row)
-            {
-                $tp = '<div class="badge badge-'.($row->type == "Masuk" ? "success" : "warning").'">'.$row->type.'</div>';
-                return $tp;
-            })
-            ->addColumn('location', function($row)
-            {
-                $loc = $row->name_project == null ? '-' : $row->name_project;
-                return $loc;
-            })
-            ->rawColumns(['date', 'type', 'location'])
-            ->make(true);
+        ->where('logistic.id_barang', $id)
+        ->whereDate('logistic.date', '>=', $st)
+        ->whereDate('logistic.date', '<=', $end);
+        if ($tp != 'All') {
+           $barang = $barang->where('logistic.type', $tp); 
         }
+        $barang = $barang->orderBy('logistic.date', 'DESC')->get();
+
+        return $barang;
     }
 }
