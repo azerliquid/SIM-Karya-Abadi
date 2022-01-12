@@ -296,7 +296,7 @@
         let proyek;
         $.ajax({
             dataType: "json",
-            url : '/baranginout/create',
+            url : '/logistik/baranginout/create',
             type: "GET",
             success: function(res) {
                 console.log(res);
@@ -424,7 +424,7 @@
                     noResults: function() {
                     return `<div class="d-flex">
                                 <div class="mr-auto p-2"><a>Barang tidak ditemukan? </a></div>
-                                <div class="p-2"><a href="/barang" style="width: 100%" type="button" class="btn btn-sm btn-primary">+ Tambah Barang</a></div>
+                                <div class="p-2"><a href="/logistik/barang" style="width: 100%" type="button" class="btn btn-sm btn-primary">+ Tambah Barang</a></div>
                             </div>
                     </li>`;
                     }
@@ -463,7 +463,7 @@
         deferRender:    true,
         scroller:       true,
         ajax:{
-            url:'/baranginout/All/'+newStartDate+'/'+newEndDate,
+            url:'/logistik/baranginout/All/'+newStartDate+'/'+newEndDate,
             type: "POST",
             // success: function (res) {
             //     console.log(res);
@@ -498,7 +498,7 @@
                 }
             },{
                 extend: 'csv',
-                title: 'This print was produced using the Print button for DataTables'
+                title: `Laporan Keluar Masuk Barang (${$('input[name="daterangeBarangInOut"]').val()})`
             }
             // {
             //     extend: 'print',
@@ -535,13 +535,15 @@
     // $('#btnGenerateData').on('click', function() {
         
     // })
-
+    var dateStart, dateEnd
     function generateDatatables() {
         var date = $('input[name="daterangeBarangInOut"]').val();
         var type = $('select[name="selectTipe"]').val();
         var st = date.slice(0,10);
+        dateStart = st
+        dateEnd = end
         var end = date.slice(15,25);
-        var urlBaru = "/baranginout/"+type+"/"+st+"/"+end;
+        var urlBaru = "/logistik/baranginout/"+type+"/"+st+"/"+end;
         myDt.ajax.url(urlBaru).load();
     }
 
@@ -612,7 +614,7 @@
         let totalChild = $('.elementChild').length
 
         if (tertuju && data.listItem.length != 0  && data.listItem.length == totalChild && (tertuju == 'Kantor' || tertuju == 'Proyek' && lokasi != 0)) {
-            saveData('/baranginoutadd/', 'POST', data);
+            saveData('/logistik/baranginoutadd/', 'POST', data);
         }
 
         // console.log('child : ' +totalChild);
@@ -674,8 +676,8 @@
         let totalChildOut = $('.elementChildOut').length
 
         if (lokasi && data.listItem.length != 0  && data.listItem.length == totalChildOut) {
-            // saveData('/baranginoutadd/', 'POST', data);
-            console.log('masuk');
+            saveData('/logistik/baranginoutadd/', 'POST', data);
+            // console.log('masuk');
         }
         console.log(data);
     })    

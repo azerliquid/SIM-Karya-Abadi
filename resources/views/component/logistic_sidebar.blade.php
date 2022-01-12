@@ -31,21 +31,37 @@
     </div>    <div class="scrollbar-sidebar">
         <div class="app-sidebar__inner">
             <ul class="vertical-nav-menu">
-                <li class="app-sidebar__heading">Logistik</li>
+                <li class="app-sidebar__heading">Main Menu</li>
                 <li>
-                    <a href="/barang">
-                        <i class="metismenu-icon pe-7s-tools"></i>
-                        Barang
-                    </a>
+                        
+                        <a href="#">
+                            <i class="metismenu-icon pe-7s-server"></i>
+                            Data Master
+                            <i class="metismenu-state-icon pe-7s-angle-down caret-left"></i>
+                        </a>
+                        <ul>
+                            <li>
+                                <a href="/logistik/proyek">
+                                    <i class="metismenu-icon">
+                                    </i>Proyek
+                                </a>
+                            </li>
+                            <li>
+                                <a href="/logistik/barang">
+                                    <i class="metismenu-icon pe-7s-tools"></i>
+                                    Barang
+                                </a>
+                            </li>
+                        </ul>
                 </li>
                 <li>
-                    <a href="/baranginout">
+                    <a href="/logistik/baranginout">
                         <i class="metismenu-icon pe-7s-refresh-2"></i>
                         Keluar Masuk Barang
                     </a>
                 </li>
                 <li>
-                    <a href="/listrequest">
+                    <a href="/logistik/listrequest">
                         <i class="metismenu-icon pe-7s-download"></i>
                         Permintaan Barang
                     </a>

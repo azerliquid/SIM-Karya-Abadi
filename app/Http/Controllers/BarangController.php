@@ -29,10 +29,10 @@ class BarangController extends Controller
             ->addColumn('aksi', function($row)
             {
                 if (Auth::user()->role == 'admin') {
-                    $btn = '<a class="mb-2 mr-2 btn btn-sm btn-info btnDetail" href="/showdetailbarang/'.$row->id.'" data-id="'.$row->id.'"  data-toggle="tooltip" title="Detail" data-placement="bottom"><i class="pe-7s-info"></i></a>';
+                    $btn = '<a class="mb-2 mr-2 btn btn-sm btn-info btnDetail" href="/logistik/showdetailbarang/'.$row->id.'" data-id="'.$row->id.'"  data-toggle="tooltip" title="Detail" data-placement="bottom"><i class="pe-7s-info"></i></a>';
                 }
                 if (Auth::user()->role == 'logistic') {
-                    $btn = '<a class="mb-2 mr-2 btn btn-sm btn-info btnDetail" href="/showdetail/'.$row->id.'" data-id="'.$row->id.'"  data-toggle="tooltip" title="Detail" data-placement="bottom"><i class="pe-7s-info"></i></a>';
+                    $btn = '<a class="mb-2 mr-2 btn btn-sm btn-info btnDetail" href="/logistik/showdetail/'.$row->id.'" data-id="'.$row->id.'"  data-toggle="tooltip" title="Detail" data-placement="bottom"><i class="pe-7s-info"></i></a>';
                 }
                 $btn .= '<button class="mb-2 mr-2 btn btn-sm btn-warning btnEdit" data-id="'.$row->id.'" type="button" data-toggle="tooltip" title="Edit" data-placement="bottom"><i class="pe-7s-pen"></i></button>';
                 $btn .= '<button class="mb-2 mr-2 btn btn-sm btn-danger btnHapus" data-id="'.$row->id.'" type="button" data-toggle="tooltip" title="Hapus" data-placement="bottom"><i class="pe-7s-trash"></button>';                

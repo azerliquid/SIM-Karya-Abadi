@@ -34,7 +34,7 @@ Route::get('/', function () {
         if (Auth::user()->role == 'admin') {
             return redirect('/listbarang');
         }elseif (Auth::user()->role == 'logistic') {
-            return redirect('/barang');
+            return redirect('/logistik/barang');
         }elseif (Auth::user()->role == 'hr') {
             return redirect('/proyek');
         }elseif (Auth::user()->role == 'mandor') {
@@ -89,21 +89,29 @@ Route::group(['middleware' => ['auth:sanctum', 'checkRole:admin']], function()
 Route::group(['middleware' => ['auth:sanctum', 'checkRole:logistic']], function()
 {
     // Route::resource('barang', BarangController::Class);  
-    Route::get('/barang', [BarangController::Class, 'index']);
-    Route::post('/barang', [BarangController::Class, 'store']);
-    Route::get('/showdetail/{id}', [BarangController::Class, 'showDetail']);
-    Route::get('/detailbarang/{id}/{start}/{end}/{tp}', [BarangController::Class, 'detailBarang']);
-    Route::put('/barang/{id}', [BarangController::Class, 'update']);
-    Route::delete('/barang/{id}', [BarangController::Class, 'destroy']);
-    Route::get('/baranginout', [BarangInOutController::Class, 'index']);
-    Route::post('/baranginout/{type}/{start}/{end}', [BarangInOutController::Class, 'showData']);
-    Route::get('/baranginout/create', [BarangInOutController::Class, 'create']);
-    Route::post('/baranginoutadd', [BarangInOutController::Class, 'store']);
-    Route::get('/listrequest', [RequestController::Class, 'index']);
-    Route::post('/updaterequest', [RequestController::Class, 'saverequest']);
+    Route::get('/logistik/barang', [BarangController::Class, 'index']);
+    Route::post('/logistik/barang', [BarangController::Class, 'store']);
+    Route::get('/logistik/showdetail/{id}', [BarangController::Class, 'showDetail']);
+    Route::get('/logistik/detailbarang/{id}/{start}/{end}/{tp}', [BarangController::Class, 'detailBarang']);
+    Route::put('/logistik/barang/{id}', [BarangController::Class, 'update']);
+    Route::delete('/logistik/barang/{id}', [BarangController::Class, 'destroy']);
+
+    Route::get('/logistik/baranginout', [BarangInOutController::Class, 'index']);
+    Route::post('/logistik/baranginout/{type}/{start}/{end}', [BarangInOutController::Class, 'showData']);
+    Route::get('/logistik/baranginout/create', [BarangInOutController::Class, 'create']);
+    Route::post('/logistik/baranginoutadd', [BarangInOutController::Class, 'store']);
+    
+    Route::get('/logistik/listrequest', [RequestController::Class, 'index']);
+    Route::post('/logistik/updaterequest', [RequestController::Class, 'saverequest']);
     // Route::get('/listrequest/create', [RequestController::Class, 'create']);
-    Route::get('/listrequest/{type}', [RequestController::Class, 'showData']);
-    Route::get('/listitemrequest/{id}', [RequestController::Class, 'getListItem']);
+    Route::get('/logistik/listrequest/{type}', [RequestController::Class, 'showData']);
+    Route::get('/logistik/listitemrequest/{id}', [RequestController::Class, 'getListItem']);
+
+    
+    Route::get('/logistik/proyek', [ProjectController::Class, 'index']);
+    Route::get('/logistik/proyek/show/{id}', [ProjectController::Class, 'show']);
+    Route::put('/logistik/proyek/detail/{id}/{start}/{end}', [ProjectController::Class, 'detail']);
+    Route::put('/logistik/proyek/alocated/{id}/{start}/{end}', [ProjectController::Class, 'sumBarang']);
 
 });
 

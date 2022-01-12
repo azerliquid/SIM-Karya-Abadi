@@ -19,9 +19,8 @@
 
     var myDt = $('#tableDetail').DataTable({
         processing: true,
-        serverSide: true,
         ajax:{
-            url: "/detailbarang/"+idBarang+'/'+newStartDate+'/'+newEndDate+'/'+type,
+            url: "/logistik/detailbarang/"+idBarang+'/'+newStartDate+'/'+newEndDate+'/'+type,
             type: 'GET',
             error: function (xhr, ajaxOptions, thrownError) {
                 console.log(xhr.status);
@@ -41,14 +40,47 @@
         language: {
             emptyTable: "Tidak ada data tersedia",
         },
-        // "createdRow": function( row, data, dataIndex ) {
-        //     // console.log(data.type);
-        //     if ( data.type == "Masuk" ) {        
-        //         $(row).addClass('bg-light text-dark');
-        //     }else{
-        //         $(row).addClass('bg-dark text-light'); 
-        //     }
-        // }
+        dom: 'Bfrtip',
+        buttons: [
+            {
+                extend: 'print',
+                title: 'Laporan Data Keluar Masuk Barang',
+                messageTop: function() {
+                    return 'Periode ' + $('input[name="daterangeBarangInOut"]').val()
+                }
+            },{
+                extend: 'csv',
+                title: `Laporan Keluar Masuk Barang (${$('input[name="daterangeBarangInOut"]').val()})`
+            }
+            // {
+            //     extend: 'print',
+            //     text: '<img src="images/printer24x24.png" alt="Print">',
+            //     titleAttr: 'Imprimir',
+            //     title: '',
+            //     columns: ':not(.select-checkbox)',
+            //     orientation: 'landscape'
+            // },
+        ],
+        initComplete: function () {
+            this.api().columns().every( function () {
+                var column = this;
+                var select = $('<select><option value=""></option></select>')
+                    .appendTo( $(column.footer()).empty() )
+                    .on( 'change', function () {
+                        var val = $.fn.dataTable.util.escapeRegex(
+                            $(this).val()
+                        );
+ 
+                        column
+                            .search( val ? '^'+val+'$' : '', true, false )
+                            .draw();
+                    } );
+ 
+                column.data().unique().sort().each( function ( d, j ) {
+                    select.append( '<option value="'+d+'">'+d+'</option>' )
+                } );
+            } );
+        },
     });
 
     $('input[name="daterangeBarang"]').daterangepicker({
@@ -81,7 +113,7 @@
         var type = $('select[name="selectTipe"]').val();
         var st = date.slice(0,10);
         var end = date.slice(15,25);
-        var urlBaru = "/detailbarang/"+idBarang+'/'+st+"/"+end+'/'+type;
+        var urlBaru = "/logistik/detailbarang/"+idBarang+'/'+st+"/"+end+'/'+type;
         myDt.ajax.url(urlBaru).load();
         // console.log(type);/
         // myDt.buttons();

@@ -26,16 +26,19 @@ class ProjectController extends Controller
         
         $data = Project::with('headProject')->where('status', 'Aktif')
         ->where('deleted', 0)->get();
-        // return Response::json($data);
-
+        
         if($request->ajax()) {
             return Datatables::of($data)
             ->addIndexColumn()
             ->addColumn('aksi', function($row)
             {
-                $btn = '<a href="/proyek/show/'.$row->id.'" class="mb-2 mr-2 btn btn-sm btn-info btnDetail" data-id="'.$row->id.'" type="button" data-toggle="tooltip" title="Detail" data-placement="bottom"><i class="pe-7s-info"></i></a>';
-                $btn .= '<button class="mb-2 mr-2 btn btn-sm btn-warning btnEdit" data-id="'.$row->id.'" type="button" data-toggle="tooltip" title="Edit" data-placement="bottom"><i class="pe-7s-pen"></i></button>';
-                $btn .= '<button class="mb-2 mr-2 btn btn-sm btn-danger btnHapus" data-id="'.$row->id.'" type="button" data-toggle="tooltip" title="Hapus" data-placement="bottom"><i class="pe-7s-trash"></i></button>';
+                if (Auth::user()->role == 'hr') {
+                    $btn = '<a href="/proyek/show/'.$row->id.'" class="mb-2 mr-2 btn btn-sm btn-info btnDetail" data-id="'.$row->id.'" type="button" data-toggle="tooltip" title="Detail" data-placement="bottom"><i class="pe-7s-info"></i></a>';
+                    $btn .= '<button class="mb-2 mr-2 btn btn-sm btn-warning btnEdit" data-id="'.$row->id.'" type="button" data-toggle="tooltip" title="Edit" data-placement="bottom"><i class="pe-7s-pen"></i></button>';
+                    $btn .= '<button class="mb-2 mr-2 btn btn-sm btn-danger btnHapus" data-id="'.$row->id.'" type="button" data-toggle="tooltip" title="Hapus" data-placement="bottom"><i class="pe-7s-trash"></i></button>';
+                }else {
+                    $btn = '<a href="'. (Auth::user()->role == 'logistic' ? '/logistik' : '/admin').'/proyek/show/'.$row->id.'" class="mb-2 mr-2 btn btn-sm btn-info btnDetail" data-id="'.$row->id.'" type="button" data-toggle="tooltip" title="Detail" data-placement="bottom"><i class="pe-7s-info"></i></a>';
+                }
                 return $btn ;
             })
             ->rawColumns(['aksi'])
@@ -46,6 +49,9 @@ class ProjectController extends Controller
         }
         if (Auth::user()->role == 'hr') {
             return view('hr.proyek.index');
+        }
+        if (Auth::user()->role == 'logistic') {
+            return view('logistik.proyek.index');
         }
     }
 
@@ -114,8 +120,12 @@ class ProjectController extends Controller
         $start = $now->startOfWeek(Carbon::FRIDAY)->isoFormat('MM/DD/YYYY');
         $end = $now->endOfWeek(Carbon::THURSDAY)->isoFormat('MM/DD/YYYY');
         $project = Project::with('headProject')->select('id', 'head_project', 'name_project', 'location')->get()->find($id);
-        
-        return view('hr.proyek.detail', compact('project', 'start', 'end')); 
+        if (Auth::user()->role == 'hr') {
+            return view('hr.proyek.detail', compact('project', 'start', 'end')); 
+        }
+        if (Auth::user()->role == 'logistic') {
+            return view('logistik.proyek.detail', compact('project', 'start', 'end')); 
+        }
     }
 
     /**

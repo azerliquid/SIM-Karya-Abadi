@@ -45,7 +45,7 @@
 
     function setTable(id) {
         // console.log(id);
-        let url = `/listitemrequest/${id}`;
+        let url = `/logistik/listitemrequest/${id}`;
         // url.replace(':id', id);
         // console.log(url);
         $.ajax({
@@ -131,7 +131,7 @@
         // rowData.ajax({url:newUrl}).load();
         $.ajax({
             dataType: "json",
-            url : "/listrequest/"+url,
+            url : "/logistik/listrequest/"+url,
             type: "GET",
             success: function(res) {
                 // console.log(dt);
@@ -280,7 +280,7 @@
         console.log(data);
 
         $.ajax({
-            url : '/updaterequest',
+            url : '/logistik/updaterequest',
             method: 'POST',
             data: data,
             success: function(res) {

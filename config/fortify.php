@@ -65,13 +65,13 @@ return [
     {
         // dd(Auth::user()->role);
         if (Auth::user()->role == 'admin') {
-            return url('/barang');
+            return url('barang');
         }
         if (Auth::user()->role == 'hr') {
             return url('/proyek');
         }
         if (Auth::user()->role == 'logistic') {
-            return url('/barang');
+            return url('/logistik/barang');
         }
         if (Auth::user()->role == 'mandor') {
             return url('/request');

@@ -83,7 +83,7 @@ class BarangInOutController extends Controller
             }
             if ($data['tertuju'] == 'ProyekKeluar') {
                 $logistic->last_stock = $barang->stock_now - $dataItem[$i]['qty'];
-                $barang->save();
+                // $barang->save();
             }
             // else{
             //     $logistic->last_stock = $barang->stock_now - $dataItem[$i]['qty'];
@@ -100,24 +100,22 @@ class BarangInOutController extends Controller
             }
             
             if ($data['tertuju'] == "Proyek") {
-                for ($i=0; $i < $totalItem; $i++) { 
-                    $logisticout = new BarangInOut;
-                    $logisticout->date = $datenow;
-                    $logisticout->type = "Keluar";
-                    $logisticout->destination = $data['tertuju'];
-                    $logisticout->id_destination = $data['lokasi'];
-                    $logisticout->id_barang = $dataItem[$i]['id_barang'];
-                    $logisticout->qty = $dataItem[$i]['qty'];            
-                    $logisticout->stock_now = $barang->stock_now + $dataItem[$i]['qty'];
-                    $logisticout->last_stock = $logisticout->stock_now - $dataItem[$i]['qty'];
-                    
-                    $logisticout->description = $data['keterangan'] != null ? $data['keterangan'] : '';
-                    
-                    // return Response::json('keluar stoknow : ' .$logisticout->last_stock);    
-                    // $logisticout->description = $data['keterangan'] == NULL ? NULL : $data['keterangan'];
-        
-                    $logisticout->save();
-                }
+                $logisticout = new BarangInOut;
+                $logisticout->date = $datenow;
+                $logisticout->type = "Keluar";
+                $logisticout->destination = $data['tertuju'];
+                $logisticout->id_destination = $data['lokasi'];
+                $logisticout->id_barang = $dataItem[$i]['id_barang'];
+                $logisticout->qty = $dataItem[$i]['qty'];            
+                $logisticout->stock_now = $barang->stock_now + $dataItem[$i]['qty'];
+                $logisticout->last_stock = $logisticout->stock_now - $dataItem[$i]['qty'];
+                
+                $logisticout->description = $data['keterangan'] != null ? $data['keterangan'] : '';
+                
+                // return Response::json('keluar stoknow : ' .$logisticout->last_stock);    
+                // $logisticout->description = $data['keterangan'] == NULL ? NULL : $data['keterangan'];
+    
+                $logisticout->save();
             }
             if ($data['tertuju'] == 'ProyekKeluar') {
                 $barang->stock_now = $barang->stock_now - $dataItem[$i]['qty'];
