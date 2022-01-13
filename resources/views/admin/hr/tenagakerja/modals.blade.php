@@ -245,7 +245,7 @@
         processing: true,
         serverSide: true,
         ajax:{
-            url:"/listtenagakerja/",
+            url:"/admin/listtenagakerja/",
             error: function (xhr, ajaxOptions, thrownError) {
                 console.log(xhr.status);
                 console.log(xhr.responseText);
@@ -257,9 +257,9 @@
             {data: 'DT_RowIndex', name: 'DT_RowIndex', orderable: false, searchable: false},
             {data: 'name', name: 'name'},
             {data: 'phone', name: 'phone'},
-            {data: 'address', name: 'address'},
             {data: 'placement', name: 'placement'},
             {data: 'position', name: 'position'},
+            {data: 'address', name: 'address'},
             {data: 'description', name: 'description'},
             {data: 'aksi', name: 'aksi', orderable: false, searchable: false},
         ],
@@ -338,7 +338,7 @@
         const formData = pegawai.serialize();
         console.log(formData.description);
         const jenis = 'tambah';
-        const url = "/listtenagakerja";
+        const url = "/admin/listtenagakerja";
         const type = "POST";
         setValidate(formData, url, jenis, type)
     })
@@ -363,7 +363,7 @@
         // const col3 = currow.find('td:eq(3)').text();
         // // const col4 = currow.find('td:eq(4)').text();
         const id = $(this).data('id');
-        let url = '/listtenagakerja/show/:id';
+        let url = '/admin/listtenagakerja/show/:id';
         url = url.replace(':id', id);
         const type = "GET";
 
@@ -433,7 +433,7 @@
         // $('input[name="unit"]').val(col3);
         $('#editPegawaiModal').modal();
         
-        let urlPost = '/listtenagakerja/:id';
+        let urlPost = '/admin/listtenagakerja/:id';
         urlPost = urlPost.replace(':id', id);
         $('#editForm').attr('action', urlPost);
         // console.log($('#editForm'));
@@ -460,7 +460,7 @@
     $('#btn-hapus').click(function() {
         event.preventDefault();
         const dataId = $(this).data('id');
-        var url = '/listtenagakerja/:id';
+        var url = '/admin/listtenagakerja/:id';
         url = url.replace(":id", dataId);
         $('#hapusPegawaiModal').attr('action', url);
         $.ajax({

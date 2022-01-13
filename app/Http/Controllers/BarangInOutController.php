@@ -56,7 +56,9 @@ class BarangInOutController extends Controller
     public function store(Request $request)
     {
         $data = $request->data;
-            // return Response::json(var_dump($data['lokasi']));
+        $date = Carbon::parse($data['date']);
+        
+        // return Response::json($dateMasuk);
 
         $totalItem = count($data['listItem']);
         $dataItem = $data['listItem'];
@@ -67,7 +69,7 @@ class BarangInOutController extends Controller
             $logistic = new BarangInOut;
             $barang = Barang::find($dataItem[$i]['id_barang']);
 
-            $logistic->date = $datenow;
+            $logistic->date = $date;
             $logistic->type = $data['type'];
             $logistic->destination = $data['type'] == 'Masuk' ? 'Kantor' : 'Proyek';
             $logistic->id_destination = $data['tertuju'] == 'ProyekKeluar' ? $data['lokasi'] : 0;
@@ -88,7 +90,7 @@ class BarangInOutController extends Controller
             // else{
             //     $logistic->last_stock = $barang->stock_now - $dataItem[$i]['qty'];
             // }
-            $logistic->price = $dataItem[$i]['price'];
+            $logistic->price = $data['tertuju'] == "ProyekKeluar" ? $dataItem[$i]['price'] : 0;
             $logistic->description = $data['keterangan'] != null ? $data['keterangan'] : '';
             
             $logistic->save();
@@ -107,6 +109,7 @@ class BarangInOutController extends Controller
                 $logisticout->id_destination = $data['lokasi'];
                 $logisticout->id_barang = $dataItem[$i]['id_barang'];
                 $logisticout->qty = $dataItem[$i]['qty'];            
+                $logisticout->price = $dataItem[$i]['price'];            
                 $logisticout->stock_now = $barang->stock_now + $dataItem[$i]['qty'];
                 $logisticout->last_stock = $logisticout->stock_now - $dataItem[$i]['qty'];
                 
@@ -212,7 +215,7 @@ class BarangInOutController extends Controller
                     $brg = '<a href="/showdetailbarang/'.$row->id_barang.'" style="color:darkblue;">'.$row->barang->name.' ('.$row->barang->unit.')' .' <small><i class="fa fa-share"></i></small></a>'; 
                 }
                 if (Auth::user()->role == 'logistic') {
-                    $brg = '<a href="/showdetail/'.$row->id_barang.'" style="color:darkblue;">'.$row->barang->name.' ('.$row->barang->unit.')' .' <small><i class="fa fa-share"></i></small></a>'; 
+                    $brg = '<a href="/logistik/showdetail/'.$row->id_barang.'" style="color:darkblue;">'.$row->barang->name.' <small>('.$row->barang->unit.')' .'   <i class="fa fa-share"></i></small></a>'; 
                 }
 
                 return $brg;

@@ -2,20 +2,32 @@
 @section('content')
 <div class="app-main__inner">
     <div class="row">
-        <div class="col-md-5">
+        <div class="col-md-6">
             <div class="page-title-heading">
-                <div class="page-title-icon">
-                    <i class="pe-7s-plane icon-gradient bg-tempting-azure">
-                    </i>
-                </div>
                 <div>
-                    <h2>{{ $barang->name . " (" .$barang->unit. ")" }}</h2>
-                    <div class="page-title-subheading"> Data Keluar Masuk Barang
+                    <h2>{{ $project->name_project}}</h2>
+                    <div class="page-title-subheading">Ketua Lapangan : <b>{{ $project->headProject->name}}</b>
+                    <p>Alamat : {{ $project->location}}</p>
                     </div>
                 </div>
             </div>
         </div>
-        <div class="col-md-7">
+        <div class="col-md-6">
+            <div class="card widget-content">
+                <div class="widget-content-outer">
+                    <div class="widget-content-wrapper">
+                        <div class="widget-content-left mr-4">
+                            <div class="widget-heading">Dana dibelanjakan</div>
+                            <div class="widget-subheading" ></div>
+                        </div>
+                        <div class="widget-content-right">
+                            <div class="widget-numbers text-success" id="sumPemakaian"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- <div class="col-md-7">
             <div class="app-page-title">
                 <div class="page-title-wrapper">
                     <div class="page-title-actions">
@@ -25,7 +37,7 @@
                                     <div class="widget-content">
                                         <div class="widget-content-wrapper">
                                             <div class="widget-content-right ml-0 mr-3">
-                                                <div class="widget-numbers text-primary">{{ $barang->stock_now}}</div>
+                                                <div class="widget-numbers text-success"></div>
                                             </div>
                                             <div class="widget-content-left">
                                                 <div class="widget-heading">Stok Tersedia</div>
@@ -37,7 +49,7 @@
                                     <div class="widget-content">
                                         <div class="widget-content-wrapper">
                                             <div class="widget-content-right ml-0 mr-3">
-                                                <div class="widget-numbers text-success">{{ $masukTotal[0]->masuk}}</div>
+                                                <div class="widget-numbers text-warning"></div>
                                             </div>
                                             <div class="widget-content-left">
                                                 <div class="widget-heading">Total Masuk</div>
@@ -49,7 +61,7 @@
                                     <div class="widget-content">
                                         <div class="widget-content-wrapper">
                                             <div class="widget-content-right ml-0 mr-3">
-                                                <div class="widget-numbers text-warning">{{ $keluarTotal[0]->keluar}}</div>
+                                                <div class="widget-numbers text-danger"></div>
                                             </div>
                                             <div class="widget-content-left">
                                                 <div class="widget-heading">Total Keluar</div>
@@ -62,25 +74,16 @@
                     </div>    
                 </div>
             </div>
-        </div>            
+        </div>             -->
     </div>
-    
-    <div class="row">
-        <div class="col-md-5">
-            <div class="position-relative form-group" id="request-stock_in">
-                <label for="exampleText" class="">Custom Tanggal :</label>
-                <input class="form-control" type="text" name="daterangeBarang" value="" />
-            </div>
-        </div>
+    <div class="row justify-content-right">
         <div class="col-md-7" >
-            <label>Tipe (Semua/Masuk/Keluar) : </label>
+        <label  for="exampleText" class="">Custom Tanggal :</label>
             <div class="row">
-                <div class="col-md-8">
-                    <select type="select" id="selectTipe" name="selectTipe" class="custom-select selectTipe">
-                        <option value="All" style="">Semua</option>
-                        <option value="Masuk" style="">Masuk</option>
-                        <option value="Keluar" style="">Keluar</option>
-                    </select>
+                <div class="col-md-8" >
+                    <div class="position-relative form-group" id="request-stock_in">
+                        <input class="form-control" type="text" name="daterangeBarangInOut" value="" />
+                    </div>
                 </div>
                 <div class="col-md-4">
                     <button  class="btn-shadow btn btn-info" onclick="generateDatatables()" id="btnGenerateData">
@@ -92,27 +95,49 @@
                 </div>
             </div>
         </div>
-    </div>        
+    </div>
     <div class="row">
         <div class="col-lg-12">
-            <div class="main-card mb-6 card">
+            <div class="main-card mb-2 card">
                 <div class="card-body">
-                <h5 class="card-title">Detail Data Barang</h5>
+                <h5 class="card-title">Riwayat Data Masuk Barang Material</h5>
                     <table  class="mb-0 table table-striped" style="width: 100%;" id="tableDetail">
                         <thead>
                             <tr>
-                                <td>No</td>
+                                <td style="float: left">No</td>
                                 <td>Tanggal</td>
-                                <td>Jenis</td>
+                                <td>Nama Barang</td>
                                 <td>Qty</td>
-                                <td>Tujuan</td>
-                                <td>Lokasi</td>
+                                <td>Harga <small>(@)</small></td>
+                                <td>Total</td>
                             </tr>
                         </thead>
                         <tbody>
                             
                         </tbody>
-                    </table>    
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-8">
+            <div class="main-card mb-2 card">
+                <div class="card-body">
+                <h5 class="card-title">Data Penggunaan Barang Material</h5>
+                    <table  class="mb-0 table table-striped" style="width: 100%;" id="tableSumBarang">
+                        <thead>
+                            <tr>
+                                <td >No</td>
+                                <td>Nama Barang</td>
+                                <td>Qty</td>
+                                <td>Dana Pembelanjaan</td>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            
+                        </tbody>
+                    </table>
                 </div>
             </div>
         </div>
@@ -121,5 +146,5 @@
 @endsection
 
 @section('modals')
-  @include('admin.logistik.barang.modals_detail')
+  @include('admin.hr.proyek.modal_detail')
 @endsection

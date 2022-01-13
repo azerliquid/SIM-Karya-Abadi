@@ -43,13 +43,13 @@
                         </a>
                         <ul>
                             <li>
-                                <a href="/tenagakerja">
+                                <a href="/hr/tenagakerja">
                                     <i class="metismenu-icon">
                                     </i>Tenaga Kerja
                                 </a>
                             </li>
                             <li>
-                                <a href="/proyek">
+                                <a href="/hr/proyek">
                                     <i class="metismenu-icon">
                                     </i>Proyek
                                 </a>

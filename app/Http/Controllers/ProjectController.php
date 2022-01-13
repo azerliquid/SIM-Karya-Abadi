@@ -33,7 +33,7 @@ class ProjectController extends Controller
             ->addColumn('aksi', function($row)
             {
                 if (Auth::user()->role == 'hr') {
-                    $btn = '<a href="/proyek/show/'.$row->id.'" class="mb-2 mr-2 btn btn-sm btn-info btnDetail" data-id="'.$row->id.'" type="button" data-toggle="tooltip" title="Detail" data-placement="bottom"><i class="pe-7s-info"></i></a>';
+                    $btn = '<a href="/hr/proyek/show/'.$row->id.'" class="mb-2 mr-2 btn btn-sm btn-info btnDetail" data-id="'.$row->id.'" type="button" data-toggle="tooltip" title="Detail" data-placement="bottom"><i class="pe-7s-info"></i></a>';
                     $btn .= '<button class="mb-2 mr-2 btn btn-sm btn-warning btnEdit" data-id="'.$row->id.'" type="button" data-toggle="tooltip" title="Edit" data-placement="bottom"><i class="pe-7s-pen"></i></button>';
                     $btn .= '<button class="mb-2 mr-2 btn btn-sm btn-danger btnHapus" data-id="'.$row->id.'" type="button" data-toggle="tooltip" title="Hapus" data-placement="bottom"><i class="pe-7s-trash"></i></button>';
                 }else {
@@ -125,6 +125,9 @@ class ProjectController extends Controller
         }
         if (Auth::user()->role == 'logistic') {
             return view('logistik.proyek.detail', compact('project', 'start', 'end')); 
+        }
+        if (Auth::user()->role == 'admin') {
+            return view('admin.hr.proyek.detail', compact('project', 'start', 'end')); 
         }
     }
 

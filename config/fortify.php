@@ -65,10 +65,10 @@ return [
     {
         // dd(Auth::user()->role);
         if (Auth::user()->role == 'admin') {
-            return url('barang');
+            return url('/admin/listbarang');
         }
         if (Auth::user()->role == 'hr') {
-            return url('/proyek');
+            return url('/hr/proyek');
         }
         if (Auth::user()->role == 'logistic') {
             return url('/logistik/barang');

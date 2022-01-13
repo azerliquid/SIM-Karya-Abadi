@@ -19,6 +19,12 @@
                         <h5 class="card-title">Data Barang Masuk</h5>
                             <div class="inputItem">
                                 <div class="form-row">
+                                    <div class="col-md-4">
+                                        <div class="position-relative form-group" id="dateMasukField">
+                                            <label for="exampleText" class="">Tanggal :</label>
+                                            <input class="form-control dateToday" type="text" name="dateMasuk" id="dateMasuk" value="" />
+                                        </div>
+                                    </div>
                                     <div class="col-md-4" > 
                                         <fieldset class="position-relative form-group" id="tertujuField">
                                             <label for="exampleText" class="">Tertuju</label>
@@ -39,28 +45,8 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="form-row elementChild" id="childrenIn-1">
-                                    <div class="col-md-8">
-                                        <div class="position-relative form-group NamaBarang" id="barangField-1">
-                                            <label for="name-barang" class="">Nama Barang Masuk</label>
-                                            <select type="select" id="selectBarang-1" name="barang-1" class="custom-select">
-                                                <option style='font-weight: bolder;' value=''>-- Pilih Barang --</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-4">
-                                        <div class="position-relative form-group Stok" id="tambah-stock_in">
-                                            <label for="exampleText" class="">Stok Masuk</label>
-                                            <div class="row">
-                                                <div class="col-md-8" id="qty-1">
-                                                    <input name="qty-1" id="exampleText" class="form-control" type="number"></input>
-                                                </div>
-                                                <div class="col-md-4">
-                                                    
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
+                                <div class="listItemIn">
+                                    
                                 </div>
                             </div>
                             <div class="form-row">
@@ -112,7 +98,13 @@
                             <h5 class="card-title">Data Barang Keluar</h5>
                             <div class="inputItemOut">
                                 <div class="form-row">
-                                    <div class="col-md-12">
+                                    <div class="col-md-4">
+                                        <div class="position-relative form-group" id="dateKeluarField">
+                                            <label for="exampleText" class="">Tanggal :</label>
+                                            <input class="form-control dateToday" type="text" name="dateKeluar" id="dateKeluar" value="" />
+                                        </div>
+                                    </div>
+                                    <div class="col-md-8">
                                         <div class="position-relative form-group " id="tujuanOut">
                                             <label for="exampleCustomSelect" class="">Tujuan Proyek</label>
                                             <select type="select" id="selectTujuanOut" name="lokasiOut" class="custom-select">
@@ -134,7 +126,7 @@
                                     <div class="col-md-2">
                                         <div class="position-relative form-group QtyOut" id="qtyFieldOut-1">
                                             <label for="exampleText" class="">Qty</label>
-                                            <input name="qtyOut-1" id="exampleText" class="form-control" type="number"></input>
+                                            <input name="qtyOut-1" style="text-align:center" id="exampleText" class="form-control" type="number"></input>
                                         </div>
                                     </div>
                                     <div class="col-md-4">
@@ -222,9 +214,11 @@
 
     var startDate = {!! json_encode($start) !!};
     var endDate = {!! json_encode($end) !!};
+    const todayDate = moment().format('DD-MM-YYYY');
 
     var newStartDate = moment(startDate).format('DD-MM-YYYY');
     var newEndDate = moment(endDate).format('DD-MM-YYYY');
+
 
     // setDate
 
@@ -235,6 +229,35 @@
     });
 
     $(function() {
+        var tertujuMasuk = $("input[name='tertuju']:checked").val();
+
+        $('input[name="dateMasuk"]').daterangepicker({
+            singleDatePicker: true,
+            showDropdowns: true,
+            minYear: 2020,
+            maxYear: parseInt(moment().format('YYYY'),10),
+            locale: {
+                format: 'DD-MM-YYYY',
+            }
+        }, function(start, end, label) {
+            var years = moment().diff(start, 'years');
+            console.log(years);
+        });
+
+        $('input[name="dateKeluar"]').daterangepicker({
+            singleDatePicker: true,
+            showDropdowns: true,
+            minYear: 2020,
+            maxYear: parseInt(moment().format('YYYY'),10),
+            locale: {
+                format: 'DD-MM-YYYY',
+            }
+        }, function(start, end, label) {
+            var years = moment().diff(start, 'years');
+            console.log(years);
+        });
+
+
         $('input[name="daterangeBarangInOut"]').daterangepicker({
             "showDropdowns": true,
             ranges: {
@@ -262,7 +285,7 @@
     });
 
     let barang;
-    let index_select = 2;
+    let index_select = 1;
     let index_select_out = 2;
 
 
@@ -277,6 +300,8 @@
         $('#tujuanIn small').remove()
         $('.NamaBarang small').remove()
         $('.Stok small').remove()
+        $('.dateToday').val(todayDate);
+        $('.hargaIn').hide();
         getDataOpt('In');
     });
 
@@ -289,6 +314,7 @@
         $('.NamaBarangOut small').remove()
         $('.QtyOut small').remove()
         $('.HargaOut small').remove()
+        $('.dateToday').val(todayDate)
         getDataOpt('Out');
     });
 
@@ -311,11 +337,7 @@
                 }
                 if (type == 'Out') {
                     setSelectOptOut(1, barang);
-                    
                 }
-                
-                
-                // let opt = ;
             },
             error: function (xhr, ajaxOptions, thrownError) {
                 console.log(xhr.status);
@@ -328,36 +350,64 @@
 
     function addItem() {
         event.preventDefault();
-        console.log('oke');
-        $(`.inputItem`).append(
-            `<div class="form-row childrenIn elementChild" id="childrenIn-${index_select}">
-                <div class="col-md-8">
-                    <div class="position-relative form-group" id="barangField-${index_select}">
-                        <label for="name-barang" class="">Nama Barang Masuk</label>
-                        <select type="select" id="selectBarang-${index_select}" name="barang-${index_select}" class="custom-select">
-                            <option style='font-weight: bolder;' value=''>-- Pilih Barang --</option>
-                        </select>
-                    </div>
-                </div>
-                <div class="col-md-4">
-                    <div class="position-relative form-group" id="tambah-stock_in">
-                        <label for="exampleText" class="">Stok Masuk</label>
-                        <div class="row">
-                            <div class="col-md-8" id="qty-${index_select}">
-                                <input name="qty-${index_select}" id="exampleText" class="form-control" type="number"></input>
+        $(`#tertujuField small`).remove();
+        let tujuan = $("input[name='tertuju']:checked").val();
+        if (tujuan != undefined) {
+            let tmplt = `<div class="form-row childrenIn elementChild" id="childrenIn-${index_select}">
+                        <div class="col-md-6">
+                            <div class="position-relative form-group" id="barangField-${index_select}">
+                                <label for="name-barang" class="">Nama Barang Masuk</label>
+                                <select type="select" id="selectBarang-${index_select}" name="barang-${index_select}" class="custom-select">
+                                    <option style='font-weight: bolder;' value=''>-- Pilih Barang --</option>
+                                </select>
+                            </div>
+                        </div>`
+                        if (tujuan == 'Kantor') {
+                            tmplt += `
+                            <div class="col-md-6">
+                                <div class="position-relative form-group" id="qty-${index_select}">
+                                    <label for="exampleText" class="">Stok Masuk</label>
+                                    <div class="row">
+                                        <div class="col-md-8">
+                                            <input name="qty-${index_select}" id="exampleText" class="form-control" type="number"></input>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <button class="mb-2 btn btn-sm btn-danger"  onclick="deleteItem(${index_select})" type="button" data-toggle="tooltip" title="Hapus" data-placement="bottom"><i class="pe-7s-trash"></i></button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>`
+                        }
+                        if (tujuan == 'Proyek') {
+                            tmplt += `
+                            <div class="col-md-2">
+                                <div class="position-relative form-group" id="qty-${index_select}">
+                                    <label for="exampleText" class="">Stok Masuk</label>
+                                    <input name="qty-${index_select}" style="text-align:center" id="exampleText" class="form-control" type="number"></input>
+                                </div>
                             </div>
                             <div class="col-md-4">
-                                <button class="mb-2 btn btn-sm btn-danger"  onclick="deleteItem(${index_select})" type="button" data-toggle="tooltip" title="Hapus" data-placement="bottom"><i class="pe-7s-trash"></i></button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>`
-        );
-        setSelectOpt(index_select, barang);
-        $('#totalItem').val(index_select);
-        console.log(index_select);
-        index_select = index_select + 1;
+                                <div class="position-relative form-group hargaIn" id="priceFieldIn-${index_select}">
+                                    <label for="exampleText" class="">Harga Retail</label>
+                                    <div class="row">
+                                        <div class="col-md-8">
+                                            <input name="priceIn-${index_select}" id="exampleText" class="form-control" type="number"></input>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <button class="mb-2 btn btn-sm btn-danger"  onclick="deleteItem(${index_select})" type="button" data-toggle="tooltip" title="Hapus" data-placement="bottom"><i class="pe-7s-trash"></i></button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>`
+                        }
+                        tmplt += `</div>`
+            $(`.listItemIn`).append(tmplt);
+            setSelectOpt(index_select, barang);
+            $('#totalItem').val(index_select);
+            index_select = index_select + 1;
+        }else{
+            $(`#tertujuField`).append('<small style="color:red">Tertuju wajib di isi</small>')
+        }
         // console.log("val : "+ $('#totalItem').val());
     }
 
@@ -385,7 +435,7 @@
                 <div class="col-md-2">
                     <div class="position-relative form-group" id="qtyFieldOut-${index_select_out}">
                         <label for="exampleText" class="">Qty</label>
-                        <input name="qtyOut-${index_select_out}" id="exampleText" class="form-control" type="number"></input>
+                        <input name="qtyOut-${index_select_out}" style="text-align:center" id="exampleText" class="form-control" type="number"></input>
                     </div>
                 </div>
                 <div class="col-md-4">
@@ -540,20 +590,37 @@
         var date = $('input[name="daterangeBarangInOut"]').val();
         var type = $('select[name="selectTipe"]').val();
         var st = date.slice(0,10);
-        dateStart = st
-        dateEnd = end
         var end = date.slice(15,25);
         var urlBaru = "/logistik/baranginout/"+type+"/"+st+"/"+end;
         myDt.ajax.url(urlBaru).load();
     }
 
     $('.radio_tertuju').on('change', function () {
-        console.log($(this).val());
+        $(`#tertujuField small`).remove();
+        let totalListItem = $('.listItemIn').children().length;
+        $('.listItemIn').empty();
+        console.log(totalListItem);
+        console.log("after : " + $('.listItemIn').children().length);
         if ($(this).val() == "Proyek") {
+            if (totalListItem == 0) {
+                addItem();
+            }else{
+                for (let i = 0; i < totalListItem; i++) {
+                    addItem();
+                }
+            }
             $('#tujuanIn').show();
         }
         if ($(this).val() == "Kantor") {
+            if (totalListItem == 0) {
+                addItem();
+            }else{
+                for (let i = 0; i < totalListItem; i++) {
+                    addItem();
+                }
+            }
             $('#tujuanIn').hide();
+            // $('.hargaIn').hide();
         }
     })
 
@@ -561,25 +628,31 @@
         const formData = $('#tambahForm').serialize();
         let totalItem = $('#totalItem').val();
         let tertuju = $("input[name='tertuju']:checked").val();
+        let date = $("input[name='dateMasuk']").val();
         let lokasi = $('#selectTujuanIn').val();
         let keterangan = $("textarea[name='keterangan']").val();
-        // console.log(keterangan);
         let data = {
             keterangan : keterangan,
             type: "Masuk"
         }
+        console.log(totalItem);
         
         let dataItem = [];
         let itemloop = 1;
         
         $('#tertujuField small').remove()
         $('#tujuanIn small').remove()
+        $('#dateMasukField small').remove()
 
+        if (!date) {
+            $(`#dateMasukField`).append('<small style="color:red">Tanggal wajib di isi</small>')
+        }
         if (!tertuju) {
             $(`#tertujuField`).append('<small style="color:red">Tertuju wajib di isi</small>')
         }if (tertuju == 'Proyek' && !lokasi) {
             $(`#tujuanIn`).append('<small style="color:red">Lokasi wajib di isi</small>')
         }else{
+            data.date = date
             data.tertuju = tertuju
             data.lokasi = lokasi
         }
@@ -587,22 +660,41 @@
         for (let i = 0; i < totalItem; i++) {
             let id_barang = $(`select[name='barang-${itemloop}']`).val();
             let qty = $(`input[name='qty-${itemloop}']`).val();
-            let price = 0;
+            let price = $(`input[name='priceIn-${itemloop}']`).val();
 
             $(`#barangField-${itemloop} small`).remove()
             $(`#qty-${itemloop} small`).remove()
+            $(`#priceFieldIn-${itemloop} small`).remove()
 
-            if (id_barang && qty) {
-                dataItem.push({
-                    id_barang,
-                    qty,
-                    price
-                })
-            }if(!id_barang || !qty){
+            if(!id_barang || !qty || !price){
                 if (!id_barang) {
                     $(`#barangField-${itemloop}`).append('<small style="color:red">Barang wajib di isi</small>')
                 }if (!qty) {
                     $(`#qty-${itemloop}`).append('<small style="color:red">Qty wajib di isi</small>')
+                }if (!price) {
+                    if (tertuju == 'Proyek') {
+                        $(`#priceFieldIn-${itemloop}`).append('<small style="color:red">Harga wajib di isi</small>')
+                    }else{
+                        price = 0
+                    }
+                }
+            }
+            
+            if (tertuju == 'Proyek') {
+                if (id_barang && qty && price) {
+                    dataItem.push({
+                        id_barang,
+                        qty,
+                        price
+                    })
+                }
+            }else{
+                if (id_barang && qty) {
+                    dataItem.push({
+                        id_barang,
+                        qty,
+                        price
+                    })
                 }
             }
 
@@ -613,10 +705,11 @@
 
         let totalChild = $('.elementChild').length
 
-        if (tertuju && data.listItem.length != 0  && data.listItem.length == totalChild && (tertuju == 'Kantor' || tertuju == 'Proyek' && lokasi != 0)) {
+        console.log(data);
+        if (tertuju && date && data.listItem.length != 0  && data.listItem.length == totalChild && (tertuju == 'Kantor' || tertuju == 'Proyek' && lokasi != 0)) {
             saveData('/logistik/baranginoutadd/', 'POST', data);
+            console.log('sukses');
         }
-
         // console.log('child : ' +totalChild);
     });
 
@@ -625,6 +718,7 @@
         let totalItem = $('#totalItemOut').val();
         // let tujuan = $("input[name='lokasiOut']:checked").val();
         let lokasi = $('#selectTujuanOut').val();
+        let date = $("input[name='dateKeluar']").val();
         let keterangan = $("textarea[name='keteranganOut']").val();
 
         let data = {
@@ -637,11 +731,16 @@
         let itemloop = 1;
 
         $('#tujuanOut small').remove()
+        $('#dateKeluarField small').remove()
 
+        if (!date) {
+            $(`#dateKeluarField`).append('<small style="color:red">Tanggal wajib di isi</small>')
+        }
         if (!lokasi) {
             $(`#tujuanOut`).append('<small style="color:red">Lokasi wajib di isi</small>')
         }else{
             data.lokasi = lokasi
+            data.date = date
         }
 
         for (let i = 0; i < totalItem; i++) {
@@ -675,7 +774,7 @@
 
         let totalChildOut = $('.elementChildOut').length
 
-        if (lokasi && data.listItem.length != 0  && data.listItem.length == totalChildOut) {
+        if (lokasi && date && data.listItem.length != 0  && data.listItem.length == totalChildOut) {
             saveData('/logistik/baranginoutadd/', 'POST', data);
             // console.log('masuk');
         }

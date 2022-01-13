@@ -116,7 +116,7 @@
             // serverSide: true,
             
             dataType: "json",
-            url : '/proyek/create',
+            url : '/hr/proyek/create',
             type: "GET",
             success: function(res) {
                 console.log(res);
@@ -140,7 +140,7 @@
         processing: true,
         serverSide: true,
         ajax:{
-            url:"/proyek/",
+            url:"/hr/proyek/",
             error: function (xhr, ajaxOptions, thrownError) {
                 console.log(xhr.status);
                 console.log(xhr.responseText);
@@ -168,7 +168,7 @@
         const formData = tambah.serialize();
         console.log(formData);
         const jenis = 'tambah';
-        const url = "/proyek";
+        const url = "/hr/proyek";
         const type = "POST";
         setValidate(formData, url, jenis, type)
     })
@@ -185,7 +185,7 @@
         $('textarea[name="location"]').val(col2);
         $('#editProjectModal').modal();
 
-        var url = '/proyek/:id'
+        var url = '/hr/proyek/:id'
         url = url.replace(':id', id);
         
         $('#editForm').attr('action', url);
@@ -211,7 +211,7 @@
     $('#btn-hapus').click(function() {
         event.preventDefault();
         const dataId = $(this).data('id');
-        var url = '/proyek/:id';
+        var url = '/hr/proyek/:id';
         url = url.replace(":id", dataId);
         $('#hapusProyekModal').attr('action', url);
         $.ajax({

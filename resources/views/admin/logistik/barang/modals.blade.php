@@ -114,7 +114,7 @@
         processing: true,
         serverSide: true,
         ajax:{
-            url:"/listbarang",
+            url:"/admin/listbarang",
             error: function (xhr, ajaxOptions, thrownError) {
                 console.log(xhr.status);
                 console.log(xhr.responseText);
@@ -141,7 +141,7 @@
         var tambah = $('#tambahForm');
         var formData = tambah.serialize();
         const jenis = 'tambah';
-        const url = "/listbarang"
+        const url = "/admin/listbarang"
         const type = "POST"
         console.log(formData);
         setValidate(formData, jenis, url, type);        
@@ -161,7 +161,7 @@
         $('input[name="name"]').val(col1);
         $('input[name="unit"]').val(col3);
         
-        var url = '/listbarang/:id';
+        var url = '/admin/listbarang/:id';
         url = url.replace(':id', id);
         $('#editForm').attr('action', url);
         $('#editBarangModal').modal();
@@ -189,10 +189,11 @@
         $('#hapusBarangModal').modal();
     })
 
+
     $('#btn-hapus').on('click', function() {
         event.preventDefault();
         var dataId = $(this).data('id');
-        var url = '/listbarang/:id';
+        var url = '/admin/listbarang/:id';
         url = url.replace(':id', dataId);
         $('#hapusBarangForm').attr('action' , url);
         console.log(dataId);

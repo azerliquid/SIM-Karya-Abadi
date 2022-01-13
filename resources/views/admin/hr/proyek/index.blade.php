@@ -5,7 +5,7 @@
         <div class="page-title-wrapper">
             <div class="page-title-heading">
                 <div class="page-title-icon">
-                    <i class="pe-7s-drawer icon-gradient bg-happy-itmeo">
+                    <i class="pe-7s-home icon-gradient bg-happy-itmeo">
                     </i>
                 </div>
                 <div class="mr-4">Data Proyek
@@ -18,10 +18,7 @@
                     <li class="nav-item"><a data-toggle="tab" href="#tab-eg13-1" class="nav-link">Selesai</a></li>
                 </ul> -->
             </div>
-            <div class="page-title-actions">
-                <!-- <button type="button" data-toggle="tooltip" title="" data-placement="bottom" class="btn-shadow mr-3 btn btn-dark" data-original-title="Example Tooltip">
-                    <i class="fa fa-star"></i>
-                </button> -->
+            <!-- <div class="page-title-actions">
                 <div class="d-inline-block">
                     <button class="btn-shadow btn btn-info" id="btn-tambah-project" data-toggle="modal" data-target="#tambahProjectModal">
                         <span class="btn-icon-wrapper pr-2 opacity-7">
@@ -30,7 +27,7 @@
                         Tambah Proyek
                     </button>
                 </div>
-            </div>    
+            </div>     -->
         </div>
     </div>            
     <div class="row">

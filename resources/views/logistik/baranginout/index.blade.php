@@ -18,10 +18,10 @@
                     <i class="fa fa-star"></i>
                 </button> -->
                 <div class="d-inline-block">
-                    <button class="btn-shadow btn btn-primary" id="btn-tambah-barang" data-toggle="modal" data-target="#tambahBarangModal">
-                        <span class="btn-icon-wrapper pr-2 opacity-7">
+                    <button class="btn-shadow btn btn-success" id="btn-tambah-barang" data-toggle="modal" data-target="#tambahBarangModal">
+                        <spanx class="btn-icon-wrapper pr-2 opacity-7">
                             <i class="fa fa-plus-square fa-w-20"></i>
-                        </span>
+                        </spanx>
                         Tambah Barang Masuk
                     </button>
                 </div>

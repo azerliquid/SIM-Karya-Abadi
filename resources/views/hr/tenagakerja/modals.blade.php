@@ -246,7 +246,7 @@
         processing: true,
         serverSide: true,
         ajax:{
-            url:"/tenagakerja/",
+            url:"/hr/tenagakerja/",
             error: function (xhr, ajaxOptions, thrownError) {
                 console.log(xhr.status);
                 console.log(xhr.responseText);
@@ -340,7 +340,7 @@
         const formData = pegawai.serialize();
         console.log(formData.description);
         const jenis = 'tambah';
-        const url = "/tenagakerja";
+        const url = "/hr/tenagakerja";
         const type = "POST";
         console.log(formData);
         setValidate(formData, url, jenis, type)
@@ -366,7 +366,7 @@
         // const col3 = currow.find('td:eq(3)').text();
         // // const col4 = currow.find('td:eq(4)').text();
         const id = $(this).data('id');
-        let url = '/tenagakerja/show/:id';
+        let url = '/hr/tenagakerja/show/:id';
         url = url.replace(':id', id);
         const type = "GET";
 
@@ -436,7 +436,7 @@
         // $('input[name="unit"]').val(col3);
         $('#editPegawaiModal').modal();
         
-        let urlPost = '/tenagakerja/:id';
+        let urlPost = '/hr/tenagakerja/:id';
         urlPost = urlPost.replace(':id', id);
         $('#editForm').attr('action', urlPost);
         // console.log($('#editForm'));
@@ -463,7 +463,7 @@
     $('#btn-hapus').click(function() {
         event.preventDefault();
         const dataId = $(this).data('id');
-        var url = '/tenagakerja/:id';
+        var url = '/hr/tenagakerja/:id';
         url = url.replace(":id", dataId);
         $('#hapusPegawaiModal').attr('action', url);
         $.ajax({

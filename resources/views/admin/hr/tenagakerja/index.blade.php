@@ -57,9 +57,9 @@
                             <th>#</th>
                             <th>Nama</th>
                             <th>No Telp</th>
-                            <th>Alamat</th>
                             <th>Divisi</th>
                             <th>Jabatan</th>
+                            <th>Alamat</th> 
                             <th>Keterangan</th>
                             <th>Aksi</th>
                         </tr>
